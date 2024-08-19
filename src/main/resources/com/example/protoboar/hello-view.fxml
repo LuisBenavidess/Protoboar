@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,64 +9,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.protoboar.HelloController">
-   <right>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <content>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <ImageView fx:id="led" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@luz-led.png" />
-                     </image>
-                  </ImageView>
-
-                  <ImageView fx:id="resisto" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@electrico.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="bateria" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@bateria.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="boton" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@rec.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-   </right>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.protoboar.HelloController">
+   <center>
       <Pane fx:id="pane" prefHeight="516.0" prefWidth="605.0" BorderPane.alignment="CENTER">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dad8d9" height="435.0" layoutX="5.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="582.0" />
             <Text layoutX="9.0" layoutY="369.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dad8d9" height="435.0" layoutX="5.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="582.0" />
             <Text layoutX="9.0" layoutY="347.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="B" />
             <Text layoutX="9.0" layoutY="325.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="C" />
             <Text layoutX="8.0" layoutY="303.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D" />
@@ -89,7 +33,21 @@
             <Text layoutX="10.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ea4e0" height="6.0" layoutX="25.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" width="544.0" />
             <Text layoutX="12.0" layoutY="45.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
+            <ImageView fx:id="basurero" fitHeight="80.0" fitWidth="80.0" layoutY="468.0" preserveRatio="true">
+               <image>
+                  <Image url="@basurero.png" />
+               </image>
+            </ImageView>
+            <VBox fx:id="imageContainerVBox" layoutX="619.0" prefHeight="336.0" prefWidth="62.0">
+               <children>
+                  <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" onMouseDragged="#onImageDragged" onMousePressed="#onImagePressed" onMouseReleased="#onImageReleased" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@led.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
       </Pane>
-   </left>
+   </center>
 </BorderPane>

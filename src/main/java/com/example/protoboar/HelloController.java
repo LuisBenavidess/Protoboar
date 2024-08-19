@@ -26,6 +26,18 @@ public class HelloController {
    private Label label;
    @FXML
    private Line linea;
+   @FXML
+   private ImageView led;
+   @FXML
+   private double x;
+   @FXML
+   private double y;
+   @FXML
+   private VBox imageContainerVBox;
+   private ImageView draggedImageView;
+   private double initialMouseX;
+   private double initialMouseY;
+
 
    @FXML
    //Funcion inicial
@@ -173,6 +185,55 @@ public class HelloController {
          }
          System.out.println("no entra");
       }
+   }
+   @FXML
+   private void onImagePressed(MouseEvent event) {
+      draggedImageView = (ImageView) event.getSource();
+      initialMouseX = event.getSceneX();
+      initialMouseY = event.getSceneY();
+   }
+
+   @FXML
+   private void onImageDragged(MouseEvent event) {
+      if (draggedImageView != null) {
+         double offsetX = event.getSceneX() - initialMouseX;
+         double offsetY = event.getSceneY() - initialMouseY;
+
+         draggedImageView.setTranslateX(draggedImageView.getTranslateX() + offsetX);
+         draggedImageView.setTranslateY(draggedImageView.getTranslateY() + offsetY);
+
+         initialMouseX = event.getSceneX();
+         initialMouseY = event.getSceneY();
+      }
+   }
+
+   @FXML
+   private ImageView basurero;
+   private boolean isOverTrashBin(ImageView imageView) {
+      // Obtener las coordenadas del basurero
+      double trashBinX = basurero.getLayoutX();
+      double trashBinY = basurero.getLayoutY();
+      double trashBinWidth = basurero.getFitWidth();
+      double trashBinHeight = basurero.getFitHeight();
+
+      // Obtener las coordenadas del ImageView arrastrado
+      double imageViewX = imageView.getLayoutX() + imageView.getTranslateX();
+      double imageViewY = imageView.getLayoutY() + imageView.getTranslateY();
+
+      // Verificar si las coordenadas del ImageView están dentro del área del basurero
+      return imageViewX >= trashBinX ||
+              imageViewX <= trashBinX + trashBinWidth ||
+              imageViewY >= trashBinY ||
+              imageViewY <= trashBinY + trashBinHeight;
+   }
+
+   @FXML
+   private void onImageReleased(MouseEvent event) {
+      if (draggedImageView != null && isOverTrashBin(draggedImageView)) {
+         // Eliminar la imagen del VBox
+         imageContainerVBox.getChildren().remove(draggedImageView);
+      }
+      draggedImageView = null;
    }
 
 }
