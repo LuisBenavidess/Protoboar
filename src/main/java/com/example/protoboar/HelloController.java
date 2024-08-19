@@ -38,7 +38,6 @@ public class HelloController {
 
     // La instancia actual del LED
     private boolean circuloClicked = false;
-    private boolean circulo1Clicked = false;
 
 
     @FXML

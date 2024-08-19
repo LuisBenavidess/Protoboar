@@ -1,8 +1,7 @@
 package com.example.protoboar;
 
 import javafx.scene.layout.GridPane;
-import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
+
 import javafx.scene.shape.Circle;
 
 public class bus extends Circle {

@@ -28,10 +28,7 @@ public class Led {
         this.conectado = false;
     }
 
-    public void mostrarEnPosicion(double x, double y) {
-        this.imageView.setX(x - (this.imageView.getFitWidth() / 2));
-        this.imageView.setY(y - (this.imageView.getFitHeight() / 2));
-    }
+
 
     public void setConectado(boolean conectado) {
         this.conectado = conectado;
