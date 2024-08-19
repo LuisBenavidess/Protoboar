@@ -9,11 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.image.Image;
 
-
-import java.util.Objects;
-import java.util.Set;
 
 public class HelloController {
     @FXML
@@ -60,6 +56,7 @@ public class HelloController {
         crear_buses(37,413,2);
         numeros(33,376);
         numeros(33,100);
+
 
         System.out.println("Etapa 2");
         int i=0;
