@@ -47,6 +47,7 @@
                   </ImageView>
                </children>
             </VBox>
+
          </children>
       </Pane>
    </center>
