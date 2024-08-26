@@ -7,7 +7,6 @@ public class bus extends Circle {
     int columna;
     int fila;
     public bus() {
-
     }
     public void setColumna(int columna){
         this.columna=columna;
@@ -15,10 +14,5 @@ public class bus extends Circle {
     public void setFila(int fila){
         this.fila=fila;
     }
-
-
-
-
-
 }
 

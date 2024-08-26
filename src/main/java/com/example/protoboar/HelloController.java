@@ -23,24 +23,11 @@ public class HelloController {
     @FXML
     private Label label;
     @FXML
-    private Line linea;
-    @FXML
     private ImageView led;
     @FXML
-    private ImageView cable;
-    @FXML
-    private double x;
-    @FXML
-    private double y;
-    @FXML
-    private VBox imageContainerVBox;
-    private ImageView draggedImageView;
-    private double initialMouseX;
-    private double initialMouseY;
     private Click clickHandler;
     private boolean ledClicked=false;
     private boolean cableClicked=false;
-    private boolean circuloClicked = false;
 
 
     @FXML
@@ -87,7 +74,6 @@ public class HelloController {
         //bucle
         while (fil < FIL) {
             col = 0;
-
             while (col < 29) {
                 //circulo
                 bus circulo = new bus();
@@ -114,7 +100,6 @@ public class HelloController {
             col = 0;
             columnas = 0;
         }
-
     }
 
     @FXML
@@ -159,23 +144,6 @@ public class HelloController {
             X = X + 18;
             i++;
         }
-    }
-
-
-
-    @FXML
-    private void inicio(MouseEvent event) {
-        clickHandler.inicio(event);
-    }
-
-    @FXML
-    private void movimiento(MouseEvent event) {
-        clickHandler.movimiento(event);
-    }
-
-    @FXML
-    private void parar(MouseEvent event) {
-        clickHandler.parar(event);
     }
 
     @FXML
