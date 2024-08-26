@@ -5,8 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
@@ -22,25 +20,11 @@ public class HelloController {
     @FXML
     private Label label;
     @FXML
-    private Line linea;
-    @FXML
     private ImageView led;
-    @FXML
-    private ImageView cable;
-    @FXML
-    private double x;
-    @FXML
-    private double y;
     @FXML
     private Click clickHandler;
     private boolean ledClicked=false;
     private boolean cableClicked=false;
-    private boolean circuloClicked = false;
-
-
-    @FXML
-    private double circuloX, circuloY;
-
     @FXML
     private ImageView basurero;
 
@@ -85,12 +69,9 @@ public class HelloController {
         int fil = 0;
         int x = X;
         int y = Y;
-
         //bucle
         while (fil < FIL) {
-            col = 0;
-
-            while (col < 29) {
+            while (col < 30) {
                 //circulo
                 bus circulo = new bus();
                 circulo.setCenterX(x);
@@ -106,7 +87,7 @@ public class HelloController {
                 x = x + 18;
                 col++;
                 columnas++;
-                if (col == 29) {
+                if (col == 30) {
                     fil = fil + 1;
                     filas = filas + 1;
                     x = 37;
@@ -152,7 +133,6 @@ public class HelloController {
     private void numeros(int X, int Y) {
         int i = 0;
         while (i < 30) {
-
             Label label = new Label(String.valueOf(i + 1));
             label.setLayoutY(Y);
             label.setLayoutX(X);
@@ -164,29 +144,8 @@ public class HelloController {
     }
 
     @FXML
-    private void inicio(MouseEvent event) {
-        clickHandler.inicio(event);
-    }
-
-    @FXML
-    private void movimiento(MouseEvent event) {
-        clickHandler.movimiento(event);
-    }
-
-    @FXML
-    private void parar(MouseEvent event) {
-        clickHandler.parar(event);
-    }
-
-    @FXML
     private void borraBasura(MouseEvent event) {
         clickHandler.manejarClickEnBasurero(event);
-    }
-
-    // Método que asignas a los LEDs y cables
-    @FXML
-    private void asignarManejadorEliminar(ImageView elemento) {
-        elemento.setOnMouseClicked(event -> clickHandler.eliminarElemento(event));
     }
 
 }

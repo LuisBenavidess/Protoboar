@@ -44,7 +44,7 @@
             </ImageView>
             <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" layoutX="619.0" layoutY="77.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../electrico.png" />
+                  <Image url="@../../../cable.png" />
                </image>
             </ImageView>
          </children>

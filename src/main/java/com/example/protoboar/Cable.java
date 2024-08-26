@@ -32,7 +32,6 @@ public class Cable {
     public boolean isConectado() {
         return conectado;
     }
-
     public ImageView getImageView() {
         return imageView;
     }

@@ -23,7 +23,6 @@ public class Click {
     private static boolean eliminarProximaImagen = false;
     private Circle primercircle;
 
-
     public Click(Pane pane, Label label, ImageView led, bus[][] alimentacion, boolean ledClicked, boolean cableClicked) {
         Click.pane = pane;
         this.label = label;
@@ -32,15 +31,12 @@ public class Click {
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
     }
-
     public void setLedClicked(boolean ledClicked) {
         this.ledClicked = ledClicked;
     }
-
     public void setCableClicked(boolean cableClicked) {
         this.cableClicked = cableClicked;
     }
-
     // Manejar la acción cuando se presiona un círculo
     public void presionarCirculo(MouseEvent event) {
         Circle circulo = (Circle) event.getSource();
@@ -62,14 +58,13 @@ public class Click {
             inicio(event);
         }
     }
-
     private void crearCableEntreCirculos(Circle c1, Circle c2) {
         if (c1 == null || c2 == null) {
             System.out.println("uno de los círculos es null.");
             return;
         }
         Line cable = new Line(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
-        cable.setStroke(Color.RED);
+        cable.setStroke(Color.BLUE);
         cable.setStrokeWidth(5);
         pane.getChildren().add(cable);
         // Calcular el punto medio de la línea
@@ -113,7 +108,6 @@ public class Click {
                         double dx = event.getX() - targetCircle.getCenterX();
                         double dy = event.getY() - targetCircle.getCenterY();
                         double distance = Math.sqrt(dx * dx + dy * dy);
-
                         if (distance <= targetCircle.getRadius()) {
                             System.out.println("entra");
                             // Detener el dibujo
@@ -128,12 +122,10 @@ public class Click {
             System.out.println("no entra");
         }
     }
-
     // Método para activar el modo de eliminación al hacer clic en el basurero
     public void manejarClickEnBasurero(MouseEvent event) {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
-
     }
     // Método para eliminar un elemento del pane
     public static void eliminarElemento(MouseEvent event) {
@@ -144,5 +136,4 @@ public class Click {
             System.out.println("Se eliminó algo");
         }
     }
-
 }
