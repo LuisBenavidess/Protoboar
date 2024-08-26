@@ -5,7 +5,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
@@ -38,20 +37,16 @@
                   <Image url="@basurero.png" />
                </image>
             </ImageView>
-            <VBox fx:id="imageContainerVBox" layoutX="619.0" prefHeight="336.0" prefWidth="62.0">
-               <children>
-                  <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" onMouseClicked="#crearLed" onMouseDragged="#onImageDragged" onMousePressed="#onImagePressed" onMouseReleased="#onImageReleased" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@led.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../electrico.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+            <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" layoutX="619.0" layoutY="5.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@led.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" layoutX="619.0" layoutY="77.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../electrico.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </center>

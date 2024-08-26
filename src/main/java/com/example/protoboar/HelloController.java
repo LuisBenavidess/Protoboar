@@ -5,10 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 
 public class HelloController {
@@ -33,10 +32,6 @@ public class HelloController {
     @FXML
     private double y;
     @FXML
-    private VBox imageContainerVBox;
-    private ImageView draggedImageView;
-    private double initialMouseX;
-    private double initialMouseY;
     private Click clickHandler;
     private boolean ledClicked=false;
     private boolean cableClicked=false;
@@ -47,10 +42,17 @@ public class HelloController {
     private double circuloX, circuloY;
 
     @FXML
+    private ImageView basurero;
+
+    @FXML
     private void initialize() {
+        // Configurar el clic en el basurero
+        if (basurero != null) {
+            basurero.setOnMouseClicked(this::borraBasura);
+        }
         System.out.println("Led falso");
         alimentacion = new bus[14][30];
-        clickHandler = new Click(pane, label, led, basurero, alimentacion, ledClicked, cableClicked);
+        clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked);
         crear_buses(37, 52, 2);
         crear_buses(37, 122, 5);
         crear_buses(37, 276, 5);
@@ -161,8 +163,6 @@ public class HelloController {
         }
     }
 
-
-
     @FXML
     private void inicio(MouseEvent event) {
         clickHandler.inicio(event);
@@ -179,38 +179,14 @@ public class HelloController {
     }
 
     @FXML
-    private void onImagePressed(MouseEvent event) {
-        clickHandler.onImagePressed(event);
+    private void borraBasura(MouseEvent event) {
+        clickHandler.manejarClickEnBasurero(event);
     }
 
+    // Método que asignas a los LEDs y cables
     @FXML
-    private void onImageDragged(MouseEvent event) {
-        clickHandler.onImageDragged(event);
+    private void asignarManejadorEliminar(ImageView elemento) {
+        elemento.setOnMouseClicked(event -> clickHandler.eliminarElemento(event));
     }
 
-    @FXML
-    private void onImageReleased(MouseEvent event) {
-        clickHandler.onImageReleased(event);
-    }
-
-    @FXML
-    private ImageView basurero;
-
-    private boolean isOverTrashBin(ImageView imageView) {
-        // Obtener las coordenadas del basurero
-        double trashBinX = basurero.getLayoutX();
-        double trashBinY = basurero.getLayoutY();
-        double trashBinWidth = basurero.getFitWidth();
-        double trashBinHeight = basurero.getFitHeight();
-
-        // Obtener las coordenadas del ImageView arrastrado
-        double imageViewX = imageView.getLayoutX() + imageView.getTranslateX();
-        double imageViewY = imageView.getLayoutY() + imageView.getTranslateY();
-
-        // Verificar si las coordenadas del ImageView están dentro del área del basurero
-        return imageViewX >= trashBinX ||
-                imageViewX <= trashBinX + trashBinWidth ||
-                imageViewY >= trashBinY ||
-                imageViewY <= trashBinY + trashBinHeight;
-    }
 }
