@@ -18,6 +18,7 @@ public class Led {
         imageView.setX(x - (imageView.getFitWidth() / 2));
         imageView.setY(y - (imageView.getFitHeight() / 2));
 
+        imageView.setOnMouseClicked(Click::eliminarElemento);
         // Agregar el ImageView al Pane
         pane.getChildren().add(imageView);
 
@@ -33,4 +34,5 @@ public class Led {
     public boolean isConectado() {
         return conectado;
     }
+
 }

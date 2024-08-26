@@ -9,29 +9,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
 public class Click {
-    private final Pane pane;
+    private static Pane pane;
     private Line linea;
     private double x;
     private double y;
     private boolean circuloClicked = false;
     private double circuloX, circuloY;
-    private ImageView draggedImageView;
-    private double initialMouseX;
-    private double initialMouseY;
     private final Label label;
     private final ImageView led;
-    private final ImageView basurero;
     private final bus[][] alimentacion;
     private boolean ledClicked;
     private boolean cableClicked;
-    private Circle primercircle; //Utilizado en la creacion del led para almacenar posicion del primer circulo
+    private static boolean eliminarProximaImagen = false;
+    private Circle primercircle;
 
 
-    public Click(Pane pane, Label label, ImageView led, ImageView basurero, bus[][] alimentacion, boolean ledClicked, boolean cableClicked) {
-        this.pane = pane;
+    public Click(Pane pane, Label label, ImageView led, bus[][] alimentacion, boolean ledClicked, boolean cableClicked) {
+        Click.pane = pane;
         this.label = label;
         this.led = led;
-        this.basurero = basurero;
         this.alimentacion = alimentacion;
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
@@ -92,6 +88,7 @@ public class Click {
                 circulo_apret.getCenterX(), circulo_apret.getCenterY());
         linea.setStroke(Color.GREEN);
         linea.setStrokeWidth(5);
+        linea.setOnMouseClicked(Click::eliminarElemento);
         ((Pane) circulo_apret.getParent()).getChildren().add(linea);
         //movimiento de la línea
         circulo_apret.getParent().setOnMouseMoved(this::movimiento);
@@ -132,44 +129,20 @@ public class Click {
         }
     }
 
-    // Manejar el inicio del arrastre de una imagen
-    public void onImagePressed(MouseEvent event) {
-        draggedImageView = (ImageView) event.getSource();
-        initialMouseX = event.getSceneX();
-        initialMouseY = event.getSceneY();
-    }
+    // Método para activar el modo de eliminación al hacer clic en el basurero
+    public void manejarClickEnBasurero(MouseEvent event) {
+        System.out.println("Modo borrar");
+        eliminarProximaImagen = true;
 
-    // Manejar el arrastre de una imagen
-    public void onImageDragged(MouseEvent event) {
-        if (draggedImageView != null) {
-            double offsetX = event.getSceneX() - initialMouseX;
-            double offsetY = event.getSceneY() - initialMouseY;
-            draggedImageView.setTranslateX(draggedImageView.getTranslateX() + offsetX);
-            draggedImageView.setTranslateY(draggedImageView.getTranslateY() + offsetY);
-            initialMouseX = event.getSceneX();
-            initialMouseY = event.getSceneY();
+    }
+    // Método para eliminar un elemento del pane
+    public static void eliminarElemento(MouseEvent event) {
+        if (eliminarProximaImagen) {
+            Object source = event.getSource();
+            pane.getChildren().remove(source);
+            eliminarProximaImagen = false;
+            System.out.println("Se eliminó algo");
         }
     }
 
-    // Manejar la liberación de una imagen
-    public void onImageReleased(MouseEvent event) {
-        if (draggedImageView != null && isOverTrashBin(draggedImageView)) {
-            pane.getChildren().remove(draggedImageView);
-        }
-        draggedImageView = null;
-    }
-
-    // Verificar si una imagen está sobre el basurero
-    private boolean isOverTrashBin(ImageView imageView) {
-        double trashBinX = basurero.getLayoutX();
-        double trashBinY = basurero.getLayoutY();
-        double trashBinWidth = basurero.getFitWidth();
-        double trashBinHeight = basurero.getFitHeight();
-        double imageViewX = imageView.getLayoutX() + imageView.getTranslateX();
-        double imageViewY = imageView.getLayoutY() + imageView.getTranslateY();
-        return imageViewX >= trashBinX &&
-                imageViewX <= trashBinX + trashBinWidth &&
-                imageViewY >= trashBinY &&
-                imageViewY <= trashBinY + trashBinHeight;
-    }
 }
