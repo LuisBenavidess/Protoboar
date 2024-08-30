@@ -3,11 +3,15 @@ package com.example.protoboar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
+
 import java.util.Objects;
 
-public class Cable {
+public class Cable{
     private final ImageView imageView;
     private boolean conectado;
+    private bus inicio;
+    private bus fin;
 
     public Cable(Pane pane, double x, double y) {
         // Crea la imagen del cable

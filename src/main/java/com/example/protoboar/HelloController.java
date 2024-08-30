@@ -1,6 +1,7 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -37,10 +38,10 @@ public class HelloController {
         System.out.println("Led falso");
         alimentacion = new bus[14][30];
         clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked);
-        crear_buses(37, 52, 2);
-        crear_buses(37, 122, 5);
-        crear_buses(37, 276, 5);
-        crear_buses(37, 413, 2);
+        crear_buses(37, 52, 2,true);
+        crear_buses(37, 122, 5,false);
+        crear_buses(37, 276, 5,false);
+        crear_buses(37, 413, 2,false);
         numeros(33, 376);
         numeros(33, 100);
         System.out.println("Etapa 2");
@@ -52,8 +53,8 @@ public class HelloController {
                 System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
-                    circulo.setOnMouseEntered(event -> circulo.setFill(Color.RED));
-                    circulo.setOnMouseExited(event -> circulo.setFill(Color.BLACK));
+                    /*circulo.setOnMouseEntered(event -> circulo.setFill(Color.RED));
+                    circulo.setOnMouseExited(event -> circulo.setFill(Color.BLACK));*/
                 }
                 j++;
             }
@@ -63,8 +64,9 @@ public class HelloController {
 
     @FXML
     //Funcion que crea los circulos
-    private void crear_buses(int X, int Y, int FIL) {
+    private void crear_buses(int X, int Y, int FIL,boolean bandera) {
         // Variables a utilizar
+        int carga=0;
         int col = 0;
         int fil = 0;
         int x = X;
@@ -83,6 +85,16 @@ public class HelloController {
                 alimentacion[filas][columnas] = circulo;
                 alimentacion[filas][columnas].setFila(filas);
                 alimentacion[filas][columnas].setColumna(columnas);
+                if(bandera){
+                    if(carga==0){
+                        alimentacion[filas][columnas].setCarga("-");
+                    }else{
+                        alimentacion[filas][columnas].setCarga("+");
+                    }
+                }else{
+                    alimentacion[filas][columnas].setCarga(" ");
+                }
+
                 pane.getChildren().add(circulo);
                 x = x + 18;
                 col++;
@@ -92,6 +104,7 @@ public class HelloController {
                     filas = filas + 1;
                     x = 37;
                     y = y + 22;
+                    carga = carga + 1;
                 }
             }
             col = 0;
@@ -146,6 +159,15 @@ public class HelloController {
     @FXML
     private void borraBasura(MouseEvent event) {
         clickHandler.manejarClickEnBasurero(event);
+    }
+
+    @FXML
+    private void iniciar(MouseEvent event) {
+        System.out.println("paso");
+        clickHandler.revovinar();
+        clickHandler.verificar_cables();
+        clickHandler.corriente();
+        //clickHandler.mostrarElemento();
     }
 
 }
