@@ -5,7 +5,7 @@ import javafx.scene.shape.Line;
 public class conection extends Line {
     private bus inicio;
     private bus fin;
-
+    private Led foto;
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
     }
@@ -24,5 +24,13 @@ public class conection extends Line {
 
     public bus getFin() {
         return fin;
+    }
+
+    public void set_foto(Led led){
+        foto=led;
+    }
+
+    public Led get_foto(){
+        return foto;
     }
 }

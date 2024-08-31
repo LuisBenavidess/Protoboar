@@ -22,8 +22,9 @@ public class Click {
     private boolean ledClicked;
     private boolean cableClicked;
     private static boolean eliminarProximaImagen = false;
-    private Circle primercircle;
+    private bus primercircle;
     private static ArrayList<conection> cables;
+    private static ArrayList<conection> cables_led;
 
     public Click(Pane pane, Label label, ImageView led, bus[][] alimentacion, boolean ledClicked, boolean cableClicked) {
         Click.pane = pane;
@@ -33,6 +34,15 @@ public class Click {
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
         cables = new ArrayList<>();
+        cables_led = new ArrayList<>();
+    }
+
+    public ArrayList<conection> getCables() {
+        return cables;
+    }
+
+    public ArrayList<conection> getCables_led() {
+        return cables_led;
     }
 
     public void setLedClicked(boolean ledClicked) {
@@ -45,7 +55,7 @@ public class Click {
 
     // Manejar la acción cuando se presiona un círculo
     public void presionarCirculo(MouseEvent event) {
-        Circle circulo = (Circle) event.getSource();
+        bus circulo = (bus) event.getSource();
         circuloClicked = true;
         circuloX = circulo.getCenterX();
         circuloY = circulo.getCenterY() - 10;
@@ -55,7 +65,7 @@ public class Click {
             primercircle = circulo; // Asignación del primer círculo
             System.out.println("Primer círculo asignado");
         } else if (ledClicked && primercircle != null) {
-            Circle segundoCirculo = circulo;
+            bus segundoCirculo = circulo;
             System.out.println("Segundo círculo");
             crearCableEntreCirculos(primercircle, segundoCirculo);
             primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
@@ -64,14 +74,19 @@ public class Click {
             inicio(event);
         }
     }
-    private void crearCableEntreCirculos(Circle c1, Circle c2) {
+
+    private void crearCableEntreCirculos(bus c1, bus c2) {
         if (c1 == null || c2 == null) {
             System.out.println("uno de los círculos es null.");
             return;
         }
-        Line cable = new Line(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
+        conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
+        cable.setInicio(c1);
+        cable.setFin(c2);
+
         cable.setStroke(Color.BLUE);
         cable.setStrokeWidth(5);
+        cables_led.add(cable);
         pane.getChildren().add(cable);
         // Calcular el punto medio de la línea
         double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
@@ -79,6 +94,8 @@ public class Click {
         // Colocar la imagen del LED en el punto medio
         Led led = new Led(pane, midX, midY);
         led.setConectado(true);
+        cable.set_foto(led);
+        cables_led.add(cable);
         primercircle = null;
     }
 
@@ -172,15 +189,18 @@ public class Click {
             i++;
         }
     }
+
     public void mostrarElemento() {
         int i=0;
         while (i < cables.size()) {
             bus ini=cables.get(i).getInicio();
             bus fin=cables.get(i).getFin();
-            System.out.println("Primer bus");
+           /* System.out.println("Primer bus");
             ini.get_ubicacion();
+            System.out.println(ini.getCarga());
             System.out.println("Segundo bus");
             fin.get_ubicacion();
+            System.out.println(fin.getCarga());*/
             i++;
         }
         System.out.println("fin");
@@ -193,6 +213,7 @@ public class Click {
             while(j<30){
                 if (alimentacion[i][j].getCarga().equals("+")) {
                     marcar(i,j,"+");
+
                     //System.out.println(alimentacion[i][j].getCarga());
                 }else{
                     if (alimentacion[i][j].getCarga().equals("-")) {
@@ -212,9 +233,11 @@ public class Click {
            while(col<30){
                if(carga.equals("+")){
                    alimentacion[i][col].setFill(Color.RED);
+                   alimentacion[i][col].setCarga("+");
                }else{
                    if(carga.equals("-")){
                        alimentacion[i][col].setFill(Color.BLUE);
+                       alimentacion[i][col].setCarga("-");
 
                    }/*else{
                        alimentacion[i][col].setFill(Color.BLACK);
@@ -229,9 +252,11 @@ public class Click {
                while(fil<=6){
                    if(carga.equals("+")){
                        alimentacion[fil][j].setFill(Color.RED);
+                       alimentacion[fil][j].setCarga("+");
                    }else{
                        if(carga.equals("-")){
                            alimentacion[fil][j].setFill(Color.BLUE);
+                           alimentacion[fil][j].setCarga("-");
 
                        }/*else{
                            alimentacion[fil][j].setFill(Color.BLACK);
@@ -245,9 +270,11 @@ public class Click {
                    while(fil<=11){
                        if(carga.equals("+")){
                            alimentacion[fil][j].setFill(Color.RED);
+                           alimentacion[fil][j].setCarga("+");
                        }else{
                            if(carga.equals("-")){
                                alimentacion[fil][j].setFill(Color.BLUE);
+                               alimentacion[fil][j].setCarga("-");
 
                            }/*else{
                                alimentacion[fil][j].setFill(Color.BLACK);
@@ -260,9 +287,11 @@ public class Click {
                    while(col<30){
                        if(carga.equals("+")){
                            alimentacion[i][col].setFill(Color.RED);
+                           alimentacion[i][col].setCarga("+");
                        }else{
                            if(carga.equals("-")){
                                alimentacion[i][col].setFill(Color.BLUE);
+                               alimentacion[i][col].setCarga("-");
 
                            }/*else{
                                alimentacion[i][col].setFill(Color.BLACK);
@@ -282,18 +311,44 @@ public class Click {
             conection lin=cables.get(i);
             String ini=lin.getInicio().getCarga();
             String fin=lin.getFin().getCarga();
+            /*System.out.println("inicio: ");
+            lin.getInicio().get_ubicacion();
+            System.out.println("fin: ");
+            lin.getFin().get_ubicacion();*/
             if(!ini.equals(" ")){
+                //System.out.println("Condicion 1");
                 if(fin.equals(" ")){
+                   // System.out.println("Condicion 1.1");
                    lin.getFin().setCarga(ini);
+                   corriente();
                 }else{
-                    if(fin.equals(ini)){
+                    //System.out.println("Condicion 1.2");
+                    if(!fin.equals(ini)){
+                      //  System.out.println("Condicion 1.3");
+
                         System.out.println("Exploto");
                     }
                 }
             }else{
+                //System.out.println("Condicion 2");
                 if(!fin.equals(" ")){
+                  //  System.out.println("Condicion 2.1");
                     lin.getInicio().setCarga(fin);
+                    corriente();
                 }
+            }
+            i++;
+        }
+    }
+
+    public void prender_led(){
+        int i=0;
+        while(i<cables_led.size()){
+            if(cables_led.get(i).getInicio().getCarga().equals("+") && cables_led.get(i).getFin().getCarga().equals("-") ||
+                    cables_led.get(i).getInicio().getCarga().equals("-") && cables_led.get(i).getFin().getCarga().equals("+")){
+                cables_led.get(i).get_foto().prender();
+            }else{
+                cables_led.get(i).get_foto().apagar();
             }
             i++;
         }

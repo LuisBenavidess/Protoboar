@@ -165,8 +165,18 @@ public class HelloController {
     private void iniciar(MouseEvent event) {
         System.out.println("paso");
         clickHandler.revovinar();
-        clickHandler.verificar_cables();
-        clickHandler.corriente();
+        int i=0;
+        while(i<clickHandler.getCables().size()){
+            clickHandler.verificar_cables();
+            i++;
+        }
+        i=0;
+        while(i<clickHandler.getCables_led().size()){
+            clickHandler.prender_led();
+            i++;
+        }
+       // clickHandler.mostrarElemento();
+        //clickHandler.corriente();
         //clickHandler.mostrarElemento();
     }
 
