@@ -1,9 +1,8 @@
 package com.example.protoboar;
 
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
@@ -21,20 +20,25 @@ public class Click {
     private final bus[][] alimentacion;
     private boolean ledClicked;
     private boolean cableClicked;
+    private boolean switchClicked;
+    private static boolean cambiarSwitch;
     private static boolean eliminarProximaImagen = false;
     private bus primercircle;
     private static ArrayList<conection> cables;
     private static ArrayList<conection> cables_led;
+    private static ArrayList<Switch> switches;
 
-    public Click(Pane pane, Label label, ImageView led, bus[][] alimentacion, boolean ledClicked, boolean cableClicked) {
+    public Click(Pane pane, Label label, ImageView led, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, boolean switchClicked) {
         Click.pane = pane;
         this.label = label;
         this.led = led;
         this.alimentacion = alimentacion;
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
+        this.switchClicked = false;
         cables = new ArrayList<>();
         cables_led = new ArrayList<>();
+        switches = new ArrayList<Switch>();
     }
 
     public ArrayList<conection> getCables() {
@@ -45,12 +49,20 @@ public class Click {
         return cables_led;
     }
 
+    public ArrayList<Switch> getSwitches() {
+        return switches;
+    }
+
     public void setLedClicked(boolean ledClicked) {
         this.ledClicked = ledClicked;
     }
 
     public void setCableClicked(boolean cableClicked) {
         this.cableClicked = cableClicked;
+    }
+
+    public void setSwitchClicked(boolean switchClicked){
+        this.switchClicked = switchClicked;
     }
 
     // Manejar la acción cuando se presiona un círculo
@@ -69,12 +81,23 @@ public class Click {
             System.out.println("Segundo círculo");
             crearCableEntreCirculos(primercircle, segundoCirculo);
             primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
-            System.out.println("Primer círculo reiniciado");
+
+        }  else if (primercircle == null && switchClicked) {
+            primercircle = circulo; // Asignación del primer círculo
+            System.out.println("Primer círculo asignado");
+        } else if (primercircle != null && switchClicked) {
+            bus segundoCirculo = circulo;
+            System.out.println("Segundo círculo");
+            crearSwitch(primercircle, segundoCirculo);
+            primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
+
         } else if (cableClicked) {
             inicio(event);
+
         }
     }
 
+    //  Crea cables
     private void crearCableEntreCirculos(bus c1, bus c2) {
         if (c1 == null || c2 == null) {
             System.out.println("uno de los círculos es null.");
@@ -88,9 +111,11 @@ public class Click {
         cable.setStrokeWidth(5);
         cables_led.add(cable);
         pane.getChildren().add(cable);
+
         // Calcular el punto medio de la línea
         double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
         double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
         // Colocar la imagen del LED en el punto medio
         Led led = new Led(pane, midX, midY);
         led.setConectado(true);
@@ -144,7 +169,7 @@ public class Click {
                             linea=null;
                             ((Pane) targetCircle.getParent()).setOnMouseMoved(null);
                             ((Pane) targetCircle.getParent()).setOnMouseClicked(null);
-                            return; // Salir del método una vez que se haya encontrado un círculo
+                            return; // Salir del metodo una vez que se haya encontrado un círculo
                         }
                     }
                 }
@@ -153,23 +178,29 @@ public class Click {
         }
     }
 
-    // Método para activar el modo de eliminación al hacer clic en el basurero
-    public void manejarClickEnBasurero(MouseEvent event) {
+    /// Metodo para activar el modo de eliminación al hacer clic en el basurero
+    public void ClickEnBasurero(MouseEvent event) {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
     }
 
-    // Método para eliminar un elemento del pane
+    /// Metodo para eliminar un elemento del pane
     public static void eliminarElemento(MouseEvent event) {
         if (eliminarProximaImagen) {
-            Object source = event.getSource();
-            pane.getChildren().remove(source);
+            Object basura = event.getSource();
+            pane.getChildren().remove(basura);
             eliminarProximaImagen = false;
             System.out.println("Se eliminó algo");
             int i=0;
             while(i<cables.size()){
-                if(source.equals(cables.get(i))){
+                if(basura.equals(cables.get(i))){
                     cables.remove(i);
+                }
+                i++;
+            }
+            while(i<switches.size()){
+                if(basura.equals(switches.get(i))){
+                    switches.remove(i);
                 }
                 i++;
             }
@@ -353,5 +384,26 @@ public class Click {
             i++;
         }
     }
+
+    ////
+    public void crearSwitch(bus c1, bus c2){
+        if (c1 == null || c2 == null) {
+            System.out.println("uno de los círculos es null.");
+            return;
+        }
+
+        // Calcular la posición media entre los dos círculos
+        double x = (c1.getCenterX() + c2.getCenterX()) / 2;
+        double y = (c1.getCenterY() + c2.getCenterY()) / 2;
+
+        // Crear el objeto Switch en la posición calculada
+        Switch SW = new Switch(pane, x, y);
+        setSwitchClicked(true);
+
+        System.out.println("SetSwitch2");
+        switches.add(SW);
+        primercircle = null;
+    }
+    ////
 
 }

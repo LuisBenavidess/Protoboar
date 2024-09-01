@@ -24,8 +24,12 @@ public class HelloController {
     private ImageView led;
     @FXML
     private Click clickHandler;
+    @FXML
     private boolean ledClicked=false;
+    @FXML
     private boolean cableClicked=false;
+    @FXML
+    private boolean switchClicked;
     @FXML
     private ImageView basurero;
 
@@ -37,7 +41,7 @@ public class HelloController {
         }
         System.out.println("Led falso");
         alimentacion = new bus[14][30];
-        clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked);
+        clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked, switchClicked);
         crear_buses(37, 52, 2,true);
         crear_buses(37, 122, 5,false);
         crear_buses(37, 276, 5,false);
@@ -120,7 +124,7 @@ public class HelloController {
             clickHandler.setLedClicked(true);
             System.out.println("Led true");
             ledClicked=true;
-        } else if (ledClicked){
+        } else{
             clickHandler.setLedClicked(false);
             System.out.println("Led false");
             ledClicked=false;
@@ -158,7 +162,7 @@ public class HelloController {
 
     @FXML
     private void borraBasura(MouseEvent event) {
-        clickHandler.manejarClickEnBasurero(event);
+        clickHandler.ClickEnBasurero(event);
     }
 
     @FXML
@@ -178,6 +182,21 @@ public class HelloController {
        // clickHandler.mostrarElemento();
         //clickHandler.corriente();
         //clickHandler.mostrarElemento();
+    }
+
+    @FXML
+    private void crearSwitch(MouseEvent event) {
+        if(!switchClicked) {
+            System.out.println("Crear switch");
+            clickHandler.setSwitchClicked(true);
+            System.out.println("Switch true");
+            switchClicked=true;
+        } else{
+            clickHandler.setSwitchClicked(false);
+            System.out.println("Switch false");
+            switchClicked=false;
+        }
+
     }
 
 }

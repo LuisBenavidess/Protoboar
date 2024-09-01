@@ -29,7 +29,6 @@ public class conection extends Line {
     public void set_foto(Led led){
         foto=led;
     }
-
     public Led get_foto(){
         return foto;
     }

@@ -37,18 +37,23 @@
                   <Image url="@basurero.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" layoutX="619.0" layoutY="5.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" layoutX="615.0" layoutY="5.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@led.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" layoutX="619.0" layoutY="77.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" layoutX="615.0" layoutY="77.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../cable.png" />
                </image>
             </ImageView>
             <Text layoutX="9.0" layoutY="369.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A" />
-            <Button fx:id="boton" layoutX="619.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#iniciar" text="Iniciar" />
+            <Button fx:id="boton" layoutX="623.0" layoutY="211.0" mnemonicParsing="false" onMouseClicked="#iniciar" text="Iniciar" />
+            <ImageView fitHeight="28.0" fitWidth="57.0" layoutX="618.0" layoutY="157.0" onMouseClicked="#crearSwitch">
+               <image>
+                  <Image url="@Switch.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </center>
