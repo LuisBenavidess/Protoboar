@@ -1,9 +1,7 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
@@ -19,10 +17,6 @@ public class HelloController {
     @FXML
     private int filas;
     @FXML
-    private Label label;
-    @FXML
-    private ImageView led;
-    @FXML
     private Click clickHandler;
     private boolean ledClicked=false;
     private boolean cableClicked=false;
@@ -33,15 +27,18 @@ public class HelloController {
     private void initialize() {
         // Configurar el clic en el basurero
         if (basurero != null) {
-            basurero.setOnMouseClicked(this::borraBasura);
+            basurero.setOnMouseClicked(t -> borraBasura());
         }
-        System.out.println("Led falso");
         alimentacion = new bus[14][30];
-        clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked);
-        crear_buses(37, 52, 2,true);
-        crear_buses(37, 122, 5,false);
-        crear_buses(37, 276, 5,false);
-        crear_buses(37, 413, 2,false);
+        Bateria bateria = new Bateria(pane);
+        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
+
+        bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
+        bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
+        crear_buses(52, 2,true);
+        crear_buses(122, 5,false);
+        crear_buses(276, 5,false);
+        crear_buses(413, 2,false);
         numeros(33, 376);
         numeros(33, 100);
         System.out.println("Etapa 2");
@@ -53,8 +50,6 @@ public class HelloController {
                 System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
-                    /*circulo.setOnMouseEntered(event -> circulo.setFill(Color.RED));
-                    circulo.setOnMouseExited(event -> circulo.setFill(Color.BLACK));*/
                 }
                 j++;
             }
@@ -64,34 +59,36 @@ public class HelloController {
 
     @FXML
     //Funcion que crea los circulos
-    private void crear_buses(int X, int Y, int FIL,boolean bandera) {
+    private void crear_buses(int Y, int FIL, boolean bandera) {
         // Variables a utilizar
-        int carga=0;
+        int carga = 0;
         int col = 0;
         int fil = 0;
-        int x = X;
+        int x = 37;
         int y = Y;
-        //bucle
+        // bucle
         while (fil < FIL) {
             while (col < 30) {
-                //circulo
+                // circulo
                 bus circulo = new bus();
                 circulo.setCenterX(x);
                 circulo.setCenterY(y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
 
-                //Guardar el circulo dentro de la matriz
+                // Guardar el circulo dentro de la matriz
                 alimentacion[filas][columnas] = circulo;
-                alimentacion[filas][columnas].setFila(filas);
-                alimentacion[filas][columnas].setColumna(columnas);
-                if(bandera){
-                    if(carga==0){
+                alimentacion[filas][columnas].setFila();
+                alimentacion[filas][columnas].setColumna();
+
+                // Evitar asignar cargas a las filas 0-1
+                if (bandera && filas >= 2) {
+                    if (carga == 0) {
                         alimentacion[filas][columnas].setCarga("-");
-                    }else{
+                    } else {
                         alimentacion[filas][columnas].setCarga("+");
                     }
-                }else{
+                } else {
                     alimentacion[filas][columnas].setCarga(" ");
                 }
 
@@ -110,8 +107,8 @@ public class HelloController {
             col = 0;
             columnas = 0;
         }
-
     }
+
 
     @FXML
     private void crearLed() {
@@ -120,7 +117,7 @@ public class HelloController {
             clickHandler.setLedClicked(true);
             System.out.println("Led true");
             ledClicked=true;
-        } else if (ledClicked){
+        } else{
             clickHandler.setLedClicked(false);
             System.out.println("Led false");
             ledClicked=false;
@@ -157,12 +154,12 @@ public class HelloController {
     }
 
     @FXML
-    private void borraBasura(MouseEvent event) {
-        clickHandler.manejarClickEnBasurero(event);
+    private void borraBasura() {
+        clickHandler.manejarClickEnBasurero();
     }
 
     @FXML
-    private void iniciar(MouseEvent event) {
+    private void iniciar() {
         System.out.println("paso");
         clickHandler.revovinar();
         int i=0;
@@ -175,9 +172,6 @@ public class HelloController {
             clickHandler.prender_led();
             i++;
         }
-       // clickHandler.mostrarElemento();
-        //clickHandler.corriente();
-        //clickHandler.mostrarElemento();
     }
 
 }

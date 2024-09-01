@@ -6,8 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.Objects;
 
 public class Led {
-    private boolean conectado;
-    private ImageView imageView;
+    private final ImageView imageView;
     public Led(Pane pane, double x, double y) {
         // Crea la imagen del LED
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
@@ -20,15 +19,9 @@ public class Led {
         // Agregar el ImageView al Pane
         pane.getChildren().add(imageView);
         imageView.toFront();
-        this.conectado = false;
     }
 
-    public void setConectado(boolean conectado) {
-        this.conectado = conectado;
-    }
-
-    public boolean isConectado() {
-        return conectado;
+    public void setConectado() {
     }
 
     public void prender(){
