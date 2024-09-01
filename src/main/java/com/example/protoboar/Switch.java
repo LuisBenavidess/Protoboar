@@ -12,7 +12,12 @@ public class Switch {
     private String Carga;
     private final ImageView imageView;
 
-    public Switch(Pane pane, double x, double y) {
+    private bus c1;
+    private bus c2;
+
+    public Switch(Pane pane, double x, double y, bus c1, bus c2) {
+        this.c1 = c1;
+        this.c2 = c2;
         Image image = new Image("/Switch1.png");
         this.imageView = new ImageView(image);
 
@@ -26,18 +31,21 @@ public class Switch {
 
         // Configurar el evento del basurero
         imageView.setOnMouseClicked(Click::eliminarElemento);
-        // Configurar el evento de clic
+        // Configurar el evento de click
         imageView.setOnMouseClicked(this::cambiarCarga);
+        // Configurar el evento de quitarCarga
+        imageView.setOnMouseClicked(this::trabajarCarga);
 
         // Posicionar el switch en la ubicación adecuada
         pane.getChildren().add(imageView);
         imageView.toFront();
 
+        System.out.println("bus: "+c1.carga);
         this.Carga = "-";
     }
 
     public void cambiarCarga(MouseEvent event) {
-        if(Carga == "-") {
+        if(Carga == " ") {
             Encender();
         }else{
             Apagar();
@@ -47,7 +55,7 @@ public class Switch {
     public void Encender() {
         Image image = new Image("/Switch1.png");
         this.imageView.setImage(image);
-        this.Carga = "+";
+        this.Carga = "o";
     }
 
     public void Apagar() {
@@ -56,8 +64,27 @@ public class Switch {
         this.Carga = "-";
     }
 
+    public void quitarCarga() {
+        Click.quitarCarga(c1.fila, c1.columna, c2.fila, c2.columna);
+        Apagar();
+    }
+
+    public void darCarga() {
+        Click.darCarga(c1.fila, c1.columna, c2.fila, c2.columna);
+        Encender();
+    }
+
+    public void trabajarCarga(MouseEvent event) {
+        if(Carga == "o") {
+            quitarCarga();
+        } else{
+            darCarga();
+        }
+    }
+
     public String getCarga() {
         return Carga;
     }
+
 
 }

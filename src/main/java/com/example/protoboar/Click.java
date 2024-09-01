@@ -1,6 +1,6 @@
 package com.example.protoboar;
 
-import javafx.scene.image.Image;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
@@ -17,7 +17,7 @@ public class Click {
     private double circuloX, circuloY;
     private final Label label;
     private final ImageView led;
-    private final bus[][] alimentacion;
+    public static bus[][] alimentacion;
     private boolean ledClicked;
     private boolean cableClicked;
     private boolean switchClicked;
@@ -220,22 +220,22 @@ public class Click {
             i++;
         }
     }
-
+/*
     public void mostrarElemento() {
         int i=0;
         while (i < cables.size()) {
             bus ini=cables.get(i).getInicio();
             bus fin=cables.get(i).getFin();
-           /* System.out.println("Primer bus");
+            System.out.println("Primer bus");
             ini.get_ubicacion();
             System.out.println(ini.getCarga());
             System.out.println("Segundo bus");
             fin.get_ubicacion();
-            System.out.println(fin.getCarga());*/
+            System.out.println(fin.getCarga());
             i++;
         }
         System.out.println("fin");
-    }
+    }*/
 
     public void corriente(){
         int i=0;
@@ -244,12 +244,9 @@ public class Click {
             while(j<30){
                 if (alimentacion[i][j].getCarga().equals("+")) {
                     marcar(i,j,"+");
-
-                    //System.out.println(alimentacion[i][j].getCarga());
                 }else{
                     if (alimentacion[i][j].getCarga().equals("-")) {
                         marcar(i,j,"-");
-                        //System.out.println(alimentacion[i][j].getCarga());
                     }
                 }
                 j++;
@@ -269,11 +266,7 @@ public class Click {
                    if(carga.equals("-")){
                        alimentacion[i][col].setFill(Color.BLUE);
                        alimentacion[i][col].setCarga("-");
-
-                   }/*else{
-                       alimentacion[i][col].setFill(Color.BLACK);
-                   }*/
-
+                   }
                }
                col++;
            }
@@ -397,13 +390,74 @@ public class Click {
         double y = (c1.getCenterY() + c2.getCenterY()) / 2;
 
         // Crear el objeto Switch en la posición calculada
-        Switch SW = new Switch(pane, x, y);
+        Switch SW = new Switch(pane, x, y, c1, c2);
         setSwitchClicked(true);
 
-        System.out.println("SetSwitch2");
         switches.add(SW);
         primercircle = null;
     }
-    ////
 
+    ////
+    public static void quitarCarga(int F1, int C1, int F2, int C2){
+        int fila1 = F1;
+        int columna1 = C1;
+
+        int fila2 = F2;
+        int columna2 = C2;
+
+        while(fila1<7){
+            alimentacion[fila1][columna1].setCarga(" ");
+            alimentacion[fila1][columna1].setFill(Color.BLACK);
+            fila1++;
+        }
+        fila1 = F1;
+        while(fila1>=2){
+            alimentacion[fila1][columna1].setCarga(" ");
+            alimentacion[fila1][columna1].setFill(Color.BLACK);
+            fila1--;
+        }
+        while(fila2<7){
+            System.out.println(fila2);
+            alimentacion[fila2][columna2].setCarga(" ");
+            alimentacion[fila2][columna2].setFill(Color.BLACK);
+            fila2++;
+        }
+        fila2 = F2;
+        while(fila2>=2){
+            alimentacion[fila2][columna2].setCarga(" ");
+            alimentacion[fila2][columna2].setFill(Color.BLACK);
+            fila2--;
+        }
+    }
+
+    public static void darCarga(int F1, int C1, int F2, int C2){
+        int fila1 = F1;
+        int columna1 = C1;
+
+        int fila2 = F2;
+        int columna2 = C2;
+
+        while(fila1<7){
+            alimentacion[fila1][columna1].setCarga(" ");
+            alimentacion[fila1][columna1].setFill(Color.RED);
+            fila1++;
+        }
+        fila1 = F1;
+        while(fila1>=2){
+            alimentacion[fila1][columna1].setCarga(" ");
+            alimentacion[fila1][columna1].setFill(Color.RED);
+            fila1--;
+        }
+        while(fila2<7){
+            alimentacion[fila2][columna2].setCarga(" ");
+            alimentacion[fila2][columna2].setFill(Color.BLUE);
+            fila2++;
+        }
+        fila2 = F2;
+        while(fila2>=2){
+            alimentacion[fila2][columna2].setCarga(" ");
+            alimentacion[fila2][columna2].setFill(Color.BLUE);
+            fila2--;
+        }
+    }
 }
