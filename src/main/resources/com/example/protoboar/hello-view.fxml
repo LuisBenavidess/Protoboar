@@ -48,7 +48,12 @@
                </image>
             </ImageView>
             <Text layoutX="9.0" layoutY="369.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A" />
-            <Button fx:id="boton" layoutX="619.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#iniciar" text="Iniciar" />
+            <Button fx:id="boton" layoutX="623.0" layoutY="211.0" mnemonicParsing="false" onMouseClicked="#iniciar" text="Iniciar" />
+            <ImageView fitHeight="28.0" fitWidth="57.0" layoutX="618.0" layoutY="157.0" onMouseClicked="#crearSwitch">
+               <image>
+                  <Image url="@Switch.png" />
+               </image>
+            </ImageView>
          </children>
          <ImageView fitHeight="100.0" fitWidth="116.0" layoutX="569.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
             <image>
