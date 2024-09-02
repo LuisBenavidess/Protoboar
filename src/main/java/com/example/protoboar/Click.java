@@ -255,50 +255,94 @@ public class Click {
         }
     }
 
+    public boolean get_switch(int i, int j){
+        int x=0;
+        while(x<switches.size()){
+            if(switches.get(x).getC1().fila==i && switches.get(x).getC1().columna==j){
+                System.out.println("entra 1");
+                if(switches.get(x).getCarga().equals("+")){
+                    System.out.println("true");
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            if(switches.get(x).getC2().fila==i && switches.get(x).getC2().columna==j){
+                System.out.println("entra 2");
+                if(switches.get(x).getCarga().equals("+")){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            x++;
+        }
+        return true;
+    }
+
     public void marcar(int i, int j,String carga){
-       if(i>=0 && i<=1){
+        boolean swi=true;
+       if(i>=0 && i<=1 && swi){
            int col=0;
-           while(col<30){
+           while(col<30 && swi){
                if(carga.equals("+")){
-                   alimentacion[i][col].setFill(Color.RED);
-                   alimentacion[i][col].setCarga("+");
+                   swi=get_switch(i,col);
+                   if(swi){
+                       alimentacion[i][col].setFill(Color.RED);
+                       alimentacion[i][col].setCarga("+");
+                   }
                }else{
                    if(carga.equals("-")){
-                       alimentacion[i][col].setFill(Color.BLUE);
-                       alimentacion[i][col].setCarga("-");
+                       swi=get_switch(i,col);
+                       if(swi){
+                           alimentacion[i][col].setFill(Color.BLUE);
+                           alimentacion[i][col].setCarga("-");
+                       }
                    }
                }
                col++;
            }
        }else{
-           if(i>=2 &&i<=6){
+           if(i>=2 && i<=6 && swi){
                int fil=2;
-               while(fil<=6){
+               while(fil<=6 && swi){
                    if(carga.equals("+")){
-                       alimentacion[fil][j].setFill(Color.RED);
-                       alimentacion[fil][j].setCarga("+");
+                       swi=get_switch(fil,j);
+                       System.out.println(swi);
+                       if(swi){
+                           alimentacion[fil][j].setFill(Color.RED);
+                           alimentacion[fil][j].setCarga("+");
+                       }
+
                    }else{
                        if(carga.equals("-")){
-                           alimentacion[fil][j].setFill(Color.BLUE);
-                           alimentacion[fil][j].setCarga("-");
+                           swi=get_switch(fil,j);
+                           if(swi){
+                               alimentacion[fil][j].setFill(Color.BLUE);
+                               alimentacion[fil][j].setCarga("-");
+                           }
 
-                       }/*else{
-                           alimentacion[fil][j].setFill(Color.BLACK);
-                       }*/
+                       }
                    }
                    fil++;
                }
            }else{
-               if(i>=7 &&i<=11){
+               if(i>=7 &&i<=11 && swi){
                    int fil=7;
-                   while(fil<=11){
+                   while(fil<=11 && swi){
                        if(carga.equals("+")){
-                           alimentacion[fil][j].setFill(Color.RED);
-                           alimentacion[fil][j].setCarga("+");
+                           swi=get_switch(fil,j);
+                           if(swi){
+                               alimentacion[fil][j].setFill(Color.RED);
+                               alimentacion[fil][j].setCarga("+");
+                           }
                        }else{
                            if(carga.equals("-")){
-                               alimentacion[fil][j].setFill(Color.BLUE);
-                               alimentacion[fil][j].setCarga("-");
+                               swi=get_switch(fil,j);
+                               if(swi){
+                                   alimentacion[fil][j].setFill(Color.BLUE);
+                                   alimentacion[fil][j].setCarga("-");
+                               }
 
                            }/*else{
                                alimentacion[fil][j].setFill(Color.BLACK);
@@ -308,14 +352,20 @@ public class Click {
                    }
                }else{
                    int col=0;
-                   while(col<30){
+                   while(col<30 && swi){
                        if(carga.equals("+")){
-                           alimentacion[i][col].setFill(Color.RED);
-                           alimentacion[i][col].setCarga("+");
+                           swi=get_switch(i,col);
+                           if(swi){
+                               alimentacion[i][col].setFill(Color.RED);
+                               alimentacion[i][col].setCarga("+");
+                           }
                        }else{
                            if(carga.equals("-")){
-                               alimentacion[i][col].setFill(Color.BLUE);
-                               alimentacion[i][col].setCarga("-");
+                               swi=get_switch(i,col);
+                               if(swi){
+                                   alimentacion[i][col].setFill(Color.BLUE);
+                                   alimentacion[i][col].setCarga("-");
+                               }
 
                            }/*else{
                                alimentacion[i][col].setFill(Color.BLACK);
@@ -335,28 +385,18 @@ public class Click {
             conection lin=cables.get(i);
             String ini=lin.getInicio().getCarga();
             String fin=lin.getFin().getCarga();
-            /*System.out.println("inicio: ");
-            lin.getInicio().get_ubicacion();
-            System.out.println("fin: ");
-            lin.getFin().get_ubicacion();*/
             if(!ini.equals(" ")){
-                //System.out.println("Condicion 1");
                 if(fin.equals(" ")){
-                   // System.out.println("Condicion 1.1");
                    lin.getFin().setCarga(ini);
                    corriente();
                 }else{
-                    //System.out.println("Condicion 1.2");
                     if(!fin.equals(ini)){
-                      //  System.out.println("Condicion 1.3");
 
                         System.out.println("Exploto");
                     }
                 }
             }else{
-                //System.out.println("Condicion 2");
                 if(!fin.equals(" ")){
-                  //  System.out.println("Condicion 2.1");
                     lin.getInicio().setCarga(fin);
                     corriente();
                 }
@@ -398,37 +438,37 @@ public class Click {
     }
 
     ////
-    public static void quitarCarga(int F1, int C1, int F2, int C2){
+    /*public static void quitarCarga(int F1, int C1, int F2, int C2){
         int fila1 = F1;
         int columna1 = C1;
 
         int fila2 = F2;
         int columna2 = C2;
 
-        while(fila1<7){
+        while(fila1 != 6 && fila1 != 12){
             alimentacion[fila1][columna1].setCarga(" ");
             alimentacion[fila1][columna1].setFill(Color.BLACK);
             fila1++;
         }
         fila1 = F1;
-        while(fila1>=2){
+        while(fila1 != 1 && fila1 != 7){
             alimentacion[fila1][columna1].setCarga(" ");
             alimentacion[fila1][columna1].setFill(Color.BLACK);
             fila1--;
         }
-        while(fila2<7){
+        while(fila2 != 6 && fila2 != 12){
             System.out.println(fila2);
             alimentacion[fila2][columna2].setCarga(" ");
             alimentacion[fila2][columna2].setFill(Color.BLACK);
             fila2++;
         }
         fila2 = F2;
-        while(fila2>=2){
+        while(fila2 != 1 && fila2 != 7){
             alimentacion[fila2][columna2].setCarga(" ");
             alimentacion[fila2][columna2].setFill(Color.BLACK);
             fila2--;
         }
-    }
+    }*/
 
     public static void darCarga(int F1, int C1, int F2, int C2){
         int fila1 = F1;
@@ -437,25 +477,26 @@ public class Click {
         int fila2 = F2;
         int columna2 = C2;
 
-        while(fila1<7){
-            alimentacion[fila1][columna1].setCarga(" ");
+        while(fila1 != 7 && fila1 != 12){
+            alimentacion[fila1][columna1].setCarga("-");
             alimentacion[fila1][columna1].setFill(Color.RED);
             fila1++;
         }
         fila1 = F1;
-        while(fila1>=2){
-            alimentacion[fila1][columna1].setCarga(" ");
+        while(fila1 != 1 && fila1 != 6){
+            alimentacion[fila1][columna1].setCarga("-");
             alimentacion[fila1][columna1].setFill(Color.RED);
             fila1--;
         }
-        while(fila2<7){
-            alimentacion[fila2][columna2].setCarga(" ");
+
+        while(fila2 != 6 && fila2 != 12){
+            alimentacion[fila2][columna2].setCarga("+");
             alimentacion[fila2][columna2].setFill(Color.BLUE);
             fila2++;
         }
         fila2 = F2;
-        while(fila2>=2){
-            alimentacion[fila2][columna2].setCarga(" ");
+        while(fila2 != 1 && fila2 != 6){
+            alimentacion[fila2][columna2].setCarga("+");
             alimentacion[fila2][columna2].setFill(Color.BLUE);
             fila2--;
         }
