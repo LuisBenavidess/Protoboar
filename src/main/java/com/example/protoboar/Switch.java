@@ -32,6 +32,7 @@ public class Switch {
         // Configurar el evento del basurero
         imageView.setOnMouseClicked(Click::eliminarElemento);
         // Configurar el evento de click
+        this.Carga = "-";
         imageView.setOnMouseClicked(this::cambiarCarga);
         // Configurar el evento de quitarCarga
         //imageView.setOnMouseClicked(this::trabajarCarga);
@@ -41,7 +42,7 @@ public class Switch {
         imageView.toFront();
 
         System.out.println("bus: "+c1.carga);
-        this.Carga = "-";
+
     }
 
     public void cambiarCarga(MouseEvent event) {
@@ -55,13 +56,13 @@ public class Switch {
     }
 
     public void Encender() {
-        Image image = new Image("/Switch1.png");
+        Image image = new Image("/Switch2.png");
         this.imageView.setImage(image);
         this.Carga = "+";
     }
 
     public void Apagar() {
-        Image image = new Image("/Switch2.png");
+        Image image = new Image("/Switch1.png");
         this.imageView.setImage(image);
         this.Carga = "-";
     }
