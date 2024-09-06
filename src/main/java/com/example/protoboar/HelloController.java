@@ -167,6 +167,7 @@ public class HelloController {
         int i=0;
         while(i<clickHandler.getCables().size()){
             clickHandler.verificar_cables();
+            clickHandler.verificar_switch();
             i++;
         }
         i=0;

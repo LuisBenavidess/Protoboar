@@ -89,7 +89,7 @@ public class Click {
             System.out.println("Primer círculo asignado");
         } else if (primercircle != null && switchClicked) {
             System.out.println("Segundo círculo");
-            crearSwitch(primercircle, circulo);
+            crearCableEntreCirculos(primercircle, circulo);
             primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
 
         } else if (cableClicked) {
@@ -106,22 +106,37 @@ public class Click {
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
         cable.setInicio(c1);
         cable.setFin(c2);
+        cable.setOnMouseClicked(Click::eliminarElemento);
 
-        cable.setStroke(Color.BLUE);
-        cable.setStrokeWidth(5);
-        cables_led.add(cable);
-        pane.getChildren().add(cable);
+        if (ledClicked) {
+            cable.setStroke(Color.BLUE);
+            cable.setStrokeWidth(5);
+            cables_led.add(cable);
+            pane.getChildren().add(cable);
 
-        // Calcular el punto medio de la línea
-        double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
-        double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+            // Calcular el punto medio de la línea
+            double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
+            double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
 
-        // Colocar la imagen del LED en el punto medio
-        Led led = new Led(pane, midX, midY);
-        led.setConectado(true);
-        cable.set_foto(led);
-        cables_led.add(cable);
-        primercircle = null;
+            // Colocar la imagen del LED en el punto medio
+            Led led = new Led(pane, midX, midY);
+            led.setConectado(true);
+            cable.set_foto(led);
+            cables_led.add(cable);
+            primercircle = null;
+        } else if (switchClicked) {
+            cable.setStroke(Color.BLUE);
+            cable.setStrokeWidth(5);
+            pane.getChildren().add(cable);
+
+            // Calcular el punto medio de la línea
+            double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
+            double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
+            // Colocar la imagen del LED en el punto medio
+            crearSwitch(pane, midX, midY, cable);
+        }
+
     }
 
     // Manejar el inicio de un arrastre
@@ -248,26 +263,6 @@ public class Click {
         }
     }
 
-    public boolean get_switch(int i, int j){
-        int x=0;
-        while(x<switches.size()){
-            if(switches.get(x).getC1().fila==i && switches.get(x).getC1().columna==j){
-                System.out.println("entra 1");
-                if(switches.get(x).getCarga().equals("+")){
-                    System.out.println("true");
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-            if(switches.get(x).getC2().fila==i && switches.get(x).getC2().columna==j){
-                System.out.println("entra 2");
-                return switches.get(x).getCarga().equals("+");
-            }
-            x++;
-        }
-        return true;
-    }
 
     public void marcar(int i, int j, String carga) {
         boolean swi = true;
@@ -276,13 +271,13 @@ public class Click {
             int col = 0;
             while (col < 30 && swi) {
                 if (carga.equals("+")) {
-                    swi = get_switch(i, col);
+                    //swi = get_switch(i, col);
                     if (swi) {
                         alimentacion[i][col].setFill(Color.RED);
                         alimentacion[i][col].setCarga("+");
                     }
                 } else if (carga.equals("-")) {
-                    swi = get_switch(i, col);
+                    //swi = get_switch(i, col);
                     if (swi) {
                         alimentacion[i][col].setFill(Color.BLUE);
                         alimentacion[i][col].setCarga("-");
@@ -295,13 +290,13 @@ public class Click {
             int fil = 2;
             while (fil <= 6 && swi) {
                 if (carga.equals("+")) {
-                    swi = get_switch(fil, j);
+                    //swi = get_switch(fil, j);
                     if (swi) {
                         alimentacion[fil][j].setFill(Color.RED);
                         alimentacion[fil][j].setCarga("+");
                     }
                 } else if (carga.equals("-")) {
-                    swi = get_switch(fil, j);
+                    //swi = get_switch(fil, j);
                     if (swi) {
                         alimentacion[fil][j].setFill(Color.BLUE);
                         alimentacion[fil][j].setCarga("-");
@@ -314,13 +309,13 @@ public class Click {
             int fil = 11; // Comenzar desde la fila superior
             while (fil >= 7 && swi) {
                 if (carga.equals("+")) {
-                    swi = get_switch(fil, j);
+                    //swi = get_switch(fil, j);
                     if (swi) {
                         alimentacion[fil][j].setFill(Color.RED);
                         alimentacion[fil][j].setCarga("+");
                     }
                 } else if (carga.equals("-")) {
-                    swi = get_switch(fil, j);
+                    //swi = get_switch(fil, j);
                     if (swi) {
                         alimentacion[fil][j].setFill(Color.BLUE);
                         alimentacion[fil][j].setCarga("-");
@@ -332,13 +327,13 @@ public class Click {
             int col = 0;
             while (col < 30 && swi) {
                 if (carga.equals("+")) {
-                    swi = get_switch(i, col);
+                    //swi = get_switch(i, col);
                     if (swi) {
                         alimentacion[i][col].setFill(Color.RED);
                         alimentacion[i][col].setCarga("+");
                     }
                 } else if (carga.equals("-")) {
-                    swi = get_switch(i, col);
+                    //swi = get_switch(i, col);
                     if (swi) {
                         alimentacion[i][col].setFill(Color.BLUE);
                         alimentacion[i][col].setCarga("-");
@@ -348,8 +343,6 @@ public class Click {
             }
         }
     }
-
-
 
     public void verificar_cables(){
         int i=0;
@@ -390,18 +383,41 @@ public class Click {
         }
     }
 
-    public void crearSwitch(bus c1, bus c2){
-        if (c1 == null || c2 == null) {
-            System.out.println("uno de los círculos es null.");
-            return;
+    public void verificar_switch(){
+        int i=0;
+        while(i<switches.size()){
+            if(switches.get(i).getCarga().equals("+")){
+                conection lin=switches.get(i).getCable();
+                String ini=lin.getInicio().getCarga();
+                String fin=lin.getFin().getCarga();
+                if(!ini.equals(" ")){
+                    if(fin.equals(" ")){
+                        lin.getFin().setCarga(ini);
+                        corriente();
+                    }else{
+                        if(!fin.equals(ini)){
+                            System.out.println("Exploto");
+                        }
+                    }
+                }else{
+                    if(!fin.equals(" ")){
+                        lin.getInicio().setCarga(fin);
+                        corriente();
+                    }
+                }
+            }
+            i++;
         }
-        // Calcular la posición media entre los dos círculos
-        double x = (c1.getCenterX() + c2.getCenterX()) / 2;
-        double y = (c1.getCenterY() + c2.getCenterY()) / 2;
+    }
+
+    public void crearSwitch(Pane pane, double x, double y, conection cables){
+
         // Crear el objeto Switch en la posición calculada
-        Switch SW = new Switch(pane, x, y, c1, c2);
+        Switch SW = new Switch(pane, x, y, cables,eliminarProximaImagen);
+
         setSwitchClicked(true);
         switches.add(SW);
         primercircle = null;
     }
+
 }

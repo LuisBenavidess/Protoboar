@@ -4,6 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 import java.util.Objects;
 
@@ -12,12 +14,11 @@ public class Switch {
     private String Carga;
     private final ImageView imageView;
 
-    private final bus c1;
-    private final bus c2;
-
-    public Switch(Pane pane, double x, double y, bus c1, bus c2) {
-        this.c1 = c1;
-        this.c2 = c2;
+    private final conection cables;
+    private boolean eliminar;
+    public Switch(Pane pane, double x, double y, conection cables,boolean eliminar) {
+        this.cables = cables;
+        this.eliminar = eliminar;
         Image image = new Image("/Switch1.png");
         this.imageView = new ImageView(image);
 
@@ -30,7 +31,8 @@ public class Switch {
         imageView.setY(y - imageView.getFitHeight() / 2);
 
         // Configurar el evento del basurero
-        imageView.setOnMouseClicked(Click::eliminarElemento);
+        imageView.setOnMousePressed(Click::eliminarElemento);
+
         // Configurar el evento de click
         this.Carga = "-";
         imageView.setOnMouseClicked(this::cambiarCarga);
@@ -38,8 +40,6 @@ public class Switch {
         // Posicionar el switch en la ubicación adecuada
         pane.getChildren().add(imageView);
         imageView.toFront();
-
-        System.out.println("bus: "+c1.carga);
 
     }
 
@@ -51,6 +51,7 @@ public class Switch {
             Apagar();
             System.out.println("apagado");
         }
+
     }
 
     public void Encender() {
@@ -65,16 +66,12 @@ public class Switch {
         this.Carga = "-";
     }
 
-
     public String getCarga() {
         return Carga;
     }
 
-    public bus getC1() {
-        return c1;
+    public conection getCable() {
+        return cables;
     }
 
-    public bus getC2() {
-        return c2;
-    }
 }
