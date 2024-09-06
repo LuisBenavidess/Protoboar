@@ -14,11 +14,6 @@ public class bus extends Circle {
     public void setFila(int fila){
         this.fila=fila;
     }
-
-    public void get_ubicacion(){
-        System.out.println("Fila: "+fila+" Columna: "+columna);
-    }
-
     public void setCarga(String carga){
         this.carga=carga;
     }

@@ -1,13 +1,11 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-
 
 public class HelloController {
     @FXML
@@ -18,10 +16,6 @@ public class HelloController {
     private int columnas;
     @FXML
     private int filas;
-    @FXML
-    private Label label;
-    @FXML
-    private ImageView led;
     @FXML
     private Click clickHandler;
     @FXML
@@ -41,7 +35,10 @@ public class HelloController {
         }
         System.out.println("Led falso");
         alimentacion = new bus[14][30];
-        clickHandler = new Click(pane, label, led, alimentacion, ledClicked, cableClicked, switchClicked);
+        Bateria bateria = new Bateria(pane);
+        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
+        bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
+        bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         crear_buses(37, 52, 2,true);
         crear_buses(37, 122, 5,false);
         crear_buses(37, 276, 5,false);
@@ -57,8 +54,6 @@ public class HelloController {
                 System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
-                    /*circulo.setOnMouseEntered(event -> circulo.setFill(Color.RED));
-                    circulo.setOnMouseExited(event -> circulo.setFill(Color.BLACK));*/
                 }
                 j++;
             }
@@ -179,9 +174,6 @@ public class HelloController {
             clickHandler.prender_led();
             i++;
         }
-       // clickHandler.mostrarElemento();
-        //clickHandler.corriente();
-        //clickHandler.mostrarElemento();
     }
 
     @FXML
@@ -196,7 +188,5 @@ public class HelloController {
             System.out.println("Switch false");
             switchClicked=false;
         }
-
     }
-
 }

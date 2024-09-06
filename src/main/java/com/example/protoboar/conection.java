@@ -6,6 +6,7 @@ public class conection extends Line {
     private bus inicio;
     private bus fin;
     private Led foto;
+
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
     }

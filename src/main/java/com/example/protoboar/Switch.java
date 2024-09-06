@@ -12,8 +12,8 @@ public class Switch {
     private String Carga;
     private final ImageView imageView;
 
-    private bus c1;
-    private bus c2;
+    private final bus c1;
+    private final bus c2;
 
     public Switch(Pane pane, double x, double y, bus c1, bus c2) {
         this.c1 = c1;
@@ -34,8 +34,6 @@ public class Switch {
         // Configurar el evento de click
         this.Carga = "-";
         imageView.setOnMouseClicked(this::cambiarCarga);
-        // Configurar el evento de quitarCarga
-        //imageView.setOnMouseClicked(this::trabajarCarga);
 
         // Posicionar el switch en la ubicación adecuada
         pane.getChildren().add(imageView);
@@ -46,7 +44,7 @@ public class Switch {
     }
 
     public void cambiarCarga(MouseEvent event) {
-        if(Carga == "-") {
+        if(Objects.equals(Carga, "-")) {
             Encender();
             System.out.println("prendio");
         }else{
@@ -67,33 +65,16 @@ public class Switch {
         this.Carga = "-";
     }
 
-    /*public void quitarCarga() {
-        //Click.quitarCarga(c1.fila, c1.columna, c2.fila, c2.columna);
-        Apagar();
-    }
-
-    public void darCarga() {
-        Click.darCarga(c1.fila, c1.columna, c2.fila, c2.columna);
-        Encender();
-    }
-
-    public void trabajarCarga(MouseEvent event) {
-        if(Carga == "o") {
-            quitarCarga();
-        } else{
-            darCarga();
-        }
-    }*/
 
     public String getCarga() {
         return Carga;
     }
 
-   public bus getC1() {
+    public bus getC1() {
         return c1;
-   }
+    }
 
-   public bus getC2() {
+    public bus getC2() {
         return c2;
-   }
+    }
 }
