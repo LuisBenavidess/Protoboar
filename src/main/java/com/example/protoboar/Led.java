@@ -26,7 +26,7 @@ public class Led {
 
     }
 
-    public void setConectado(boolean conectado) {
+    public void setConectado() {
     }
 
     public void prender(){

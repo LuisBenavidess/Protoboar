@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
 import java.util.Objects;
 
@@ -15,10 +13,9 @@ public class Switch {
     private final ImageView imageView;
 
     private final conection cables;
-    private boolean eliminar;
-    public Switch(Pane pane, double x, double y, conection cables,boolean eliminar) {
+
+    public Switch(Pane pane, double x, double y, conection cables) {
         this.cables = cables;
-        this.eliminar = eliminar;
         Image image = new Image("/Switch1.png");
         this.imageView = new ImageView(image);
 

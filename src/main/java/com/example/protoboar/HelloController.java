@@ -157,11 +157,11 @@ public class HelloController {
 
     @FXML
     private void borraBasura(MouseEvent event) {
-        clickHandler.ClickEnBasurero(event);
+        clickHandler.ClickEnBasurero();
     }
 
     @FXML
-    private void iniciar(MouseEvent event) {
+    private void iniciar() {
         System.out.println("paso");
         clickHandler.revovinar();
         int i=0;
@@ -178,7 +178,7 @@ public class HelloController {
     }
 
     @FXML
-    private void crearSwitch(MouseEvent event) {
+    private void crearSwitch() {
         if(!switchClicked) {
             System.out.println("Crear switch");
             clickHandler.setSwitchClicked(true);
