@@ -1,5 +1,7 @@
 package com.example.protoboar;
-
+//IDE: INTELLIJ
+//LP: Java
+// Open JDK 22.0.1
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
