@@ -14,7 +14,7 @@ public class ManejarCirculos {
     private boolean cableClicked;
     private boolean switchClicked;
     private bus primercircle;
-    private final ArrayList<conection> cables;
+    private ArrayList<conection> cables;
     private final ArrayList<conection> cables_led;
     private final ArrayList<Switch> switches;
     private final Bateria bateria;
@@ -51,6 +51,10 @@ public class ManejarCirculos {
 
     public void setSwitchClicked(boolean switchClicked){
         this.switchClicked = switchClicked;
+    }
+
+    public ArrayList<conection> getcables() {
+        return cables;
     }
 
     public void presionarCirculo(MouseEvent event) {

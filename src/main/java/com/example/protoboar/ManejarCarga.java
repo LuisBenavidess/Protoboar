@@ -4,18 +4,20 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class ManejarCarga {
-    private final bus[][] alimentacion;
+    private  bus[][] alimentacion;
 
     public ManejarCarga(bus[][] alimentacion) {
-        this.alimentacion = alimentacion;
+       this.alimentacion = alimentacion;
     }
 
     public void revovinar() {
+
         int i = 0;
         while (i < 14) {
             int j = 0;
             while (j < 30) {
                 if (i >= 0) {
+                   // System.out.println("Entroooooooo");
                     alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
                     alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
                 }

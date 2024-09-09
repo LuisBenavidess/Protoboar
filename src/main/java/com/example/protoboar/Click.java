@@ -3,7 +3,7 @@ package com.example.protoboar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
-
+//Clase que maneja lo que sea presionar un elemento
 public class Click {
     private static Pane pane;
     private static boolean eliminarProximaImagen = false;
@@ -11,6 +11,7 @@ public class Click {
     private static ArrayList<Switch> switches;
     private final ManejarCirculos manejarCirculos;
 
+    //Construcctor
     public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria) {
         Click.pane = pane;
         cables = new ArrayList<>();
@@ -18,6 +19,7 @@ public class Click {
         this.manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria);
     }
 
+    //Funciones get y set
     public ArrayList<conection> getCables() {
         return manejarCirculos.getCables();
     }
@@ -38,10 +40,17 @@ public class Click {
         manejarCirculos.setSwitchClicked(switchClicked);
     }
 
+    public void setCables(ArrayList<conection> cables) {
+        this.cables = cables;
+    }
+    ///////
+
+    //Metodo para cuando se preciona algun circlu(bus)
     public void presionarCirculo(MouseEvent event) {
         manejarCirculos.presionarCirculo(event);
     }
 
+    //Metodo para cuando se preciona el basurero(Borrar)
     public void ClickEnBasurero() {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
@@ -55,7 +64,9 @@ public class Click {
             System.out.println("Se eliminó algo");
             int i = 0;
             while (i < cables.size()) {
+                System.out.println("busca cable");
                 if (basura.equals(cables.get(i))) {
+                    System.out.println("se elimino cable");
                     cables.remove(i);
                 }
                 i++;
@@ -74,6 +85,7 @@ public class Click {
     }
 
     public void verificar_cables() {
+        setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
     }
 
