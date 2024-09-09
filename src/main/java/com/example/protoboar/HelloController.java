@@ -6,8 +6,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-
+//Controlador
 public class HelloController {
+    //Atributos
     @FXML
     private Pane pane;
     @FXML
@@ -27,6 +28,9 @@ public class HelloController {
     @FXML
     private ImageView basurero;
 
+    ///////////////////////////////77
+
+    //Metodos
     @FXML
     private void initialize() {
         // Configurar el clic en el basurero
@@ -70,7 +74,7 @@ public class HelloController {
         int fil = 0;
         int x = X;
         int y = Y;
-        //bucle
+        //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
         while (fil < FIL) {
             while (col < 30) {
                 //circulo
@@ -93,7 +97,7 @@ public class HelloController {
                 }else{
                     alimentacion[filas][columnas].setCarga(" ");
                 }
-
+                //Agregar
                 pane.getChildren().add(circulo);
                 x = x + 18;
                 col++;
@@ -113,6 +117,7 @@ public class HelloController {
     }
 
     @FXML
+    // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
         if(!ledClicked) {
             System.out.println("crear led");
@@ -127,6 +132,7 @@ public class HelloController {
     }
 
     @FXML
+    // Metodo que crea la imagen del cable y controla si esta activa o no
     private void crearCable() {
         if (cableClicked) {
             System.out.println("Cable false");
@@ -156,21 +162,26 @@ public class HelloController {
     }
 
     @FXML
+    //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero
     private void borraBasura(MouseEvent event) {
         clickHandler.ClickEnBasurero();
     }
 
     @FXML
+    //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     private void iniciar() {
         System.out.println("paso");
+        //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         clickHandler.revovinar();
         int i=0;
+        // Verifica los cables y switch para trasladar la carga
         while(i<clickHandler.getCables().size()){
             clickHandler.verificar_cables();
             clickHandler.verificar_switch();
             i++;
         }
         i=0;
+        //Verifica los leds
         while(i<clickHandler.getCables_led().size()){
             clickHandler.prender_led();
             i++;
@@ -178,6 +189,7 @@ public class HelloController {
     }
 
     @FXML
+    // Genera y controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
             System.out.println("Crear switch");

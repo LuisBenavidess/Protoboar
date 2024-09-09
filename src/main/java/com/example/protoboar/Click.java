@@ -55,7 +55,7 @@ public class Click {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
     }
-
+    //Metodo que llama a eliminar elemento de otra clase
     public static void eliminarElemento(MouseEvent event) {
         if (eliminarProximaImagen) {
             Object basura = event.getSource();
@@ -79,20 +79,20 @@ public class Click {
             }
         }
     }
-
+    //Vuelve a neutro cada bus
     public void revovinar() {
         manejarCirculos.revovinar();
     }
-
+    // verifica el intercambio de cargas atravez de los cables
     public void verificar_cables() {
         setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
     }
-
+    // prender led atravez de las cargas
     public void prender_led() {
         manejarCirculos.prender_led();
     }
-
+    // verifica los switch para el intercambio de cargas
     public void verificar_switch() {
         manejarCirculos.verificar_switch();
     }
