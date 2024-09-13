@@ -38,18 +38,27 @@ public class HelloController {
             basurero.setOnMouseClicked(this::borraBasura);
         }
         System.out.println("Led falso");
+
+        //Genera la matriz con los buses
         alimentacion = new bus[14][30];
         Bateria bateria = new Bateria(pane);
         clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
+
+        //Funcion que llama el creado de los circulos(buses)
         crear_buses(37, 52, 2,true);
         crear_buses(37, 122, 5,false);
         crear_buses(37, 276, 5,false);
         crear_buses(37, 413, 2,false);
+
+        //Genera numeros
         numeros(33, 376);
         numeros(33, 100);
-        System.out.println("Etapa 2");
+
+        //System.out.println("Etapa 2");
+
+        //Viaja por la matriz para indentificar al circulo presionado
         int i = 0;
         while (i < 14) {
             int j = 0;
@@ -120,11 +129,13 @@ public class HelloController {
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
         if(!ledClicked) {
-            System.out.println("crear led");
+            //
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(true);
             System.out.println("Led true");
             ledClicked=true;
         } else{
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(false);
             System.out.println("Led false");
             ledClicked=false;
@@ -136,10 +147,11 @@ public class HelloController {
     private void crearCable() {
         if (cableClicked) {
             System.out.println("Cable false");
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(false);
             cableClicked = false;
         } else {
-            System.out.println("crear cable");
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(true);
             System.out.println("Cable true");
             cableClicked = true;
@@ -150,6 +162,7 @@ public class HelloController {
     //Funcion que crea los numeros
     private void numeros(int X, int Y) {
         int i = 0;
+        //A travez de rangos definidos se generan los numeros;
         while (i < 30) {
             Label label = new Label(String.valueOf(i + 1));
             label.setLayoutY(Y);
@@ -164,18 +177,20 @@ public class HelloController {
     @FXML
     //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero
     private void borraBasura(MouseEvent event) {
+        //llama a la funcion
         clickHandler.ClickEnBasurero();
     }
 
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
-    private void iniciar() {
+    public void iniciar() {
         System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         clickHandler.revovinar();
         int i=0;
         // Verifica los cables y switch para trasladar la carga
-        while(i<clickHandler.getCables().size()){
+        while(i<clickHandler.getCables().size() || i<clickHandler.getswitch().size()){
+            System.out.println("Entro a verificar");
             clickHandler.verificar_cables();
             clickHandler.verificar_switch();
             i++;
@@ -192,12 +207,14 @@ public class HelloController {
     // Genera y controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
-            System.out.println("Crear switch");
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(true);
             System.out.println("Switch true");
             switchClicked=true;
         } else{
+            //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(false);
+
             System.out.println("Switch false");
             switchClicked=false;
         }

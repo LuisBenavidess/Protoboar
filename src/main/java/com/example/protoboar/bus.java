@@ -3,7 +3,7 @@ package com.example.protoboar;
 import javafx.scene.shape.Circle;
 //Esta clase es la que utilizamos para cada circulo que se encuentra en el protoboard
 public class bus extends Circle {
-
+    //Atributos
     String carga;
     int columna;
     int fila;

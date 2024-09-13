@@ -4,10 +4,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
-
+//Clase que genera la imagen del led
 public class Led {
-
+    //Atributo
     private final ImageView imageView;
+
+    //Constructor
     public Led(Pane pane, double x, double y) {
         // Crea la imagen del LED
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
@@ -26,9 +28,11 @@ public class Led {
 
     }
 
+    // set
     public void setConectado() {
     }
 
+    //Funcion que cambia la imagen dependiendo si este esta prendido o apagado
     public void prender(){
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-on.png")));
         imageView.setImage(image);

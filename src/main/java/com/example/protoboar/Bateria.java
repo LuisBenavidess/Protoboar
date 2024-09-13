@@ -2,11 +2,13 @@ package com.example.protoboar;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-
+// Clase que genera la bateria
 public class Bateria {
+    //Atributos
     private final bus positivo = new bus();
     private final bus negativo;
 
+    //Constructor
     public Bateria(Pane pane) {
         this.positivo.setCenterX(593.0);
         this.positivo.setCenterY(480.0);
@@ -25,6 +27,7 @@ public class Bateria {
         this.negativo.setUserData(new busData("-"));
     }
 
+    // set y get
     public bus getPositivo() {
         return this.positivo;
     }
@@ -32,6 +35,7 @@ public class Bateria {
     public bus getNegativo() {
         return this.negativo;
     }
+    /////////////////////////////////////////////////
 
     static class busData {
         String carga;
