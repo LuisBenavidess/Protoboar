@@ -6,6 +6,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
+
 //Controlador
 public class HelloController {
     //Atributos
@@ -27,17 +30,26 @@ public class HelloController {
     private boolean switchClicked;
     @FXML
     private ImageView basurero;
+    @FXML
+    private fabrica_proto fabrica;
+    @FXML
+    private ArrayList<Protoboard> protos;
 
     ///////////////////////////////77
 
     //Metodos
     @FXML
     private void initialize() {
+        protos = new ArrayList<>();
+        fabrica = new fabrica_proto();
+        protos.add(fabrica.protoboard());
+        protos.get(0).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(0));
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::borraBasura);
         }
-        System.out.println("Led falso");
+        //System.out.println("Led falso");
 
         //Genera la matriz con los buses
         alimentacion = new bus[14][30];
@@ -45,16 +57,11 @@ public class HelloController {
         clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
-
         //Funcion que llama el creado de los circulos(buses)
-        crear_buses(37, 52, 2,true);
-        crear_buses(37, 122, 5,false);
-        crear_buses(37, 276, 5,false);
-        crear_buses(37, 413, 2,false);
-
-        //Genera numeros
-        numeros(33, 376);
-        numeros(33, 100);
+        crear_buses(37, 52, 2);
+        crear_buses(37, 122, 5);
+        crear_buses(37, 276, 5);
+        crear_buses(37, 413, 2);
 
         //System.out.println("Etapa 2");
 
@@ -64,7 +71,7 @@ public class HelloController {
             int j = 0;
             while (j < 30) {
                 bus circulo = alimentacion[i][j];
-                System.out.println("circulo: " + circulo);
+                //System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
                 }
@@ -76,7 +83,7 @@ public class HelloController {
 
     @FXML
     //Funcion que crea los circulos
-    private void crear_buses(int X, int Y, int FIL,boolean bandera) {
+    private void crear_buses(int X, int Y, int FIL) {
         // Variables a utilizar
         int carga=0;
         int col = 0;
@@ -97,15 +104,7 @@ public class HelloController {
                 alimentacion[filas][columnas] = circulo;
                 alimentacion[filas][columnas].setFila(filas);
                 alimentacion[filas][columnas].setColumna(columnas);
-                if(bandera){
-                    if(carga==0){
-                        alimentacion[filas][columnas].setCarga("-");
-                    }else{
-                        alimentacion[filas][columnas].setCarga("+");
-                    }
-                }else{
-                    alimentacion[filas][columnas].setCarga(" ");
-                }
+                alimentacion[filas][columnas].setCarga(" ");
                 //Agregar
                 pane.getChildren().add(circulo);
                 x = x + 18;
@@ -158,21 +157,7 @@ public class HelloController {
         }
     }
 
-    @FXML
-    //Funcion que crea los numeros
-    private void numeros(int X, int Y) {
-        int i = 0;
-        //A travez de rangos definidos se generan los numeros;
-        while (i < 30) {
-            Label label = new Label(String.valueOf(i + 1));
-            label.setLayoutY(Y);
-            label.setLayoutX(X);
-            label.setRotate(-90);
-            pane.getChildren().add(label);
-            X = X + 18;
-            i++;
-        }
-    }
+
 
     @FXML
     //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero

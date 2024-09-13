@@ -66,7 +66,7 @@ public class Click {
         eliminarProximaImagen = true;
     }
 
-    public static void presiona(TouchEvent event) {
+    public static void presiona(MouseEvent event) {
         iniciar();
     }
 

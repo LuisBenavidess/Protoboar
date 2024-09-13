@@ -5,31 +5,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.protoboar.HelloController">
    <center>
       <Pane fx:id="pane" prefHeight="516.0" prefWidth="605.0" BorderPane.alignment="CENTER">
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dad8d9" height="435.0" layoutX="5.0" layoutY="26.0" onMouseEntered="#iniciar" stroke="BLACK" strokeType="INSIDE" width="582.0" />
-         <Text layoutX="9.0" layoutY="347.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="B" />
-         <Text layoutX="9.0" layoutY="325.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="C" />
-         <Text layoutX="8.0" layoutY="303.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D" />
-         <Text layoutX="9.0" layoutY="281.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E" />
-         <Text layoutX="9.0" layoutY="218.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="F" />
-         <Text layoutX="7.0" layoutY="194.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="G" />
-         <Text layoutX="7.0" layoutY="172.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="H" />
          <Label fx:id="label" layoutX="283.0" layoutY="30.0" />
-         <Text layoutX="9.0" layoutY="148.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="I" />
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c43238" height="6.0" layoutX="25.0" layoutY="445.0" stroke="BLACK" strokeType="INSIDE" width="544.0" />
-         <Text layoutX="10.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+" />
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ea4e0" height="6.0" layoutX="25.0" layoutY="394.0" stroke="BLACK" strokeType="INSIDE" width="544.0" />
-         <Text layoutX="12.0" layoutY="402.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
-         <Text layoutX="9.0" layoutY="127.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="J" />
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c43238" height="6.0" layoutX="24.0" layoutY="89.0" stroke="BLACK" strokeType="INSIDE" width="544.0" />
-         <Text layoutX="10.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+" />
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ea4e0" height="6.0" layoutX="25.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" width="544.0" />
-         <Text layoutX="12.0" layoutY="45.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
          <ImageView fx:id="basurero" fitHeight="80.0" fitWidth="80.0" layoutY="468.0" preserveRatio="true">
             <Image url="@basurero.png" />
          </ImageView>
@@ -39,7 +19,6 @@
          <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" layoutX="615.0" layoutY="77.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../../cable.png" />
          </ImageView>
-         <Text layoutX="9.0" layoutY="369.0" rotate="-90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A" />
          <ImageView fitHeight="28.0" fitWidth="57.0" layoutX="618.0" layoutY="157.0" onMouseClicked="#crearSwitch">
             <Image url="@Switch.png" />
          </ImageView>
