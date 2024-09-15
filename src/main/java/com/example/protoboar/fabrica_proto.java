@@ -19,12 +19,8 @@ public class fabrica_proto {
     public Protoboard protoboard(){
 
         Protoboard proto = new Protoboard();
-
         proto=decoracion(proto);
-
         // Generar los circulos
-
-
 
         return proto;
     }
@@ -32,7 +28,6 @@ public class fabrica_proto {
     // Metodo que generar de decoracion, base, numeros, letras, simbolos etc
     public Protoboard decoracion(Protoboard proto){
         //Decoracion
-
         Rectangle base = new Rectangle(5,26,582,435);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal

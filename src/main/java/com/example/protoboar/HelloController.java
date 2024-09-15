@@ -1,7 +1,6 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -34,6 +33,8 @@ public class HelloController {
     private fabrica_proto fabrica;
     @FXML
     private ArrayList<Protoboard> protos;
+    @FXML
+    private Motor motor;
 
     ///////////////////////////////77
 
@@ -49,21 +50,22 @@ public class HelloController {
         if (basurero != null) {
             basurero.setOnMouseClicked(this::borraBasura);
         }
-        //System.out.println("Led falso");
 
         //Genera la matriz con los buses
         alimentacion = new bus[14][30];
         Bateria bateria = new Bateria(pane);
-        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
+        motor = new Motor(pane);
+
+        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
+        motor.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
+        motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         //Funcion que llama el creado de los circulos(buses)
         crear_buses(37, 52, 2);
         crear_buses(37, 122, 5);
         crear_buses(37, 276, 5);
         crear_buses(37, 413, 2);
-
-        //System.out.println("Etapa 2");
 
         //Viaja por la matriz para indentificar al circulo presionado
         int i = 0;
@@ -71,7 +73,6 @@ public class HelloController {
             int j = 0;
             while (j < 30) {
                 bus circulo = alimentacion[i][j];
-                //System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
                 }
@@ -202,6 +203,17 @@ public class HelloController {
 
             System.out.println("Switch false");
             switchClicked=false;
+        }
+    }
+
+    @FXML
+    private void toggleMotor() {
+        if (motor.isEncendido()) {
+            motor.apagarMotor(); // Apagar el motor si está encendido
+            System.out.println("Motor apagado");
+        } else {
+            motor.encenderMotor(); // Encender el motor si está apagado
+            System.out.println("Motor encendido");
         }
     }
 }

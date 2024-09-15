@@ -2,9 +2,12 @@ package com.example.protoboar;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 //Clase que maneja lo que sea presionar un elemento
 public class Click {
     private static Pane pane;
@@ -12,13 +15,19 @@ public class Click {
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
+    private Timeline timeline;
 
     //Construcctor
-    public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria) {
+    public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
         Click.pane = pane;
         cables = new ArrayList<>();
         switches = new ArrayList<>();
-        this.manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria);
+        manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
+
+        // Configura el Timeline para ejecutar iniciar() cada segundo
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     //Funciones get y set
@@ -58,12 +67,13 @@ public class Click {
     //Metodo para cuando se preciona algun circlu(bus)
     public void presionarCirculo(MouseEvent event) {
         manejarCirculos.presionarCirculo(event);
+        iniciar();
     }
-
     //Metodo para cuando se preciona el basurero(Borrar)
     public void ClickEnBasurero() {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
+        iniciar();
     }
 
     public static void presiona(MouseEvent event) {
@@ -105,10 +115,8 @@ public class Click {
                 }
                 i++;
             }
-
-            //iniciar();
+            iniciar();
         }
-       // iniciar();
     }
     //Vuelve a neutro cada bus
     public static void revovinar() {
@@ -141,7 +149,7 @@ public class Click {
         int i=0;
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
-            //System.out.println("morrrriirirr");
+            System.out.println("morrrriirirr");
             verificar_cables();
             verificar_switch();
             i++;
@@ -153,4 +161,7 @@ public class Click {
             i++;
         }
     }
+
+
+
 }

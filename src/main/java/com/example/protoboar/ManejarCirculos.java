@@ -20,15 +20,17 @@ public class ManejarCirculos {
     private final ArrayList<conection> cables_led;
     private final ArrayList<Switch> switches;
     private final Bateria bateria;
+    private final Motor motor;
     private final ManejarCarga manejarCarga;
 
     //Constructor
-    public ManejarCirculos(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria) {
+    public ManejarCirculos(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
         this.pane = pane;
         this.alimentacion = alimentacion;
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
         this.bateria = bateria;
+        this.motor = motor;
         this.switchClicked = false;
         cables = new ArrayList<>();
         cables_led = new ArrayList<>();
@@ -195,6 +197,10 @@ public class ManejarCirculos {
                 verificarCírculoBateria(event, bateria.getPositivo());
                 verificarCírculoBateria(event, bateria.getNegativo());
             }
+            if (motor != null) {
+                verificarCírculoMotor(event, motor.getPositivo());
+                verificarCírculoMotor(event, motor.getNegativo());
+            }
             System.out.println("No entra");
         } else if (event.getSource() instanceof bus) {
             event.getSource();
@@ -219,6 +225,22 @@ public class ManejarCirculos {
             linea = null;
             circuloBateria.getParent().setOnMouseMoved(null);
             circuloBateria.getParent().setOnMouseClicked(null);
+        }
+    }
+
+    private void verificarCírculoMotor(MouseEvent event, bus circuloMotor) {
+        double dx = event.getX() - circuloMotor.getCenterX();
+        double dy = event.getY() - circuloMotor.getCenterY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance <= circuloMotor.getRadius()) {
+            // Detener el dibujo en el círculo del Motor
+            linea.setFin(circuloMotor);
+            conection nuevo = linea;
+            nuevo.setOnMouseClicked(Click::eliminarElemento);
+            cables.add(nuevo);
+            linea = null;
+            circuloMotor.getParent().setOnMouseMoved(null);
+            circuloMotor.getParent().setOnMouseClicked(null);
         }
     }
 
