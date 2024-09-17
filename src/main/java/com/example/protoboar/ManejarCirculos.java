@@ -16,7 +16,7 @@ public class ManejarCirculos {
     private boolean cableClicked;
     private boolean switchClicked;
     private bus primercircle;
-    private ArrayList<conection> cables;
+    private final ArrayList<conection> cables;
     private final ArrayList<conection> cables_led;
     private final ArrayList<Switch> switches;
     private final Bateria bateria;

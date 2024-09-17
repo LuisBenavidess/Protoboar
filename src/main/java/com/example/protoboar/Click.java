@@ -15,7 +15,6 @@ public class Click {
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
-    private Timeline timeline;
 
     //Construcctor
     public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -23,9 +22,8 @@ public class Click {
         cables = new ArrayList<>();
         switches = new ArrayList<>();
         manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
-
         // Configura el Timeline para ejecutar iniciar() cada segundo
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
@@ -87,10 +85,8 @@ public class Click {
             //Obtiene el objeto presionado y lo borra
             Object basura = event.getSource();
             pane.getChildren().remove(basura);
-
             eliminarProximaImagen = false;
             System.out.println("Se eliminó algo");
-
             //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
             // verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0;
@@ -127,7 +123,6 @@ public class Click {
         System.out.println("verifica cable");
         setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
-      //  iniciar();
     }
     // prender led atravez de las cargas
     public static void prender_led() {
@@ -149,7 +144,6 @@ public class Click {
         int i=0;
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
-            System.out.println("morrrriirirr");
             verificar_cables();
             verificar_switch();
             i++;
@@ -161,7 +155,4 @@ public class Click {
             i++;
         }
     }
-
-
-
 }

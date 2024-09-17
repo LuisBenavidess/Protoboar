@@ -5,7 +5,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 
 //Controlador
@@ -30,10 +29,6 @@ public class HelloController {
     @FXML
     private ImageView basurero;
     @FXML
-    private fabrica_proto fabrica;
-    @FXML
-    private ArrayList<Protoboard> protos;
-    @FXML
     private Motor motor;
 
     ///////////////////////////////77
@@ -41,11 +36,11 @@ public class HelloController {
     //Metodos
     @FXML
     private void initialize() {
-        protos = new ArrayList<>();
-        fabrica = new fabrica_proto();
+        ArrayList<Protoboard> protos = new ArrayList<>();
+        fabrica_proto fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
-        protos.get(0).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(0));
+        protos.getFirst().getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.getFirst());
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::borraBasura);
@@ -165,28 +160,6 @@ public class HelloController {
     private void borraBasura(MouseEvent event) {
         //llama a la funcion
         clickHandler.ClickEnBasurero();
-    }
-
-    @FXML
-    //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
-    public void iniciar() {
-        System.out.println("paso");
-        //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
-        clickHandler.revovinar();
-        int i=0;
-        // Verifica los cables y switch para trasladar la carga
-        while(i<clickHandler.getCables().size() || i<clickHandler.getswitch().size()){
-            System.out.println("Entro a verificar");
-            clickHandler.verificar_cables();
-            clickHandler.verificar_switch();
-            i++;
-        }
-        i=0;
-        //Verifica los leds
-        while(i<clickHandler.getCables_led().size()){
-            clickHandler.prender_led();
-            i++;
-        }
     }
 
     @FXML

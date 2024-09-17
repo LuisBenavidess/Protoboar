@@ -18,7 +18,5 @@ public class Cable {
         // Agregar el ImageView al Pane
         pane.getChildren().add(imageView);
         imageView.toFront();
-
     }
-
 }
