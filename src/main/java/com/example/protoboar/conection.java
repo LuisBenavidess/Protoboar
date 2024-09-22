@@ -15,7 +15,6 @@ public class conection extends Line {
     }
 
     // set y get
-
     public void setInicio(bus inicio) {
         this.inicio = inicio;
     }

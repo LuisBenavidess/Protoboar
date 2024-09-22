@@ -34,7 +34,7 @@ public class Switch {
         // Configurar el evento de click
         this.Carga = "+";
         imageView.setOnMouseClicked(this::cambiarCarga);
-       // imageView.setOnTouchPressed((Click::presiona));
+        // imageView.setOnTouchPressed((Click::presiona));
         // Posicionar el switch en la ubicación adecuada
         pane.getChildren().add(imageView);
         imageView.toFront();

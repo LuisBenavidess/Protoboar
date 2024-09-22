@@ -1,12 +1,10 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 
 //Controlador
@@ -31,39 +29,38 @@ public class HelloController {
     @FXML
     private ImageView basurero;
     @FXML
-    private fabrica_proto fabrica;
-    @FXML
-    private ArrayList<Protoboard> protos;
+    private Motor motor;
 
     ///////////////////////////////77
 
     //Metodos
     @FXML
     private void initialize() {
-        protos = new ArrayList<>();
-        fabrica = new fabrica_proto();
+        ArrayList<Protoboard> protos = new ArrayList<>();
+        fabrica_proto fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
-        protos.get(0).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(0));
+        protos.getFirst().getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.getFirst());
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::borraBasura);
         }
-        //System.out.println("Led falso");
 
         //Genera la matriz con los buses
         alimentacion = new bus[14][30];
         Bateria bateria = new Bateria(pane);
-        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
+        motor = new Motor(pane);
+
+        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
+        motor.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
+        motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         //Funcion que llama el creado de los circulos(buses)
         crear_buses(37, 52, 2);
         crear_buses(37, 122, 5);
         crear_buses(37, 276, 5);
         crear_buses(37, 413, 2);
-
-        //System.out.println("Etapa 2");
 
         //Viaja por la matriz para indentificar al circulo presionado
         int i = 0;
@@ -71,7 +68,6 @@ public class HelloController {
             int j = 0;
             while (j < 30) {
                 bus circulo = alimentacion[i][j];
-                //System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
                 }
@@ -167,28 +163,6 @@ public class HelloController {
     }
 
     @FXML
-    //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
-    public void iniciar() {
-        System.out.println("paso");
-        //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
-        clickHandler.revovinar();
-        int i=0;
-        // Verifica los cables y switch para trasladar la carga
-        while(i<clickHandler.getCables().size() || i<clickHandler.getswitch().size()){
-            System.out.println("Entro a verificar");
-            clickHandler.verificar_cables();
-            clickHandler.verificar_switch();
-            i++;
-        }
-        i=0;
-        //Verifica los leds
-        while(i<clickHandler.getCables_led().size()){
-            clickHandler.prender_led();
-            i++;
-        }
-    }
-
-    @FXML
     // Genera y controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
@@ -202,6 +176,17 @@ public class HelloController {
 
             System.out.println("Switch false");
             switchClicked=false;
+        }
+    }
+
+    @FXML
+    private void toggleMotor() {
+        if (motor.isEncendido()) {
+            motor.apagarMotor(); // Apagar el motor si está encendido
+            System.out.println("Motor apagado");
+        } else {
+            motor.encenderMotor(); // Encender el motor si está apagado
+            System.out.println("Motor encendido");
         }
     }
 }

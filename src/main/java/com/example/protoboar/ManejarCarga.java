@@ -2,26 +2,25 @@ package com.example.protoboar;
 
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+
 // Clase que se encarga de manejar las cargas
 public class ManejarCarga {
 
-    //Atributo
-    private  bus[][] alimentacion;
+    // Atributo
+    private final bus[][] alimentacion;
 
-    //Constructor
+    // Constructor
     public ManejarCarga(bus[][] alimentacion) {
-       this.alimentacion = alimentacion;
+        this.alimentacion = alimentacion;
     }
 
-    //Metodo que se encarga de volver a neutro(Negro) a todos los buses
+    // Método que se encarga de volver a neutro (Negro) a todos los buses
     public void revovinar() {
-        //Viaja por toda la matriz de los buses convirtiendolos en neutro(negro)
         int i = 0;
         while (i < 14) {
             int j = 0;
             while (j < 30) {
-                if (i >= 0) {
-                   // System.out.println("Entroooooooo");
+                if (alimentacion[i][j].getFill() != Color.YELLOW) {
                     alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
                     alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
                 }
@@ -31,21 +30,17 @@ public class ManejarCarga {
         }
     }
 
-    //Metodo que verifica si tiene corriente y lo dispersa
+    // Método que verifica si tiene corriente y lo dispersa
     public void corriente() {
-        //Viajo por la matriz y verifico si este bus esta en positivo o negatico
         int i = 0;
         while (i < 14) {
             int j = 0;
             while (j < 30) {
-                //si se encuentra un bus con una carga este llamara a la funcion para distribuir en el sector correspondiente
-                // Horizontal o Vertical
+                // Si se encuentra un bus con una carga, llama a la función para distribuir en el sector correspondiente
                 if (alimentacion[i][j].getCarga().equals("+")) {
                     marcar(i, j, "+");
-                } else {
-                    if (alimentacion[i][j].getCarga().equals("-")) {
-                        marcar(i, j, "-");
-                    }
+                } else if (alimentacion[i][j].getCarga().equals("-")) {
+                    marcar(i, j, "-");
                 }
                 j++;
             }
@@ -53,85 +48,91 @@ public class ManejarCarga {
         }
     }
 
-    //Metodo que se encarga de distribuir la carga en el sector correspondiente
+    // Método que se encarga de distribuir la carga en el sector correspondiente
     public void marcar(int i, int j, String carga) {
-        //Dependiendo donde se encutre el bus este se dispersara de forma difernete }
-        if (i >= 0 && i <= 1) {
-            // Filas 0 y 1
-            // Forma Horizontal
+        // Si el bus ya está quemado, no hacer nada
+        if (alimentacion[i][j].getFill() == Color.YELLOW) {
+            return;
+        }
+
+        // Lógica para marcar la carga según la posición
+        if (i <= 1) {
             int col = 0;
             while (col < 30) {
-                if (carga.equals("+")) {
-                    alimentacion[i][col].setFill(Color.RED);
-                    alimentacion[i][col].setCarga("+");
-                } else if (carga.equals("-")) {
-                    alimentacion[i][col].setFill(Color.BLUE);
-                    alimentacion[i][col].setCarga("-");
+                if (alimentacion[i][col].getFill() != Color.YELLOW) {
+                    if (carga.equals("+")) {
+                        alimentacion[i][col].setFill(Color.RED);
+                        alimentacion[i][col].setCarga("+");
+                    } else if (carga.equals("-")) {
+                        alimentacion[i][col].setFill(Color.BLUE);
+                        alimentacion[i][col].setCarga("-");
+                    }
                 }
                 col++;
             }
-        } else if (i >= 2 && i <= 6) {
-            // Filas 2-6
-            //Forma vertical
+        } else if (i <= 6) {
             int fil = 2;
             while (fil <= 6) {
-                if (carga.equals("+")) {
-                    alimentacion[fil][j].setFill(Color.RED);
-                    alimentacion[fil][j].setCarga("+");
-                } else if (carga.equals("-")) {
-                    alimentacion[fil][j].setFill(Color.BLUE);
-                    alimentacion[fil][j].setCarga("-");
+                if (alimentacion[fil][j].getFill() != Color.YELLOW) {
+                    if (carga.equals("+")) {
+                        alimentacion[fil][j].setFill(Color.RED);
+                        alimentacion[fil][j].setCarga("+");
+                    } else if (carga.equals("-")) {
+                        alimentacion[fil][j].setFill(Color.BLUE);
+                        alimentacion[fil][j].setCarga("-");
+                    }
                 }
                 fil++;
             }
-        } else if (i >= 7 && i <= 11) {
-            // Filas 7-11
-            //Forma vertical
+        } else if (i <= 11) {
             int fil = 11;
             while (fil >= 7) {
-                if (carga.equals("+")) {
-                    alimentacion[fil][j].setFill(Color.RED);
-                    alimentacion[fil][j].setCarga("+");
-                } else if (carga.equals("-")) {
-                    alimentacion[fil][j].setFill(Color.BLUE);
-                    alimentacion[fil][j].setCarga("-");
+                if (alimentacion[fil][j].getFill() != Color.YELLOW) {
+                    if (carga.equals("+")) {
+                        alimentacion[fil][j].setFill(Color.RED);
+                        alimentacion[fil][j].setCarga("+");
+                    } else if (carga.equals("-")) {
+                        alimentacion[fil][j].setFill(Color.BLUE);
+                        alimentacion[fil][j].setCarga("-");
+                    }
                 }
                 fil--;
             }
         } else {
             int col = 0;
-            //Forma horizontal
             while (col < 30) {
-                if (carga.equals("+")) {
-                    alimentacion[i][col].setFill(Color.RED);
-                    alimentacion[i][col].setCarga("+");
-                } else if (carga.equals("-")) {
-                    alimentacion[i][col].setFill(Color.BLUE);
-                    alimentacion[i][col].setCarga("-");
+                if (alimentacion[i][col].getFill() != Color.YELLOW) {
+                    if (carga.equals("+")) {
+                        alimentacion[i][col].setFill(Color.RED);
+                        alimentacion[i][col].setCarga("+");
+                    } else if (carga.equals("-")) {
+                        alimentacion[i][col].setFill(Color.BLUE);
+                        alimentacion[i][col].setCarga("-");
+                    }
                 }
                 col++;
             }
         }
     }
 
-    //Metodos que verifica el ArrayList de los cables
+    // Método que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
-        //Viaja atraves del ArrayList
         while (i < cables.size()) {
             conection lin = cables.get(i);
             String ini = lin.getInicio().getCarga();
             String fin = lin.getFin().getCarga();
-            //Si algun bus se encuentra con alguna carga este se encarga de verificar si el otro al que esta conectado
-            // tiene carga o no, si este no tiene carga obtendra la carga del primero y si tiene alguno se verifica
-            // si es el mismo o no
+            if (lin.getInicio().getFill() == Color.YELLOW || lin.getFin().getFill() == Color.YELLOW) {
+                i++;
+                continue;
+            }
             if (!ini.equals(" ")) {
                 if (fin.equals(" ")) {
                     lin.getFin().setCarga(ini);
                     corriente();
                 } else {
                     if (!fin.equals(ini)) {
-                        System.out.println("Exploto");
+                        quemarColumna(lin.getFin());
                     }
                 }
             } else {
@@ -144,11 +145,75 @@ public class ManejarCarga {
         }
     }
 
-    // Metodo para prender el led
+    // Método que quema una fila completa según la fila del bus
+    public void quemarFila(int fila) {
+        // Verifica si la fila está en el rango que debe ser quemado
+        if (fila == 0 || fila == 1 || fila == 13 || fila == 14) {
+            for (int col = 0; col < alimentacion[fila].length; col++) {
+                quemarBus(fila, col);
+            }
+        }
+    }
+
+    // Método que quema una sección de la columna según la fila del bus
+    public void quemarColumna(bus fin) {
+        int columnaAQuemar = getColumna(fin);
+        if (columnaAQuemar == -1) return; // Si no se encuentra la columna, salir
+
+        int fila = getFila(fin);
+        if (fila == -1) return; // Si no se encuentra la fila, salir
+
+        // Quemar la columna específica en las secciones adecuadas
+        if (fila >= 2 && fila <= 6) {
+            for (int f = 2; f <= 6; f++) {
+                quemarBus(f, columnaAQuemar);
+            }
+        } else if (fila >= 7 && fila <= 11) {
+            for (int f = 7; f <= 11; f++) {
+                quemarBus(f, columnaAQuemar);
+            }
+        } else {
+            // Si la fila es 0, 1, 13 o 14, quemar la fila completa
+            quemarFila(fila);
+        }
+    }
+
+    // Método que obtiene la fila de un bus
+    private int getFila(bus circulo) {
+        for (int i = 0; i < alimentacion.length; i++) {
+            for (int j = 0; j < alimentacion[i].length; j++) {
+                if (alimentacion[i][j] == circulo) {
+                    return i; // Devuelve la fila si coincide con el bus
+                }
+            }
+        }
+        return -1; // No se encontró la fila
+    }
+
+    // Método que obtiene la columna de un bus
+    private int getColumna(bus circulo) {
+        for (int i = 0; i < alimentacion.length; i++) {
+            for (int j = 0; j < alimentacion[i].length; j++) {
+                if (alimentacion[i][j] == circulo) {
+                    return j; // Devuelve la columna si coincide con el bus
+                }
+            }
+        }
+        return -1; // No se encontró la columna
+    }
+
+    // Método que quema un bus específico
+    private void quemarBus(int fila, int columna) {
+        bus circulo = alimentacion[fila][columna];
+        if (circulo != null && circulo.getFill() != Color.YELLOW) {
+            circulo.setFill(Color.YELLOW); // Cambia el color a amarillo para indicar que está quemado
+            circulo.setCarga("X"); // Indica que el bus está quemado e inutilizable
+        }
+    }
+
+    // Método para prender el led
     public void prenderLed(ArrayList<conection> cablesLed) {
         int i = 0;
-        //viaja por los leds si los buses que estan conectados a este tienen cargas diferentes positivo y negativo
-        // este se prender
         while (i < cablesLed.size()) {
             if (cablesLed.get(i).getInicio().getCarga().equals("+") && cablesLed.get(i).getFin().getCarga().equals("-") ||
                     cablesLed.get(i).getInicio().getCarga().equals("-") && cablesLed.get(i).getFin().getCarga().equals("+")) {
@@ -160,18 +225,14 @@ public class ManejarCarga {
         }
     }
 
-    // Metodo para verificar los switches
+    // Método para verificar los switches
     public void verificarSwitches(ArrayList<Switch> switches) {
         int i = 0;
-        //viaja atraves del ArrayList
         while (i < switches.size()) {
             if (switches.get(i).getCarga().equals("+")) {
                 conection lin = switches.get(i).getCable();
                 String ini = lin.getInicio().getCarga();
                 String fin = lin.getFin().getCarga();
-                //Si algun bus se encuentra con alguna carga este se encarga de verificar si el otro al que esta conectado
-                // tiene carga o no, si este no tiene carga obtendra la carga del primero y si tiene alguno se verifica
-                // si es el mismo o no
                 if (!ini.equals(" ")) {
                     if (fin.equals(" ")) {
                         lin.getFin().setCarga(ini);
