@@ -5,6 +5,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 //Controlador
@@ -30,6 +33,8 @@ public class HelloController {
     private ImageView basurero;
     @FXML
     private Motor motor;
+    @FXML
+    private boolean basureroActivo = true;
 
     ///////////////////////////////77
 
@@ -153,13 +158,22 @@ public class HelloController {
         }
     }
 
-
-
     @FXML
     //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero
     private void borraBasura(MouseEvent event) {
         //llama a la funcion
-        clickHandler.ClickEnBasurero();
+        if(basureroActivo) {
+            Image image = new Image("/basureroOn.png");
+            basurero.setImage(image);
+            clickHandler.ClickEnBasurero();
+            basureroActivo=false;
+        }else{
+            Image image = new Image("/basurero.png");
+            basurero.setImage(image);
+            clickHandler.ClickEnBasurero();
+            basureroActivo=true;
+        }
+
     }
 
     @FXML

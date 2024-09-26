@@ -11,7 +11,7 @@ import javafx.util.Duration;
 //Clase que maneja lo que sea presionar un elemento
 public class Click {
     private static Pane pane;
-    private static boolean eliminarProximaImagen = false;
+    public static boolean eliminarProximaImagen = false;
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
@@ -67,14 +67,11 @@ public class Click {
         manejarCirculos.presionarCirculo(event);
         iniciar();
     }
+
     //Metodo para cuando se preciona el basurero(Borrar)
     public void ClickEnBasurero() {
         System.out.println("Modo borrar");
         eliminarProximaImagen = true;
-        iniciar();
-    }
-
-    public static void presiona(MouseEvent event) {
         iniciar();
     }
 
@@ -114,20 +111,28 @@ public class Click {
             iniciar();
         }
     }
+
+    public static void presiona(MouseEvent event) {
+        iniciar();
+    }
+
     //Vuelve a neutro cada bus
     public static void revovinar() {
         manejarCirculos.revovinar();
     }
+
     // verifica el intercambio de cargas atravez de los cables
     public static void verificar_cables() {
         System.out.println("verifica cable");
         setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
     }
+
     // prender led atravez de las cargas
     public static void prender_led() {
         manejarCirculos.prender_led();
     }
+
     // verifica los switch para el intercambio de cargas
     public static void verificar_switch() {
         System.out.println("verifica switch");
@@ -155,4 +160,9 @@ public class Click {
             i++;
         }
     }
+
+    public boolean getEliminarProximaImagen() {
+        return eliminarProximaImagen;
+    }
+
 }
