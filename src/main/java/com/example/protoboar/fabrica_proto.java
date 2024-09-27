@@ -109,7 +109,6 @@ public class fabrica_proto {
             Character letra=(char) num;
             String nuevaLetra=String.valueOf(letra);
             Text text = new Text(nuevaLetra);
-            //System.out.println(nuevaLetra);
             text.setLayoutX(X);
             text.setLayoutY(alto);
             text.setRotate(-90);

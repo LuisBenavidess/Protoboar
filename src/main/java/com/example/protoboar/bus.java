@@ -7,7 +7,6 @@ public class bus extends Circle {
     String carga;
     int columna;
     int fila;
-    boolean quemado = false;
 
     //Contructor
     public bus() {
