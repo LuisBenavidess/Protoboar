@@ -237,10 +237,6 @@ public class ManejarCarga {
                     if (fin.equals(" ")) {
                         lin.getFin().setCarga(ini);
                         corriente();
-                    } else {
-                        if (!fin.equals(ini)) {
-                            System.out.println("Exploto");
-                        }
                     }
                 } else {
                     if (!fin.equals(" ")) {

@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 //Controlador
@@ -47,7 +48,7 @@ public class HelloController {
         pane.getChildren().add(protos.getFirst());
         // Configurar el clic en el basurero
         if (basurero != null) {
-            basurero.setOnMouseClicked(this::activarBasurero);
+            basurero.setOnMouseClicked(this::borraBasura);
         }
 
         //Genera la matriz con los buses
@@ -127,71 +128,85 @@ public class HelloController {
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
-        if(!ledClicked) {
-            //
-            //Se cambia el booleano para identificar si este esta prendido o apagado
+        if (!ledClicked) {
+            desactivarOpciones(); // Desactiva todas las opciones antes de activar LED
             clickHandler.setLedClicked(true);
             System.out.println("Led true");
-            ledClicked=true;
-        } else{
-            //Se cambia el booleano para identificar si este esta prendido o apagado
+            ledClicked = true;
+        } else {
             clickHandler.setLedClicked(false);
             System.out.println("Led false");
-            ledClicked=false;
+            ledClicked = false;
         }
     }
 
     @FXML
-    // Metodo que crea la imagen del cable y controla si esta activa o no
+// Método que crea la imagen del cable y controla si está activa o no
     private void crearCable() {
-        if (cableClicked) {
-            System.out.println("Cable false");
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setCableClicked(false);
-            cableClicked = false;
-        } else {
-            //Se cambia el booleano para identificar si este esta prendido o apagado
+        if (!cableClicked) {
+            desactivarOpciones(); // Desactiva todas las opciones antes de activar cable
             clickHandler.setCableClicked(true);
             System.out.println("Cable true");
             cableClicked = true;
+        } else {
+            clickHandler.setCableClicked(false);
+            System.out.println("Cable false");
+            cableClicked = false;
         }
     }
 
     @FXML
-    //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero
-    private void activarBasurero(MouseEvent event) {
-        //llama a la funcion
-        if(basureroActivo) {
+// Método que crea el switch y controla si está activo o no
+    private void crearSwitch() {
+        if (!switchClicked) {
+            desactivarOpciones(); // Desactiva todas las opciones antes de activar switch
+            clickHandler.setSwitchClicked(true);
+            System.out.println("Switch true");
+            switchClicked = true;
+        } else {
+            clickHandler.setSwitchClicked(false);
+            System.out.println("Switch false");
+            switchClicked = false;
+        }
+    }
+
+    @FXML
+// Método que activa o desactiva el basurero
+    private void borraBasura(MouseEvent event) {
+        if (!basureroActivo) {
+            desactivarOpciones(); // Desactiva todas las opciones antes de activar basurero
             Image image = new Image("/basureroOn.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
-
-            basureroActivo=false;
-        }else{
+            basureroActivo = true;
+            System.out.println("Basurero true");
+        } else {
             Image image = new Image("/basurero.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
-            clickHandler.setEliminarProximaImagen(false);
-            basureroActivo=true;
+            basureroActivo = false;
+            System.out.println("Basurero false");
         }
-
     }
 
-    @FXML
-    // Genera y controla la creacion de switch
-    private void crearSwitch() {
-        if(!switchClicked) {
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setSwitchClicked(true);
-            System.out.println("Switch true");
-            switchClicked=true;
-        } else{
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setSwitchClicked(false);
+    // Método que desactiva todas las opciones
+    private void desactivarOpciones() {
+        clickHandler.setLedClicked(false);
+        ledClicked = false;
+        System.out.println("Led false");
 
-            System.out.println("Switch false");
-            switchClicked=false;
-        }
+        clickHandler.setCableClicked(false);
+        cableClicked = false;
+        System.out.println("Cable false");
+
+        clickHandler.setSwitchClicked(false);
+        switchClicked = false;
+        System.out.println("Switch false");
+
+        basureroActivo = false;
+        Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
+        basurero.setImage(image);
+        System.out.println("Basurero false");
     }
 
     @FXML

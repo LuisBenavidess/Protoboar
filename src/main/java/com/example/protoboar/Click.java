@@ -33,10 +33,6 @@ public class Click {
         return manejarCirculos.getCables();
     }
 
-    public static ArrayList<Switch> getswitch() {
-        return manejarCirculos.getswitches();
-    }
-
     public static ArrayList<conection> getCables_led() {
         return manejarCirculos.getCables_led();
     }
@@ -53,10 +49,6 @@ public class Click {
         manejarCirculos.setSwitchClicked(switchClicked);
     }
 
-    public void setEliminarProximaImagen(boolean eliminarProximaImagen) {
-        Click.eliminarProximaImagen = eliminarProximaImagen;
-    }
-
     public static void setCables(ArrayList<conection> cable) {
         cables = cable;
     }
@@ -64,7 +56,6 @@ public class Click {
     public static void setSwitches(ArrayList<Switch> switche) {
         switches = switche;
     }
-
     ////////////////////////////////////////////////////////////////////////
 
     //Metodo para cuando se preciona algun circlu(bus)
@@ -87,9 +78,9 @@ public class Click {
             //Obtiene el objeto presionado y lo borra
             Object basura = event.getSource();
             pane.getChildren().remove(basura);
-
+            eliminarProximaImagen = false;
             System.out.println("Se eliminó algo");
-            //Para poder borrar un cable o un switch este tambien debe de borrar el ArrayList de cada uno y
+            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
             // verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0;
             //bucle cables
@@ -148,7 +139,6 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
-        System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
@@ -165,5 +155,4 @@ public class Click {
             i++;
         }
     }
-
 }
