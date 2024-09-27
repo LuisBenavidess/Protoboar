@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Switch {
     //Atributos
     private String Carga;
+
     private final ImageView imageView;
 
     private final conection cables;

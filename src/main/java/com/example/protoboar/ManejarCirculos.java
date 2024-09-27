@@ -106,6 +106,7 @@ public class ManejarCirculos {
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
         cable.setInicio(c1);
         cable.setFin(c2);
+
         //Agregar funcion para borrar al presionar si el modo borrar este activo
         cable.setOnMouseClicked(Click::eliminarElemento);
 
@@ -116,23 +117,28 @@ public class ManejarCirculos {
             cable.setStrokeWidth(5);
             cables_led.add(cable);
             pane.getChildren().add(cable);
+
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
             double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
             // Colocar la imagen del LED en el punto medio
             Led led = new Led(pane, midX, midY);
             led.setConectado();
             cable.set_foto(led);
             cables_led.add(cable);
             primercircle = null;
+
         } else if (switchClicked) {
             //Edita el cable y crea el switch
             cable.setStroke(Color.BLUE);
             cable.setStrokeWidth(5);
             pane.getChildren().add(cable);
+
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
             double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
             // Colocar la imagen del LED en el punto medio
             crearSwitch(pane, midX, midY, cable);
         }

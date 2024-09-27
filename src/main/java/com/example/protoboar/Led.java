@@ -42,4 +42,5 @@ public class Led {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
         imageView.setImage(image);
     }
+
 }
