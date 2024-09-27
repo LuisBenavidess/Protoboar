@@ -33,10 +33,6 @@ public class Click {
         return manejarCirculos.getCables();
     }
 
-    public static ArrayList<Switch> getswitch() {
-        return manejarCirculos.getswitches();
-    }
-
     public static ArrayList<conection> getCables_led() {
         return manejarCirculos.getCables_led();
     }
@@ -143,7 +139,6 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
-        System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
@@ -160,9 +155,4 @@ public class Click {
             i++;
         }
     }
-
-    public boolean getEliminarProximaImagen() {
-        return eliminarProximaImagen;
-    }
-
 }
