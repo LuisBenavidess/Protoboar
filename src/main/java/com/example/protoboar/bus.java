@@ -7,6 +7,8 @@ public class bus extends Circle {
     String carga;
     int columna;
     int fila;
+    double x;
+    double y;
 
     //Contructor
     public bus() {
@@ -27,5 +29,6 @@ public class bus extends Circle {
     public String getCarga() {
         return carga;
     }
+
 }
 

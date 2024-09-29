@@ -2,7 +2,10 @@ package com.example.protoboar;
 
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -10,9 +13,10 @@ import javafx.scene.text.Text;
 // Clase que se encargara de generar los protoboards
 public class fabrica_proto {
 
+
+
     //Constructor
     public fabrica_proto(){
-
     }
 
     //Metodo que genera un grupo y lo devuelve, que seria el protoboard
@@ -20,8 +24,11 @@ public class fabrica_proto {
 
         Protoboard proto = new Protoboard();
 
-        proto=decoracion(proto);
 
+        proto=decoracion(proto);
+        proto.setOnMousePressed(this::iniciar_Arrastre);
+        proto.setOnMouseDragged(this::arrastrar);
+        proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
 
 
@@ -79,7 +86,16 @@ public class fabrica_proto {
         //Genera numeros
         proto=numeros(33, 376,proto);
         proto=numeros(33, 100,proto);
+
+        //Generar letras
         proto=letras(9,369,proto);
+
+        //Generar buses
+        crear_buses(proto.x, proto.y, 2,proto);
+        crear_buses(proto.x, proto.y+70, 5,proto);
+        crear_buses(proto.x, proto.y+224, 5,proto);
+        crear_buses(proto.x, proto.y+361, 2,proto);
+
         proto.getChildren().add(menos_superior);
         proto.getChildren().add(mas_superior);
         proto.getChildren().add(menos_inferior);
@@ -88,6 +104,7 @@ public class fabrica_proto {
         proto.getChildren().add(negativo_inferior);
         proto.getChildren().add(positivo_superior);
         proto.getChildren().add(positivo_inferior);
+
         return proto;
 
     }
@@ -134,54 +151,99 @@ public class fabrica_proto {
     }
 
     //Funcion que crea los circulos
-    /*private void crear_buses(int X, int Y, int FIL,boolean bandera) {
+    @FXML
+    private void crear_buses(double X, double Y, int FIL,Protoboard proto) {
         // Variables a utilizar
         int carga=0;
         int col = 0;
         int fil = 0;
-        int x = X;
-        int y = Y;
+        double x = X;
+        double y = Y;
+
+        int mas_x=0;
+        int mas_y=0;
         //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
         while (fil < FIL) {
             while (col < 30) {
                 //circulo
                 bus circulo = new bus();
-                circulo.setCenterX(x);
-                circulo.setCenterY(y);
+                circulo.setCenterX(x+mas_x);
+                circulo.setCenterY(y+mas_y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
-
+                circulo.toFront();
+                circulo.setOnMouseDragged(this::arrastrar);
                 //Guardar el circulo dentro de la matriz
-                alimentacion[filas][columnas] = circulo;
-                alimentacion[filas][columnas].setFila(filas);
-                alimentacion[filas][columnas].setColumna(columnas);
-                if(bandera){
-                    if(carga==0){
-                        alimentacion[filas][columnas].setCarga("-");
-                    }else{
-                        alimentacion[filas][columnas].setCarga("+");
-                    }
-                }else{
-                    alimentacion[filas][columnas].setCarga(" ");
-                }
+                proto.alimentacion[proto.filas][proto.columnas] = circulo;
+                proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
+                proto.alimentacion[proto.filas][proto.columnas].setColumna(proto.columnas);
+                proto.alimentacion[proto.filas][proto.columnas].setCarga(" ");
+                proto.alimentacion[proto.filas][proto.columnas].x=circulo.getCenterX();
+                proto.alimentacion[proto.filas][proto.columnas].y=circulo.getCenterY();
                 //Agregar
-                pane.getChildren().add(circulo);
-                x = x + 18;
+                proto.getChildren().add(circulo);
+                //x = x + 18;
+                mas_x=mas_x+18;
                 col++;
-                columnas++;
+                proto.columnas++;
                 if (col == 30) {
                     fil = fil + 1;
-                    filas = filas + 1;
+                    proto.filas = proto.filas + 1;
                     x = 37;
-                    y = y + 22;
+                    mas_x=0;
+                    mas_y=mas_y+22;
+                    //y = y + 22;
                     carga = carga + 1;
                 }
             }
             col = 0;
-            columnas = 0;
+            proto.columnas = 0;
+        }
+    }
+
+    private void iniciar_Arrastre(MouseEvent event){
+        Protoboard proto = (Protoboard) event.getSource();
+        proto.offsetX = event.getSceneX() - proto.getLayoutX();
+        proto.offsetY = event.getSceneY() - proto.getLayoutY();
+    }
+
+    private void arrastrar(MouseEvent event){
+        Protoboard proto = (Protoboard) event.getSource();
+        proto.setLayoutX(event.getSceneX() - proto.offsetX);
+        proto.setLayoutY(event.getSceneY() - proto.offsetY);
+
+        proto.x=proto.getLayoutX()-proto.x;
+        proto.y=proto.getLayoutY()-proto.y;
+        /*proto.x=proto.x-proto.offsetX;
+        proto.y= proto.y-proto.offsetY;*/
+
+    }
+
+    private void terminar(MouseEvent event){
+        Protoboard proto = (Protoboard) event.getSource();
+
+        System.out.println(proto.getLayoutX());
+       // coordenadas(proto);
+    }
+
+    private void coordenadas(Protoboard proto){
+        int i=0;
+        while(i<14){
+            int j=0;
+            while(j<30){
+
+                bus circulo=proto.alimentacion[i][j];
+                circulo.setCenterX(proto.x-circulo.getCenterX());
+                circulo.setCenterY(proto.y-circulo.getCenterY());
+                j++;
+            }
+            i++;
         }
 
-    }*/
+
+    }
+
+
 
 
 

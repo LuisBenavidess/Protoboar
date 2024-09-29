@@ -10,7 +10,7 @@ public class Led {
     private final ImageView imageView;
 
     //Constructor
-    public Led(Pane pane, double x, double y) {
+    public Led(Protoboard proto, double x, double y) {
         // Crea la imagen del LED
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
         imageView = new ImageView(image);
@@ -23,7 +23,7 @@ public class Led {
         imageView.setOnMouseClicked(Click::eliminarElemento);
 
         // Agregar el ImageView al Pane
-        pane.getChildren().add(imageView);
+        proto.getChildren().add(imageView);
         imageView.toFront();
 
     }

@@ -1,5 +1,6 @@
 package com.example.protoboar;
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -15,7 +16,7 @@ public class Switch {
     private final conection cables;
 
     //Constructor
-    public Switch(Pane pane, double x, double y, conection cables) {
+    public Switch(Group group, double x, double y, conection cables) {
         this.cables = cables;
         Image image = new Image("/Switch1.png");
         this.imageView = new ImageView(image);
@@ -36,7 +37,7 @@ public class Switch {
         imageView.setOnMouseClicked(this::cambiarCarga);
        // imageView.setOnTouchPressed((Click::presiona));
         // Posicionar el switch en la ubicación adecuada
-        pane.getChildren().add(imageView);
+        group.getChildren().add(imageView);
         imageView.toFront();
 
     }

@@ -1,6 +1,8 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -14,8 +16,6 @@ public class HelloController {
     //Atributos
     @FXML
     private Pane pane;
-    @FXML
-    private bus[][] alimentacion;
     @FXML
     private int columnas;
     @FXML
@@ -34,8 +34,18 @@ public class HelloController {
     private fabrica_proto fabrica;
     @FXML
     private ArrayList<Protoboard> protos;
+    @FXML
+    private double ratonx;
+    @FXML
+    private double ratony;
 
     ///////////////////////////////77
+
+    private double initialMouseX;
+    private double initialMouseY;
+    private double initialGroupX;
+    private double initialGroupY;
+
 
     //Metodos
     @FXML
@@ -52,36 +62,34 @@ public class HelloController {
         //System.out.println("Led falso");
 
         //Genera la matriz con los buses
-        alimentacion = new bus[14][30];
         Bateria bateria = new Bateria(pane);
-        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria);
+        clickHandler = new Click(pane, protos, ledClicked, cableClicked, bateria);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
+
+
+
         //Funcion que llama el creado de los circulos(buses)
-        crear_buses(37, 52, 2);
+       /* crear_buses(37, 52, 2);
         crear_buses(37, 122, 5);
         crear_buses(37, 276, 5);
-        crear_buses(37, 413, 2);
+        crear_buses(37, 413, 2);*/
 
         //System.out.println("Etapa 2");
+        accion_presionar((protos.get(0)));
 
+
+       // protos.get(0).setOnMouseReleased(this::terminar);
+        /*protos.get(0).setOnMousePressed(this::arrastre);
+        protos.get(0).setOnMouseDragged(this::movimiento_arrastre);
+        //protos.get(0).setOnMouseReleased(this::terminar);
+        protos.get(0).setOnMouseReleased(this::terminar_movimiento);*/
         //Viaja por la matriz para indentificar al circulo presionado
-        int i = 0;
-        while (i < 14) {
-            int j = 0;
-            while (j < 30) {
-                bus circulo = alimentacion[i][j];
-                //System.out.println("circulo: " + circulo);
-                if (circulo != null) {
-                    circulo.setOnMouseClicked(clickHandler::presionarCirculo);
-                }
-                j++;
-            }
-            i++;
-        }
+
+
     }
 
-    @FXML
+    /*@FXML
     //Funcion que crea los circulos
     private void crear_buses(int X, int Y, int FIL) {
         // Variables a utilizar
@@ -122,8 +130,27 @@ public class HelloController {
             columnas = 0;
         }
 
-    }
+    }*/
 
+
+
+    @FXML
+    //Metodo que coloca a cada bus del protoboard el evento al momentode precionar el bus(ciruclo)
+    private void accion_presionar(Protoboard proto){
+        int i = 0;
+        while (i < 14) {
+            int j = 0;
+            while (j < 30) {
+                bus circulo = proto.alimentacion[i][j];
+                //System.out.println("circulo: " + circulo);
+                if (circulo != null) {
+                    circulo.setOnMouseClicked(clickHandler::presionarCirculo);
+                }
+                j++;
+            }
+            i++;
+        }
+    }
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
@@ -166,7 +193,7 @@ public class HelloController {
         clickHandler.ClickEnBasurero();
     }
 
-    @FXML
+    /*@FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public void iniciar() {
         System.out.println("paso");
@@ -186,7 +213,7 @@ public class HelloController {
             clickHandler.prender_led();
             i++;
         }
-    }
+    }*/
 
     @FXML
     // Genera y controla la creacion de switch

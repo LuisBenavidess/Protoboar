@@ -12,13 +12,18 @@ public class Click {
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
+    private ArrayList<Protoboard> protos;
 
     //Construcctor
-    public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria) {
+    public Click(){
+
+    }
+    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria) {
         Click.pane = pane;
         cables = new ArrayList<>();
         switches = new ArrayList<>();
-        this.manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria);
+        this.protos = protos;
+        this.manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria);
     }
 
     //Funciones get y set
@@ -52,6 +57,10 @@ public class Click {
 
     public static void setSwitches(ArrayList<Switch> switche) {
         switches = switche;
+    }
+
+    public void setprotos(ArrayList<Protoboard> proto) {
+        manejarCirculos.setprotos(proto);
     }
     ////////////////////////////////////////////////////////////////////////
 
@@ -135,7 +144,7 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
-        System.out.println("paso");
+        //System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;

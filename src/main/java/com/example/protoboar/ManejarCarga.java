@@ -6,67 +6,83 @@ import java.util.ArrayList;
 public class ManejarCarga {
 
     //Atributo
-    private  bus[][] alimentacion;
+    private ArrayList<Protoboard> protos;
+    //private  bus[][] alimentacion;
 
     //Constructor
-    public ManejarCarga(bus[][] alimentacion) {
-       this.alimentacion = alimentacion;
+    public ManejarCarga(ArrayList<Protoboard> protos) {
+       this.protos = protos;
     }
 
     //Metodo que se encarga de volver a neutro(Negro) a todos los buses
     public void revovinar() {
         //Viaja por toda la matriz de los buses convirtiendolos en neutro(negro)
-        int i = 0;
-        while (i < 14) {
-            int j = 0;
-            while (j < 30) {
-                if (i >= 0) {
-                   // System.out.println("Entroooooooo");
-                    alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
-                    alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
+        int x=0;
+        while (x<protos.size()) {
+
+            int i = 0;
+            while (i < 14) {
+                int j = 0;
+                while (j < 30) {
+                    if (i >= 0) {
+                        // System.out.println("Entroooooooo");
+                        protos.get(x).alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
+                        protos.get(x).alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
+                    }
+                    j++;
                 }
-                j++;
+                i++;
             }
-            i++;
+
+            x++;
         }
+
     }
 
     //Metodo que verifica si tiene corriente y lo dispersa
     public void corriente() {
         //Viajo por la matriz y verifico si este bus esta en positivo o negatico
-        int i = 0;
-        while (i < 14) {
-            int j = 0;
-            while (j < 30) {
-                //si se encuentra un bus con una carga este llamara a la funcion para distribuir en el sector correspondiente
-                // Horizontal o Vertical
-                if (alimentacion[i][j].getCarga().equals("+")) {
-                    marcar(i, j, "+");
-                } else {
-                    if (alimentacion[i][j].getCarga().equals("-")) {
-                        marcar(i, j, "-");
+        int x=0;
+        while (x<protos.size()) {
+
+            int i = 0;
+            while (i < 14) {
+                int j = 0;
+                while (j < 30) {
+                    //si se encuentra un bus con una carga este llamara a la funcion para distribuir en el sector correspondiente
+                    // Horizontal o Vertical
+                    if (protos.get(x).alimentacion[i][j].getCarga().equals("+")) {
+                        marcar(i, j, "+",protos.get(x));
+                    } else {
+                        if (protos.get(x).alimentacion[i][j].getCarga().equals("-")) {
+                            marcar(i, j, "-",protos.get(x));
+                        }
                     }
+                    j++;
                 }
-                j++;
+                i++;
             }
-            i++;
+
+            x++;
         }
+
     }
 
     //Metodo que se encarga de distribuir la carga en el sector correspondiente
-    public void marcar(int i, int j, String carga) {
+    public void marcar(int i, int j, String carga, Protoboard proto) {
         //Dependiendo donde se encutre el bus este se dispersara de forma difernete }
+
         if (i >= 0 && i <= 1) {
             // Filas 0 y 1
             // Forma Horizontal
             int col = 0;
             while (col < 30) {
                 if (carga.equals("+")) {
-                    alimentacion[i][col].setFill(Color.RED);
-                    alimentacion[i][col].setCarga("+");
+                    proto.alimentacion[i][col].setFill(Color.RED);
+                    proto.alimentacion[i][col].setCarga("+");
                 } else if (carga.equals("-")) {
-                    alimentacion[i][col].setFill(Color.BLUE);
-                    alimentacion[i][col].setCarga("-");
+                    proto.alimentacion[i][col].setFill(Color.BLUE);
+                    proto.alimentacion[i][col].setCarga("-");
                 }
                 col++;
             }
@@ -76,11 +92,11 @@ public class ManejarCarga {
             int fil = 2;
             while (fil <= 6) {
                 if (carga.equals("+")) {
-                    alimentacion[fil][j].setFill(Color.RED);
-                    alimentacion[fil][j].setCarga("+");
+                    proto.alimentacion[fil][j].setFill(Color.RED);
+                    proto.alimentacion[fil][j].setCarga("+");
                 } else if (carga.equals("-")) {
-                    alimentacion[fil][j].setFill(Color.BLUE);
-                    alimentacion[fil][j].setCarga("-");
+                    proto.alimentacion[fil][j].setFill(Color.BLUE);
+                    proto.alimentacion[fil][j].setCarga("-");
                 }
                 fil++;
             }
@@ -90,11 +106,11 @@ public class ManejarCarga {
             int fil = 11;
             while (fil >= 7) {
                 if (carga.equals("+")) {
-                    alimentacion[fil][j].setFill(Color.RED);
-                    alimentacion[fil][j].setCarga("+");
+                    proto.alimentacion[fil][j].setFill(Color.RED);
+                    proto.alimentacion[fil][j].setCarga("+");
                 } else if (carga.equals("-")) {
-                    alimentacion[fil][j].setFill(Color.BLUE);
-                    alimentacion[fil][j].setCarga("-");
+                    proto.alimentacion[fil][j].setFill(Color.BLUE);
+                    proto.alimentacion[fil][j].setCarga("-");
                 }
                 fil--;
             }
@@ -103,11 +119,11 @@ public class ManejarCarga {
             //Forma horizontal
             while (col < 30) {
                 if (carga.equals("+")) {
-                    alimentacion[i][col].setFill(Color.RED);
-                    alimentacion[i][col].setCarga("+");
+                    proto.alimentacion[i][col].setFill(Color.RED);
+                    proto.alimentacion[i][col].setCarga("+");
                 } else if (carga.equals("-")) {
-                    alimentacion[i][col].setFill(Color.BLUE);
-                    alimentacion[i][col].setCarga("-");
+                    proto.alimentacion[i][col].setFill(Color.BLUE);
+                    proto.alimentacion[i][col].setCarga("-");
                 }
                 col++;
             }
