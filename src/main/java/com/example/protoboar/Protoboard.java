@@ -64,8 +64,8 @@ public class Protoboard extends Group {
         return filas;
     }
 
-    public void setConections(conection conections) {
-        this.conections.add(conections);
+    public void setConections(conection conection) {
+        conections.add(conection);
     }
     public ArrayList<conection> getConections() {
         return conections;

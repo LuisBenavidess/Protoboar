@@ -225,14 +225,15 @@ public class fabrica_proto {
                     circle.setCenterY(circle.getCenterY() + deltaY);
 
                     int i=0;
+
                     while(i<proto.getConections().size()){
 
                         if(proto.getConections().get(i).getFin()==circle){
 
+                            proto.getConections().get(i).endXProperty().unbind();
                             proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
+                            proto.getConections().get(i).endYProperty().unbind();
                             proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
-                        }else{
-                            System.out.println("no");
                         }
 
                         i++;

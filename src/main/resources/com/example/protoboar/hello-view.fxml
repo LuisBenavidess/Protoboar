@@ -35,7 +35,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Añadir protoboard" />
+              <MenuItem mnemonicParsing="false" onAction="#crear_proto" text="Añadir protoboard" />
             </items>
           </Menu>
         </menus>

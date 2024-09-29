@@ -198,7 +198,10 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
+            System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
+        }else{
+            System.out.println("El Linea no existe");
         }
     }
 
@@ -284,7 +287,7 @@ public class ManejarCirculos {
                                 // Anclar el extremo inicial de la línea a la posición del grupo
                                if(circulo_bateria){
                                    System.out.println("entroooooo");
-
+                                   protos.get(x).setConections(linea);
                                    linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                    linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
                                }

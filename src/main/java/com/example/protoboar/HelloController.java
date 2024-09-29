@@ -1,5 +1,6 @@
 package com.example.protoboar;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -39,6 +40,7 @@ public class HelloController {
     @FXML
     private double ratony;
 
+    private int cantidad;
     ///////////////////////////////77
 
     private double initialMouseX;
@@ -50,11 +52,12 @@ public class HelloController {
     //Metodos
     @FXML
     private void initialize() {
+        cantidad=0;
         protos = new ArrayList<>();
         fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
-        protos.get(0).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(0));
+        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad));
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::borraBasura);
@@ -69,68 +72,14 @@ public class HelloController {
 
 
 
-        //Funcion que llama el creado de los circulos(buses)
-       /* crear_buses(37, 52, 2);
-        crear_buses(37, 122, 5);
-        crear_buses(37, 276, 5);
-        crear_buses(37, 413, 2);*/
 
         //System.out.println("Etapa 2");
-        accion_presionar((protos.get(0)));
+        accion_presionar((protos.get(cantidad)));
+        cantidad++;
 
-
-       // protos.get(0).setOnMouseReleased(this::terminar);
-        /*protos.get(0).setOnMousePressed(this::arrastre);
-        protos.get(0).setOnMouseDragged(this::movimiento_arrastre);
-        //protos.get(0).setOnMouseReleased(this::terminar);
-        protos.get(0).setOnMouseReleased(this::terminar_movimiento);*/
-        //Viaja por la matriz para indentificar al circulo presionado
 
 
     }
-
-    /*@FXML
-    //Funcion que crea los circulos
-    private void crear_buses(int X, int Y, int FIL) {
-        // Variables a utilizar
-        int carga=0;
-        int col = 0;
-        int fil = 0;
-        int x = X;
-        int y = Y;
-        //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
-        while (fil < FIL) {
-            while (col < 30) {
-                //circulo
-                bus circulo = new bus();
-                circulo.setCenterX(x);
-                circulo.setCenterY(y);
-                circulo.setRadius(6);
-                circulo.setFill(Color.BLACK);
-
-                //Guardar el circulo dentro de la matriz
-                alimentacion[filas][columnas] = circulo;
-                alimentacion[filas][columnas].setFila(filas);
-                alimentacion[filas][columnas].setColumna(columnas);
-                alimentacion[filas][columnas].setCarga(" ");
-                //Agregar
-                pane.getChildren().add(circulo);
-                x = x + 18;
-                col++;
-                columnas++;
-                if (col == 30) {
-                    fil = fil + 1;
-                    filas = filas + 1;
-                    x = 37;
-                    y = y + 22;
-                    carga = carga + 1;
-                }
-            }
-            col = 0;
-            columnas = 0;
-        }
-
-    }*/
 
 
 
@@ -230,5 +179,16 @@ public class HelloController {
             System.out.println("Switch false");
             switchClicked=false;
         }
+    }
+
+    @FXML
+    private void crear_proto(ActionEvent event) {
+        System.out.println("creo");
+        protos.add(fabrica.protoboard());
+        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad));
+        accion_presionar((protos.get(cantidad)));
+        cantidad++;
+
     }
 }
