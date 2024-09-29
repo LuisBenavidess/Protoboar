@@ -33,6 +33,10 @@ public class Click {
         return manejarCirculos.getCables();
     }
 
+    public static ArrayList<Switch> getswitch() {
+        return manejarCirculos.getswitches();
+    }
+
     public static ArrayList<conection> getCables_led() {
         return manejarCirculos.getCables_led();
     }
@@ -49,6 +53,10 @@ public class Click {
         manejarCirculos.setSwitchClicked(switchClicked);
     }
 
+    public void setEliminarProximaImagen(boolean b) {
+        eliminarProximaImagen = true;
+    }
+
     public static void setCables(ArrayList<conection> cable) {
         cables = cable;
     }
@@ -56,6 +64,7 @@ public class Click {
     public static void setSwitches(ArrayList<Switch> switche) {
         switches = switche;
     }
+
     ////////////////////////////////////////////////////////////////////////
 
     //Metodo para cuando se preciona algun circlu(bus)
@@ -64,49 +73,6 @@ public class Click {
         iniciar();
     }
 
-    //Metodo para cuando se preciona el basurero(Borrar)
-    public void ClickEnBasurero() {
-        System.out.println("Modo borrar");
-        eliminarProximaImagen = true;
-        iniciar();
-    }
-
-    //Metodo que llama a eliminar elemento de otra clase
-    public static void eliminarElemento(MouseEvent event) {
-        //Condcion para saber si se desea eliminar un objeto
-        if (eliminarProximaImagen) {
-            //Obtiene el objeto presionado y lo borra
-            Object basura = event.getSource();
-            pane.getChildren().remove(basura);
-            eliminarProximaImagen = false;
-            System.out.println("Se eliminó algo");
-            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
-            // verificar si el objeto obtenido es el mismo que alguno de los array
-            int i = 0;
-            //bucle cables
-            while (i < cables.size()) {
-                System.out.println("busca cable");
-                if (basura.equals(cables.get(i))) {
-                    System.out.println("se elimino cable");
-                    cables.remove(i);
-                }
-                i++;
-            }
-            i=0;
-            //bucles switch
-            System.out.println(switches.size());
-            while (i < switches.size()) {
-                System.out.println("busca switch");
-                if (basura.equals(switches.get(i).getImageView())) {
-                    System.out.println("se elimino switch");
-                    pane.getChildren().remove(switches.get(i).getCable());
-                    switches.remove(i);
-                }
-                i++;
-            }
-            iniciar();
-        }
-    }
 
     public static void presiona(MouseEvent event) {
         iniciar();
@@ -139,6 +105,7 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
+        System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
@@ -155,4 +122,54 @@ public class Click {
             i++;
         }
     }
+
+    //Metodo para cuando se preciona el basurero (Borrar)
+    public void ClickEnBasurero() {
+        System.out.println("Modo borrar");
+        if(eliminarProximaImagen){
+            eliminarProximaImagen = false;
+        }else{
+            eliminarProximaImagen = true;
+        }
+
+        iniciar();
+    }
+
+    //Metodo que llama a eliminar elemento de otra clase
+    public static void eliminarElemento(MouseEvent event) {
+        //Condcion para saber si se desea eliminar un objeto
+        if (eliminarProximaImagen) {
+            //Obtiene el objeto presionado y lo borra
+            Object basura = event.getSource();
+            pane.getChildren().remove(basura);
+            System.out.println("Se eliminó algo");
+            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
+            // verificar si el objeto obtenido es el mismo que alguno de los array
+            int i = 0;
+            //bucle cables
+            while (i < cables.size()) {
+                System.out.println("busca cable");
+                if (basura.equals(cables.get(i))) {
+                    System.out.println("se elimino cable");
+                    cables.remove(i);
+                }
+                i++;
+            }
+            i=0;
+            //bucles switch
+            System.out.println(switches.size());
+            while (i < switches.size()) {
+                System.out.println("busca switch");
+                if (basura.equals(switches.get(i).getImageView())) {
+                    System.out.println("se elimino switch");
+                    pane.getChildren().remove(switches.get(i).getCable());
+                    switches.remove(i);
+                }
+                i++;
+            }
+            iniciar();
+        }
+    }
+
+
 }
