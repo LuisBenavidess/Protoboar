@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 //Clase que genera el protoboard
 public class Protoboard extends Group {
 
@@ -14,13 +16,17 @@ public class Protoboard extends Group {
     public int filas;
     public double x;
     public double y;
-    public double offsetX;
-    public double offsetY;
+    public double initialX;
+    public double initialY;
+    public double movimientoX;
+    public double movimientoY;
+
+    private ArrayList<conection> conections;
     //private Rectangle base;
 
     //Constructor
     public Protoboard() {
-
+        conections = new ArrayList<>();
         alimentacion = new bus[14][30];
         x=37;
         y=52;
@@ -58,6 +64,12 @@ public class Protoboard extends Group {
         return filas;
     }
 
+    public void setConections(conection conections) {
+        this.conections.add(conections);
+    }
+    public ArrayList<conection> getConections() {
+        return conections;
+    }
 
     //Metodos
 

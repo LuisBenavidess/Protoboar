@@ -178,8 +178,10 @@ public class ManejarCirculos {
         if (parent instanceof Pane) {
             ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
             System.out.println("Paso la bateria");
+            linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
         } else if (parent instanceof Group) {
+            System.out.println("pasoooooooooooo");
             ((Group) circulo_apret.getParent()).getChildren().add(linea);  // Si fuera Group, agregaría aquí
 
         } else {
@@ -281,6 +283,8 @@ public class ManejarCirculos {
 
                                 // Anclar el extremo inicial de la línea a la posición del grupo
                                if(circulo_bateria){
+                                   System.out.println("entroooooo");
+
                                    linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                    linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
                                }

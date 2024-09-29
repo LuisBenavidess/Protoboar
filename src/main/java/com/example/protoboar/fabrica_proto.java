@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -28,7 +29,7 @@ public class fabrica_proto {
         proto=decoracion(proto);
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
-        proto.setOnMouseReleased(this::terminar);
+       // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
 
 
@@ -203,24 +204,80 @@ public class fabrica_proto {
 
     private void iniciar_Arrastre(MouseEvent event){
         Protoboard proto = (Protoboard) event.getSource();
-        proto.offsetX = event.getSceneX() - proto.getLayoutX();
-        proto.offsetY = event.getSceneY() - proto.getLayoutY();
+        proto.initialX = event.getSceneX();
+        proto.initialY = event.getSceneY();
+        proto.movimientoX=proto.initialX;
+        proto.movimientoY= proto.y;
     }
 
     private void arrastrar(MouseEvent event){
-        Protoboard proto = (Protoboard) event.getSource();
-        proto.setLayoutX(event.getSceneX() - proto.offsetX);
-        proto.setLayoutY(event.getSceneY() - proto.offsetY);
 
-        proto.x=proto.getLayoutX()-proto.x;
-        proto.y=proto.getLayoutY()-proto.y;
-        /*proto.x=proto.x-proto.offsetX;
-        proto.y= proto.y-proto.offsetY;*/
+        if(event.getSource() instanceof Protoboard){
+            Protoboard proto = (Protoboard) event.getSource();
+
+            double deltaX = event.getSceneX() - proto.initialX;
+            double deltaY = event.getSceneY() - proto.initialY;
+
+            for (Node node : proto.getChildren()) {
+                if (node instanceof bus) {
+                    bus circle = (bus) node;
+                    circle.setCenterX(circle.getCenterX() + deltaX);
+                    circle.setCenterY(circle.getCenterY() + deltaY);
+
+                    int i=0;
+                    while(i<proto.getConections().size()){
+
+                        if(proto.getConections().get(i).getFin()==circle){
+
+                            proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
+                            proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
+                        }else{
+                            System.out.println("no");
+                        }
+
+                        i++;
+                    }
+
+                }
+                if(node instanceof Rectangle){
+                    Rectangle rectangle = (Rectangle) node;
+                    rectangle.setX(rectangle.getX() + deltaX);
+                    rectangle.setY(rectangle.getY() + deltaY);
+                }
+                if(node instanceof Text){
+                    Text text = (Text) node;
+                    text.setX(text.getX() + deltaX);
+                    text.setY(text.getY() + deltaY);
+                }
+                if(node instanceof Label){
+                    Label label = (Label) node;
+                    label.setLayoutX(label.getLayoutX() + deltaX);
+                    label.setLayoutY(label.getLayoutY() + deltaY);
+                }
+                if(node instanceof conection){
+                    conection cable =(conection) node;
+                    cable.setLayoutX(cable.getLayoutX() + deltaX);
+                    cable.setLayoutY(cable.getLayoutY() + deltaY);
+                    //cable.setX(cable.getX() + deltaX);
+                    //cable.setY(cable.getY() + deltaY);
+
+                }
+
+
+            }
+
+            // Actualizar la posición inicial
+            proto.initialX = event.getSceneX();
+            proto.initialY = event.getSceneY();
+
+        }
+
 
     }
 
     private void terminar(MouseEvent event){
         Protoboard proto = (Protoboard) event.getSource();
+
 
         System.out.println(proto.getLayoutX());
        // coordenadas(proto);
