@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -262,6 +263,11 @@ public class fabrica_proto {
                     //cable.setX(cable.getX() + deltaX);
                     //cable.setY(cable.getY() + deltaY);
 
+                }
+                if(node instanceof ImageView){
+                    ImageView image = (ImageView) node;
+                    image.setLayoutX(image.getLayoutX() + deltaX);
+                    image.setLayoutY(image.getLayoutY() + deltaY);
                 }
 
 
