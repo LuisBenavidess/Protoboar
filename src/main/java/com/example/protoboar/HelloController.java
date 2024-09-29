@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 //Controlador
@@ -34,9 +33,9 @@ public class HelloController {
     @FXML
     private Motor motor;
     @FXML
-    private boolean basureroActivo = true;
+    private boolean basureroActivo = false;
 
-    ///////////////////////////////77
+    ///////////////////////////////
 
     //Metodos
     @FXML
@@ -48,7 +47,7 @@ public class HelloController {
         pane.getChildren().add(protos.getFirst());
         // Configurar el clic en el basurero
         if (basurero != null) {
-            basurero.setOnMouseClicked(this::borraBasura);
+            basurero.setOnMouseClicked(this::activarBasurero);
         }
 
         //Genera la matriz con los buses
@@ -159,19 +158,23 @@ public class HelloController {
     }
 
     @FXML
-    //Metodo que llama a la funcion borrar basura atravez de un evento con la foto de el basurero
-    private void borraBasura(MouseEvent event) {
-        //llama a la funcion
+    //Metodo que llama a la funcion borrar basura atravez de un evento del basurero
+    private void activarBasurero(MouseEvent event) {
+
         if(basureroActivo) {
-            Image image = new Image("/basureroOn.png");
-            basurero.setImage(image);
-            clickHandler.ClickEnBasurero();
-            basureroActivo=false;
-        }else{
+
             Image image = new Image("/basurero.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
+            basureroActivo=false;
+
+        }else{
+
+            Image image = new Image("/basureroOn.png");
+            basurero.setImage(image);
+            clickHandler.ClickEnBasurero();
             basureroActivo=true;
+
         }
 
     }
@@ -203,4 +206,5 @@ public class HelloController {
             System.out.println("Motor encendido");
         }
     }
+
 }
