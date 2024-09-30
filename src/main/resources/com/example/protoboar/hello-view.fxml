@@ -2,10 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -22,27 +18,35 @@
          <ImageView fitHeight="100.0" fitWidth="116.0" layoutX="569.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@battery.png" />
          </ImageView>
-         <ImageView fitHeight="156.0" fitWidth="200.0" layoutX="413.0" layoutY="424.0" pickOnBounds="true"
-                    preserveRatio="true">
-            <Image url="@motor.png"/>
+         <ImageView fitHeight="156.0" fitWidth="200.0" layoutX="413.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@motor.png" />
          </ImageView>
          <Button layoutX="459.0" layoutY="546.0" mnemonicParsing="false" onAction="#toggleMotor" text="Encender" />
       </Pane>
    </center>
    <right>
-      <VBox prefHeight="404.0" prefWidth="100.0" style="-fx-background-color: #87CEEB;">
+      <VBox prefHeight="548.0" prefWidth="79.0" style="-fx-background-color: #87CEEB;">
          <children>
-            <ImageView fx:id="led" fitHeight="68.0" fitWidth="63.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="led" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
                <Image url="@led.png" />
             </ImageView>
-            <ImageView fx:id="cable" fitHeight="72.0" fitWidth="63.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="cable" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
                <Image url="@../../../cable.png" />
             </ImageView>
-            <ImageView fitHeight="28.0" fitWidth="57.0" onMouseClicked="#crearSwitch">
+            <ImageView fitHeight="30.0" fitWidth="70.0" onMouseClicked="#crearSwitch">
                <Image url="@Switch.png" />
+            </ImageView>
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resistencia1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="10.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resistencia2.png" />
+               </image>
             </ImageView>
          </children>
       </VBox>
    </right>
 </BorderPane>
-
