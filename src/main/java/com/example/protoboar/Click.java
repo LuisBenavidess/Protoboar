@@ -81,17 +81,9 @@ public class Click {
     //Metodo para cuando se preciona algun circlu(bus)
     public void presionarCirculo(MouseEvent event) {
         manejarCirculos.presionarCirculo(event);
-        iniciar();
     }
 
-    //Metodo para cuando se preciona el basurero(Borrar)
-   /* public void ClickEnBasurero() {
-        System.out.println("Modo borrar");
-        eliminarProximaImagen = true;
-    }*/
-
     public static void presiona(MouseEvent event) {
-        iniciar();
     }
 
     //Vuelve a neutro cada bus
@@ -148,8 +140,6 @@ public class Click {
         }else{
             eliminarProximaImagen = true;
         }
-
-        iniciar();
     }
 
     //Metodo que llama a eliminar elemento de otra clase
@@ -201,8 +191,6 @@ public class Click {
                 }
                 i++;
             }
-
-            iniciar();
         }
     }
 

@@ -1,13 +1,15 @@
 package com.example.protoboar;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 //Clase que genera la imagen del led
-public class Led {
+public class Led extends Node {
     //Atributo
     private final ImageView imageView;
+    private boolean quemado=false;
 
     //Constructor
     public Led(Protoboard proto, double x, double y) {
@@ -34,12 +36,30 @@ public class Led {
 
     //Funcion que cambia la imagen dependiendo si este esta prendido o apagado
     public void prender(){
+        if(quemado){
+            return;
+        }
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-on.png")));
         imageView.setImage(image);
     }
 
     public void apagar(){
+        if(quemado){
+            return;
+        }
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
+        imageView.setImage(image);
+    }
+
+    public void setQuemado(boolean quemado) {
+        this.quemado = quemado;
+        if (quemado) {
+            quemar();
+        }
+    }
+
+    public void quemar() {
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-dead.png")));
         imageView.setImage(image);
     }
 

@@ -26,9 +26,10 @@ public class ManejarCarga {
                 int j = 0;
                 while (j < 30) {
                     if (i >= 0) {
-                        // System.out.println("Entroooooooo");
-                        protos.get(x).alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
-                        protos.get(x).alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
+                        if (protos.get(x).alimentacion[i][j].getFill() != Color.YELLOW) {
+                            protos.get(x).alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
+                            protos.get(x).alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
+                        }
                     }
                     j++;
                 }
@@ -242,9 +243,10 @@ public class ManejarCarga {
     public void prenderLed(ArrayList<conection> cablesLed) {
         int i = 0;
         while (i < cablesLed.size()) {
-            if (cablesLed.get(i).getInicio().getCarga().equals("+") && cablesLed.get(i).getFin().getCarga().equals("-") ||
-                    cablesLed.get(i).getInicio().getCarga().equals("-") && cablesLed.get(i).getFin().getCarga().equals("+")) {
+            if (cablesLed.get(i).getInicio().getCarga().equals("+") && cablesLed.get(i).getFin().getCarga().equals("-")) {
                 cablesLed.get(i).get_foto().prender();
+            } else if (cablesLed.get(i).getInicio().getCarga().equals("-") || cablesLed.get(i).getFin().getCarga().equals("+")) {
+                cablesLed.get(i).get_foto().setQuemado(true);
             } else {
                 cablesLed.get(i).get_foto().apagar();
             }

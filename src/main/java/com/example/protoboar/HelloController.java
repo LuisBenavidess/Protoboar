@@ -111,7 +111,7 @@ public class HelloController {
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
         if(!ledClicked) {
-            //
+            desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(true);
             System.out.println("Led true");
@@ -133,6 +133,7 @@ public class HelloController {
             clickHandler.setCableClicked(false);
             cableClicked = false;
         } else {
+            desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(true);
             System.out.println("Cable true");
@@ -145,7 +146,7 @@ public class HelloController {
     private void activarBasurero(MouseEvent event) {
 
         if(basureroActivo) {
-
+            desactivarOpciones();
             Image image = new Image("/basurero.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
@@ -166,6 +167,7 @@ public class HelloController {
     // Genera y controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
+            desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(true);
             System.out.println("Switch true");
@@ -201,4 +203,23 @@ public class HelloController {
         cantidad++;
 
     }
+
+    private void desactivarOpciones() {
+        clickHandler.setLedClicked(false);
+        ledClicked = false;
+        System.out.println("Led false");
+        System.out.println("Switch false");
+        switchClicked=false;
+        clickHandler.setCableClicked(false);
+        cableClicked = false;
+        System.out.println("Cable false");
+        clickHandler.setSwitchClicked(false);
+        switchClicked = false;
+        System.out.println("Switch false");
+        basureroActivo = false;
+        Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
+        basurero.setImage(image);
+        System.out.println("Basurero false");
+    }
+
 }
