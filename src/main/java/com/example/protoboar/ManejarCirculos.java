@@ -120,12 +120,13 @@ public class ManejarCirculos {
         }
     }
 
-    //Metodo que genera cable para los led y switch
-    private void crearCableEntreCirculos(bus c1, bus c2,Protoboard proto) {
+    // Método que genera cable para los led y switch
+    private void crearCableEntreCirculos(bus c1, bus c2, Protoboard proto) {
         if (c1 == null || c2 == null) {
             return;
         }
-        // Genera un cable de tipo conection con los dos circulos presionados
+
+        // Genera un cable de tipo conection con los dos círculos presionados
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
         cable.setInicio(c1);
         cable.setFin(c2);
@@ -133,38 +134,48 @@ public class ManejarCirculos {
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
 
-        // Condición para saber si esto se trata de un switch o led
         if (ledClicked) {
-            // Configura el cable para que la primera mitad sea roja
             cable.setStroke(Color.RED);
             cable.setStrokeWidth(5);
             cables_led.add(cable);
             pane.getChildren().add(cable);
+
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
             double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
             // Crear una segunda línea azul para la segunda mitad del cable
             conection cableAzul = new conection(midX, midY, c2.getCenterX(), c2.getCenterY());
             cableAzul.setStroke(Color.BLUE);
             cableAzul.setStrokeWidth(5);
             pane.getChildren().add(cableAzul);
+
             // Colocar la imagen del LED en el punto medio
             Led led = new Led(proto, midX, midY);
             led.setConectado();
             cables_led.add(cable);
             cable.set_foto(led);
+
         } else if (switchClicked) {
-            // Edita el cable y crea el switch
             cable.setStroke(Color.BLUE);
             cable.setStrokeWidth(5);
             pane.getChildren().add(cable);
+
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
             double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
             // Colocar la imagen del switch en el punto medio
             crearSwitch(proto, midX, midY, cable);
+        } else {
+            // Para cables básicos (sin LED o switch), mantener la lógica genérica
+            cable.setStroke(Color.GREEN);  // O cualquier color específico para cables básicos
+            cable.setStrokeWidth(5);
+            cables.add(cable);
+            pane.getChildren().add(cable);
         }
     }
+
 
     //Metodo que empieza la creacion del cable
     public void inicio(MouseEvent event) {
@@ -177,9 +188,7 @@ public class ManejarCirculos {
         linea.setEndY(circulo_apret.getCenterY());
         linea.setStrokeWidth(5);
         linea.setInicio(circulo_apret);
-
         Parent parent = circulo_apret.getParent();
-
         if (parent instanceof Pane) {
             ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
             System.out.println("Paso la bateria");

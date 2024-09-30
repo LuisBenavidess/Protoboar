@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 //Clase que genera la imagen del led
-public class Led extends Node {
+public class Led {
     //Atributo
     private final ImageView imageView;
     private boolean quemado=false;
@@ -41,6 +41,7 @@ public class Led extends Node {
         }
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-on.png")));
         imageView.setImage(image);
+        imageView.toFront();
     }
 
     public void apagar(){
@@ -49,6 +50,7 @@ public class Led extends Node {
         }
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-off.png")));
         imageView.setImage(image);
+        imageView.toFront();
     }
 
     public void setQuemado(boolean quemado) {
@@ -56,11 +58,13 @@ public class Led extends Node {
         if (quemado) {
             quemar();
         }
+
     }
 
     public void quemar() {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/led-dead.png")));
         imageView.setImage(image);
+        imageView.toFront();
     }
 
 }

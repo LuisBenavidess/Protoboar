@@ -78,6 +78,7 @@ public class Switch {
     public void Encender() {
         Image image = new Image("/Switch1.png");
         this.imageView.setImage(image);
+        imageView.toFront();
         this.Carga = "+";
     }
 
@@ -85,6 +86,7 @@ public class Switch {
     public void Apagar() {
         Image image = new Image("/Switch2.png");
         this.imageView.setImage(image);
+        imageView.toFront();
         this.Carga = "-";
     }
 
