@@ -161,7 +161,7 @@ public class Click {
                     int x=0;
                     while(x<getprotos().size()){
                         if(protos.get(x).getChildren().contains(cables.get(i))){
-                            System.out.println("se boro el calbe");
+                            System.out.println("se borro el calbe");
                             protos.get(x).getChildren().remove(cables.get(i));
                         }
                         x++;
@@ -178,18 +178,22 @@ public class Click {
                 System.out.println("busca switch");
                 if (basura.equals(switches.get(i).getImageView())) {
                     System.out.println("se elimino switch");
-                    int x=0;
-                    while(x<getprotos().size()){
-                        if(protos.get(x).getChildren().contains(switches.get(i))){
-                            System.out.println("se boro el switch");
-                            protos.get(x).getChildren().remove(switches.get(i));
-                        }
-                        x++;
+
+                    // Eliminar el cable asociado al switch del pane
+                    if (switches.get(i).getCable() != null) {
+                        pane.getChildren().remove(switches.get(i).getCable());
                     }
-                    pane.getChildren().remove(switches.get(i).getCable());
+
+                    // Remover el switch de los protoboards
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(switches.get(i).getImageView());
+                    }
+
+                    // Remover el switch del array
                     switches.remove(i);
+                } else {
+                    i++;
                 }
-                i++;
             }
         }
     }

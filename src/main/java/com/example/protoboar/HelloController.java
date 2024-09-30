@@ -88,8 +88,6 @@ public class HelloController {
 
     }
 
-
-
     @FXML
     //Metodo que coloca a cada bus del protoboard el evento al momentode precionar el bus(ciruclo)
     private void accion_presionar(Protoboard proto){
@@ -114,12 +112,10 @@ public class HelloController {
             desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(true);
-            System.out.println("Led true");
             ledClicked=true;
         } else{
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(false);
-            System.out.println("Led false");
             ledClicked=false;
         }
     }
@@ -128,7 +124,6 @@ public class HelloController {
     // Metodo que crea la imagen del cable y controla si esta activa o no
     private void crearCable() {
         if (cableClicked) {
-            System.out.println("Cable false");
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(false);
             cableClicked = false;
@@ -136,7 +131,6 @@ public class HelloController {
             desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(true);
-            System.out.println("Cable true");
             cableClicked = true;
         }
     }
@@ -146,21 +140,19 @@ public class HelloController {
     private void activarBasurero(MouseEvent event) {
 
         if(basureroActivo) {
-            desactivarOpciones();
             Image image = new Image("/basurero.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
             basureroActivo=false;
 
         }else{
-
+            desactivarOpciones();
             Image image = new Image("/basureroOn.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
             basureroActivo=true;
 
         }
-
     }
 
     @FXML

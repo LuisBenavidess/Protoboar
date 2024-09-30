@@ -20,7 +20,6 @@ public class ManejarCarga {
         //Viaja por toda la matriz de los buses convirtiendolos en neutro(negro)
         int x=0;
         while (x<protos.size()) {
-
             int i = 0;
             while (i < 14) {
                 int j = 0;
@@ -35,10 +34,8 @@ public class ManejarCarga {
                 }
                 i++;
             }
-
             x++;
         }
-
     }
 
     // Método que verifica si tiene corriente y lo dispersa
@@ -46,7 +43,6 @@ public class ManejarCarga {
         //Viajo por la matriz y verifico si este bus esta en positivo o negatico
         int x=0;
         while (x<protos.size()) {
-
             int i = 0;
             while (i < 14) {
                 int j = 0;
@@ -76,8 +72,7 @@ public class ManejarCarga {
         if (proto.alimentacion[i][j].getFill() == Color.YELLOW) {
             return;
         }
-
-        if (i >= 0 && i <= 1) {
+        if (i <= 1) {
             // Filas 0 y 1
             // Forma Horizontal
             int col = 0;
@@ -103,7 +98,7 @@ public class ManejarCarga {
                 }
                 fil++;
             }
-        } else if (i >= 7 && i <= 11) {
+        } else if (i <= 11) {
             // Filas 7-11
             //Forma vertical
             int fil = 11;
@@ -266,10 +261,6 @@ public class ManejarCarga {
                     if (fin.equals(" ")) {
                         lin.getFin().setCarga(ini);
                         corriente();
-                    } else {
-                        if (!fin.equals(ini)) {
-                            System.out.println("Exploto");
-                        }
                     }
                 } else {
                     if (!fin.equals(" ")) {
