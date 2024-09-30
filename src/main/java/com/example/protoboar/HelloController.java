@@ -1,6 +1,10 @@
 package com.example.protoboar;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -14,8 +18,6 @@ public class HelloController {
     //Atributos
     @FXML
     private Pane pane;
-    @FXML
-    private bus[][] alimentacion;
     @FXML
     private int columnas;
     @FXML
@@ -33,45 +35,70 @@ public class HelloController {
     @FXML
     private Motor motor;
     @FXML
+    private fabrica_proto fabrica;
+    @FXML
+    private ArrayList<Protoboard> protos;
+    @FXML
+    private double ratonx;
+    @FXML
+    private double ratony;
+    @FXML
     private boolean basureroActivo = false;
 
     ///////////////////////////////
+    private int cantidad;
+    ///////////////////////////////77
+
+    private double initialMouseX;
+    private double initialMouseY;
+    private double initialGroupX;
+    private double initialGroupY;
+
 
     //Metodos
     @FXML
     private void initialize() {
-        ArrayList<Protoboard> protos = new ArrayList<>();
-        fabrica_proto fabrica = new fabrica_proto();
+        cantidad=0;
+        protos = new ArrayList<>();
+        fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
-        protos.getFirst().getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.getFirst());
+        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad));
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::activarBasurero);
         }
 
         //Genera la matriz con los buses
-        alimentacion = new bus[14][30];
         Bateria bateria = new Bateria(pane);
         motor = new Motor(pane);
+        clickHandler = new Click(pane, protos, ledClicked, cableClicked,bateria,motor);
 
-        clickHandler = new Click(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
+
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
-        //Funcion que llama el creado de los circulos(buses)
-        crear_buses(37, 52, 2);
-        crear_buses(37, 122, 5);
-        crear_buses(37, 276, 5);
-        crear_buses(37, 413, 2);
 
-        //Viaja por la matriz para indentificar al circulo presionado
+        //System.out.println("Etapa 2");
+        accion_presionar((protos.get(cantidad)));
+        cantidad++;
+
+
+
+    }
+
+
+
+    @FXML
+    //Metodo que coloca a cada bus del protoboard el evento al momentode precionar el bus(ciruclo)
+    private void accion_presionar(Protoboard proto){
         int i = 0;
         while (i < 14) {
             int j = 0;
             while (j < 30) {
-                bus circulo = alimentacion[i][j];
+                bus circulo = proto.alimentacion[i][j];
+                //System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
                 }
@@ -80,50 +107,6 @@ public class HelloController {
             i++;
         }
     }
-
-    @FXML
-    //Funcion que crea los circulos
-    private void crear_buses(int X, int Y, int FIL) {
-        // Variables a utilizar
-        int carga=0;
-        int col = 0;
-        int fil = 0;
-        int x = X;
-        int y = Y;
-        //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
-        while (fil < FIL) {
-            while (col < 30) {
-                //circulo
-                bus circulo = new bus();
-                circulo.setCenterX(x);
-                circulo.setCenterY(y);
-                circulo.setRadius(6);
-                circulo.setFill(Color.BLACK);
-
-                //Guardar el circulo dentro de la matriz
-                alimentacion[filas][columnas] = circulo;
-                alimentacion[filas][columnas].setFila(filas);
-                alimentacion[filas][columnas].setColumna(columnas);
-                alimentacion[filas][columnas].setCarga(" ");
-                //Agregar
-                pane.getChildren().add(circulo);
-                x = x + 18;
-                col++;
-                columnas++;
-                if (col == 30) {
-                    fil = fil + 1;
-                    filas = filas + 1;
-                    x = 37;
-                    y = y + 22;
-                    carga = carga + 1;
-                }
-            }
-            col = 0;
-            columnas = 0;
-        }
-
-    }
-
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
@@ -207,4 +190,15 @@ public class HelloController {
         }
     }
 
+
+    @FXML
+    private void crear_proto(ActionEvent event) {
+        System.out.println("creo");
+        protos.add(fabrica.protoboard());
+        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad));
+        accion_presionar((protos.get(cantidad)));
+        cantidad++;
+
+    }
 }

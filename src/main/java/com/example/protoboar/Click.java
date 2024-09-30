@@ -15,17 +15,20 @@ public class Click {
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
+    private static ArrayList<Protoboard> protos;
 
     //Construcctor
-    public Click(Pane pane, bus[][] alimentacion, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
+    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
         Click.pane = pane;
         cables = new ArrayList<>();
         switches = new ArrayList<>();
-        manejarCirculos = new ManejarCirculos(pane, alimentacion, ledClicked, cableClicked, bateria, motor);
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
         // Configura el Timeline para ejecutar iniciar() cada segundo
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        this.protos = protos;
+        this.manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria,motor);
     }
 
     //Funciones get y set
@@ -65,6 +68,14 @@ public class Click {
         switches = switche;
     }
 
+    public void setprotos(ArrayList<Protoboard> proto) {
+        manejarCirculos.setprotos(proto);
+    }
+
+    public static ArrayList<Protoboard> getprotos() {
+        return protos;
+    }
+
     ////////////////////////////////////////////////////////////////////////
 
     //Metodo para cuando se preciona algun circlu(bus)
@@ -73,6 +84,11 @@ public class Click {
         iniciar();
     }
 
+    //Metodo para cuando se preciona el basurero(Borrar)
+   /* public void ClickEnBasurero() {
+        System.out.println("Modo borrar");
+        eliminarProximaImagen = true;
+    }*/
 
     public static void presiona(MouseEvent event) {
         iniciar();
@@ -105,12 +121,13 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
-        System.out.println("paso");
+        //System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
+            //System.out.println("morrrriirirr");
             verificar_cables();
             verificar_switch();
             i++;
@@ -151,7 +168,16 @@ public class Click {
                 System.out.println("busca cable");
                 if (basura.equals(cables.get(i))) {
                     System.out.println("se elimino cable");
+                    int x=0;
+                    while(x<getprotos().size()){
+                        if(protos.get(x).getChildren().contains(cables.get(i))){
+                            System.out.println("se boro el calbe");
+                            protos.get(x).getChildren().remove(cables.get(i));
+                        }
+                        x++;
+                    }
                     cables.remove(i);
+
                 }
                 i++;
             }
@@ -162,11 +188,20 @@ public class Click {
                 System.out.println("busca switch");
                 if (basura.equals(switches.get(i).getImageView())) {
                     System.out.println("se elimino switch");
+                    int x=0;
+                    while(x<getprotos().size()){
+                        if(protos.get(x).getChildren().contains(switches.get(i))){
+                            System.out.println("se boro el switch");
+                            protos.get(x).getChildren().remove(switches.get(i));
+                        }
+                        x++;
+                    }
                     pane.getChildren().remove(switches.get(i).getCable());
                     switches.remove(i);
                 }
                 i++;
             }
+
             iniciar();
         }
     }
