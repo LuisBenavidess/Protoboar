@@ -1,6 +1,7 @@
 package com.example.protoboar;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -8,7 +9,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.Objects;
 //Clase del Switch
-public class Switch {
+public class Switch extends Node {
     //Atributos
     private String Carga;
 
