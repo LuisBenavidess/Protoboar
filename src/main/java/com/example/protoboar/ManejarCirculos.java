@@ -21,7 +21,7 @@ public class ManejarCirculos {
     private bus primercircle;
     private boolean circulo_bateria;
     private ArrayList<conection> cables;
-    private final ArrayList<conection> cables_led;
+    private final ArrayList<Led> leds;
     private final ArrayList<Switch> switches;
     private final Bateria bateria;
     private final Motor motor;
@@ -38,7 +38,7 @@ public class ManejarCirculos {
         this.motor = motor;
         this.switchClicked = false;
         cables = new ArrayList<>();
-        cables_led = new ArrayList<>();
+        leds = new ArrayList<>();
         switches = new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
     }
@@ -55,8 +55,8 @@ public class ManejarCirculos {
         return switches;
     }
 
-    public ArrayList<conection> getCables_led() {
-        return cables_led;
+    public ArrayList<Led> get_leds() {
+        return leds;
     }
 
     public void setLedClicked(boolean ledClicked) {
@@ -128,8 +128,8 @@ public class ManejarCirculos {
 
         // Genera un cable de tipo conection con los dos círculos presionados
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
-        cable.setInicio(c1);
-        cable.setFin(c2);
+        cable.setInicio(c1); //pisitivo
+
 
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
@@ -137,8 +137,7 @@ public class ManejarCirculos {
         if (ledClicked) {
             cable.setStroke(Color.RED);
             cable.setStrokeWidth(5);
-            cables_led.add(cable);
-            pane.getChildren().add(cable);
+            proto.getChildren().add(cable);
 
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
@@ -148,18 +147,23 @@ public class ManejarCirculos {
             conection cableAzul = new conection(midX, midY, c2.getCenterX(), c2.getCenterY());
             cableAzul.setStroke(Color.BLUE);
             cableAzul.setStrokeWidth(5);
-            pane.getChildren().add(cableAzul);
+            cableAzul.setFin(c2);//negativo
+            proto.getChildren().add(cableAzul);
 
             // Colocar la imagen del LED en el punto medio
             Led led = new Led(proto, midX, midY);
             led.setConectado();
-            cables_led.add(cable);
-            cable.set_foto(led);
+            led.setCable_azul(cableAzul);
+            led.setCable_rojo(cable);
+            leds.add(led);
+            //cables_led.add(cable);
+            //cable.set_foto(led);
 
         } else if (switchClicked) {
+            cable.setFin(c2);
             cable.setStroke(Color.BLUE);
             cable.setStrokeWidth(5);
-            pane.getChildren().add(cable);
+            proto.getChildren().add(cable);
 
             // Calcular el punto medio de la línea
             double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
@@ -342,7 +346,7 @@ public class ManejarCirculos {
 
     //Metodo que llama a la funcion verificar led en la clase manejarCarga
     public void prender_led() {
-        manejarCarga.prenderLed(cables_led);
+        manejarCarga.prenderLed(leds);
     }
 
     //Metodo que llama a la funcion verificar switch en la clase manejarCarga

@@ -16,12 +16,14 @@ public class Click {
     private static ArrayList<Switch> switches;
     private static ManejarCirculos manejarCirculos;
     private static ArrayList<Protoboard> protos;
+    private static ArrayList<Led> leds;
 
     //Construcctor
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
         Click.pane = pane;
         cables = new ArrayList<>();
         switches = new ArrayList<>();
+        leds = new ArrayList<>();
         manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
         // Configura el Timeline para ejecutar iniciar() cada segundo
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
@@ -40,8 +42,8 @@ public class Click {
         return manejarCirculos.getswitches();
     }
 
-    public static ArrayList<conection> getCables_led() {
-        return manejarCirculos.getCables_led();
+    public static ArrayList<Led> getCables_led() {
+        return manejarCirculos.get_leds();
     }
 
     public void setLedClicked(boolean ledClicked) {
@@ -154,6 +156,7 @@ public class Click {
             // verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0;
             //bucle cables
+
             while (i < cables.size()) {
                 System.out.println("busca cable");
                 if (basura.equals(cables.get(i))) {
@@ -173,24 +176,44 @@ public class Click {
             }
             i=0;
             //bucles switch
+            switches=manejarCirculos.getswitches();
             System.out.println(switches.size());
             while (i < switches.size()) {
                 System.out.println("busca switch");
                 if (basura.equals(switches.get(i).getImageView())) {
                     System.out.println("se elimino switch");
 
-                    // Eliminar el cable asociado al switch del pane
-                    if (switches.get(i).getCable() != null) {
-                        pane.getChildren().remove(switches.get(i).getCable());
-                    }
-
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(switches.get(i).getImageView());
+                        proto.getChildren().remove(switches.get(i).getCable());
                     }
 
                     // Remover el switch del array
                     switches.remove(i);
+                } else {
+                    i++;
+                }
+            }
+
+            i=0;
+            //bucles Leds
+            leds=manejarCirculos.get_leds();
+            System.out.println(leds.size());
+            while (i < leds.size()) {
+                System.out.println("busca switch");
+                if (basura.equals(leds.get(i).getImageView())) {
+                    System.out.println("se elimino switch");
+
+                    // Remover el switch de los protoboards
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(leds.get(i).getImageView());
+                        proto.getChildren().remove(leds.get(i).getCable_rojo());
+                        proto.getChildren().remove(leds.get(i).getCable_azul());
+                    }
+
+                    // Remover el switch del array
+                    leds.remove(i);
                 } else {
                     i++;
                 }

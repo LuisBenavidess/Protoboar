@@ -7,7 +7,6 @@ public class conection extends Line {
     //Atributos
     private bus inicio;
     private bus fin;
-    private Led foto;
 
     //Constructor
     public conection(double startX, double startY, double endX, double endY) {
@@ -31,11 +30,5 @@ public class conection extends Line {
         return fin;
     }
 
-    public void set_foto(Led led){
-        foto=led;
-    }
 
-    public Led get_foto(){
-        return foto;
-    }
 }

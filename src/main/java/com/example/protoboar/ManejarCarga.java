@@ -235,15 +235,15 @@ public class ManejarCarga {
     }
 
     // Método para prender el led
-    public void prenderLed(ArrayList<conection> cablesLed) {
+    public void prenderLed(ArrayList<Led> Leds) {
         int i = 0;
-        while (i < cablesLed.size()) {
-            if (cablesLed.get(i).getInicio().getCarga().equals("+") && cablesLed.get(i).getFin().getCarga().equals("-")) {
-                cablesLed.get(i).get_foto().prender();
-            } else if (cablesLed.get(i).getInicio().getCarga().equals("-") || cablesLed.get(i).getFin().getCarga().equals("+")) {
-                cablesLed.get(i).get_foto().setQuemado(true);
+        while (i < Leds.size()) {
+            if (Leds.get(i).getCable_rojo().getInicio().getCarga().equals("+") && Leds.get(i).getCable_azul().getFin().getCarga().equals("-")) {
+                Leds.get(i).prender();
+            } else if (Leds.get(i).getCable_azul().getFin().getCarga().equals("+") || Leds.get(i).getCable_rojo().getInicio().getCarga().equals("-")) {
+                Leds.get(i).setQuemado(true);
             } else {
-                cablesLed.get(i).get_foto().apagar();
+                Leds.get(i).apagar();
             }
             i++;
         }
