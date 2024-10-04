@@ -1,77 +1,125 @@
 package com.example.protoboar;
 
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import java.util.Objects;
 
-// Clase que genera el motor
 public class Motor {
     // Atributos
     private final bus positivo = new bus();
     private final bus negativo = new bus();
-    private final bus estado = new bus();
-    private boolean encendido = false; // Estado del motor apagado por defecto
+    private boolean encendido = false; // Estado del motor
+    private final ImageView motorImagen;
+    private final Button encenderButton; // Botón para encender el motor
+    private double offsetX;
+    private double offsetY;
 
     // Constructor
     public Motor(Pane pane) {
+        this.motorImagen = new ImageView();
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/motor.png")));
+        this.motorImagen.setImage(image);
+        this.motorImagen.setFitHeight(100.0);
+        this.motorImagen.setFitWidth(100.0);
+        this.motorImagen.setLayoutX(408.0);
+        this.motorImagen.setLayoutY(468.0);
+        pane.getChildren().add(this.motorImagen);
+
+        // Inicialización del botón
+        this.encenderButton = new Button("Encender");
+        this.encenderButton.setLayoutX(428.0);
+        this.encenderButton.setLayoutY(550.0);
+        this.encenderButton.setOnAction(_ -> toggleMotor()); // clic
+        pane.getChildren().add(this.encenderButton);
+
         // Círculo positivo
-        this.positivo.setCenterX(440.0);
-        this.positivo.setCenterY(485.0);
+        this.positivo.setCenterX(430.0);
+        this.positivo.setCenterY(508.0);
         this.positivo.setRadius(8.0);
-        this.positivo.setFill(Color.BLACK); // Inicialmente sin color
-        this.positivo.setCarga(" "); // Sin carga inicialmente
+        this.positivo.setFill(Color.BLACK);
+        this.positivo.setCarga(" "); // Sin carga
 
         // Círculo negativo
-        this.negativo.setCenterX(440.0);
-        this.negativo.setCenterY(515.0);
+        this.negativo.setCenterX(430.0);
+        this.negativo.setCenterY(538.0);
         this.negativo.setRadius(8.0);
-        this.negativo.setFill(Color.BLACK); // Inicialmente sin color
-        this.negativo.setCarga(" "); // Sin carga inicialmente
+        this.negativo.setFill(Color.BLACK);
+        this.negativo.setCarga(" "); // Sin carga
 
         pane.getChildren().add(this.positivo);
         pane.getChildren().add(this.negativo);
 
-        // Inicializar el estado del motor
-        this.estado.setCenterX(520);
-        this.estado.setCenterY(495);
-        this.estado.setRadius(8.0);
-        this.estado.setFill(Color.BLACK); // Inicialmente apagado
-        pane.getChildren().add(this.estado); // Añadir el estado visual al pane
+        this.motorImagen.setOnMousePressed(this::handleMousePressed);
+        this.motorImagen.setOnMouseDragged(this::handleMouseDragged);
     }
 
-    // Métodos para encender/apagar el motor
+    // Manejo del clic
+    private void handleMousePressed(MouseEvent event) {
+        offsetX = event.getX();
+        offsetY = event.getY();
+    }
+
+    // Manejo del arrastre
+    private void handleMouseDragged(MouseEvent event) {
+        // Posición actual de la imagen
+        double newX = motorImagen.getLayoutX() + event.getX() - offsetX;
+        double newY = motorImagen.getLayoutY() + event.getY() - offsetY;
+        // Mueve la imagen del motor
+        motorImagen.setLayoutX(newX);
+        motorImagen.setLayoutY(newY);
+        // Mueve el botón de encendido
+        encenderButton.setLayoutX(newX + 20);
+        encenderButton.setLayoutY(newY + 80);
+        // Mueve los buses
+        positivo.setCenterX(newX + 15);
+        positivo.setCenterY(newY + 40);
+        negativo.setCenterX(newX + 15);
+        negativo.setCenterY(newY + 70);
+    }
+
+    // Alternar el motor
+    private void toggleMotor() {
+        if (encendido) {
+            apagarMotor();
+        } else {
+            encenderMotor();
+        }
+    }
+
+    // Encender/apagar el motor
     public void encenderMotor() {
         if (!encendido) {
             encendido = true;
-            estado.setFill(Color.GREEN); // Cambia el color para indicar que está encendido
-            distribuirCargas(); // Asignar las cargas y colores
+            distribuirCargas();
         }
     }
 
     public void apagarMotor() {
         if (encendido) {
             encendido = false;
-            estado.setFill(Color.BLACK); // Cambia el color para indicar que está apagado
-            removerCargas(); // Remover las cargas y colores
+            removerCargas();
         }
     }
 
-    // Distribuir cargas cuando el motor esté encendido
+    // Distribuir cargas cuando el motor esté encendido/apagado
     private void distribuirCargas() {
         positivo.setFill(Color.RED);
-        positivo.setCarga("+"); // Asigna la carga positiva
+        positivo.setCarga("+");
         negativo.setFill(Color.BLUE);
-        negativo.setCarga("-"); // Asigna la carga negativa
+        negativo.setCarga("-");
     }
 
-    // Remover cargas cuando el motor esté apagado
     private void removerCargas() {
         positivo.setFill(Color.BLACK);
-        positivo.setCarga(" "); // Elimina la carga
+        positivo.setCarga(" ");
         negativo.setFill(Color.BLACK);
-        negativo.setCarga(" "); // Elimina la carga
+        negativo.setCarga(" ");
     }
 
-    // Getters
     public bus getPositivo() {
         return this.positivo;
     }
@@ -84,5 +132,3 @@ public class Motor {
         return encendido;
     }
 }
-
-
