@@ -12,7 +12,6 @@ public class Bateria {
     private final bus positivo = new bus();
     private final bus negativo;
     private final ImageView batteryImagen;
-
     private double offsetX;
     private double offsetY;
 
@@ -54,29 +53,23 @@ public class Bateria {
         offsetY = event.getY();
     }
 
-    // Mouse dragged event handler
     private void handleMouseDragged(MouseEvent event) {
         double newX = batteryImagen.getLayoutX() + event.getX() - offsetX;
         double newY = batteryImagen.getLayoutY() + event.getY() - offsetY;
         batteryImagen.setLayoutX(newX);
         batteryImagen.setLayoutY(newY);
-        positivo.setCenterX(newX + 25); // Adjust as needed
-        positivo.setCenterY(newY + 12); // Adjust as needed
-        negativo.setCenterX(newX + 75); // Adjust as needed
-        negativo.setCenterY(newY + 12); // Adjust as needed
+        positivo.setCenterX(newX + 25);
+        positivo.setCenterY(newY + 12);
+        negativo.setCenterX(newX + 75);
+        negativo.setCenterY(newY + 12);
     }
 
-    // Métodos getter y setter
     public bus getPositivo() {
         return this.positivo;
     }
 
     public bus getNegativo() {
         return this.negativo;
-    }
-
-    public ImageView getBatteryImageView() {
-        return this.batteryImagen;
     }
 
     static class busData {
