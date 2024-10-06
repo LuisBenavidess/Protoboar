@@ -24,22 +24,18 @@ public class Click {
         cables = new ArrayList<>();
         switches = new ArrayList<>();
         leds = new ArrayList<>();
-        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria);
         // Configura el Timeline para ejecutar iniciar() cada segundo
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        this.protos = protos;
-        this.manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria,motor);
+        Click.protos = protos;
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria);
     }
 
     //Funciones get y set
     public static ArrayList<conection> getCables() {
         return manejarCirculos.getCables();
-    }
-
-    public static ArrayList<Switch> getswitch() {
-        return manejarCirculos.getswitches();
     }
 
     public static ArrayList<Led> getCables_led() {
@@ -58,20 +54,12 @@ public class Click {
         manejarCirculos.setSwitchClicked(switchClicked);
     }
 
-    public void setEliminarProximaImagen(boolean b) {
-        eliminarProximaImagen = true;
-    }
-
     public static void setCables(ArrayList<conection> cable) {
         cables = cable;
     }
 
     public static void setSwitches(ArrayList<Switch> switche) {
         switches = switche;
-    }
-
-    public void setprotos(ArrayList<Protoboard> proto) {
-        manejarCirculos.setprotos(proto);
     }
 
     public static ArrayList<Protoboard> getprotos() {
@@ -95,7 +83,6 @@ public class Click {
 
     // verifica el intercambio de cargas atravez de los cables
     public static void verificar_cables() {
-        System.out.println("verifica cable");
         setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
     }
@@ -107,7 +94,6 @@ public class Click {
 
     // verifica los switch para el intercambio de cargas
     public static void verificar_switch() {
-        System.out.println("verifica switch");
         setSwitches(manejarCirculos.getswitches());
         manejarCirculos.verificar_switch();
     }
@@ -115,13 +101,11 @@ public class Click {
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
-        //System.out.println("paso");
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
-            //System.out.println("morrrriirirr");
             verificar_cables();
             verificar_switch();
             i++;
@@ -136,12 +120,7 @@ public class Click {
 
     //Metodo para cuando se preciona el basurero (Borrar)
     public void ClickEnBasurero() {
-        System.out.println("Modo borrar");
-        if(eliminarProximaImagen){
-            eliminarProximaImagen = false;
-        }else{
-            eliminarProximaImagen = true;
-        }
+        eliminarProximaImagen = !eliminarProximaImagen;
     }
 
     //Metodo que llama a eliminar elemento de otra clase
@@ -151,26 +130,18 @@ public class Click {
             //Obtiene el objeto presionado y lo borra
             Object basura = event.getSource();
             pane.getChildren().remove(basura);
-            System.out.println("Se eliminó algo");
             //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
             // verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0;
             //bucle cables
-
             while (i < cables.size()) {
-                System.out.println("busca cable");
                 if (basura.equals(cables.get(i))) {
-                    System.out.println("se elimino cable");
                     int x=0;
                     while(x<getprotos().size()){
-                        if(protos.get(x).getChildren().contains(cables.get(i))){
-                            System.out.println("se borro el calbe");
-                            protos.get(x).getChildren().remove(cables.get(i));
-                        }
+                        protos.get(x).getChildren().remove(cables.get(i));
                         x++;
                     }
                     cables.remove(i);
-
                 }
                 i++;
             }
@@ -179,39 +150,30 @@ public class Click {
             switches=manejarCirculos.getswitches();
             System.out.println(switches.size());
             while (i < switches.size()) {
-                System.out.println("busca switch");
                 if (basura.equals(switches.get(i).getImageView())) {
-                    System.out.println("se elimino switch");
-
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(switches.get(i).getImageView());
                         proto.getChildren().remove(switches.get(i).getCable());
                     }
-
                     // Remover el switch del array
                     switches.remove(i);
                 } else {
                     i++;
                 }
             }
-
             i=0;
             //bucles Leds
             leds=manejarCirculos.get_leds();
             System.out.println(leds.size());
             while (i < leds.size()) {
-                System.out.println("busca switch");
                 if (basura.equals(leds.get(i).getImageView())) {
-                    System.out.println("se elimino switch");
-
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(leds.get(i).getImageView());
                         proto.getChildren().remove(leds.get(i).getCable_rojo());
                         proto.getChildren().remove(leds.get(i).getCable_azul());
                     }
-
                     // Remover el switch del array
                     leds.remove(i);
                 } else {
@@ -220,6 +182,4 @@ public class Click {
             }
         }
     }
-
-
 }

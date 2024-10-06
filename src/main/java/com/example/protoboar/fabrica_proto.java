@@ -1,21 +1,16 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 // Clase que se encargara de generar los protoboards
 public class fabrica_proto {
-
-
 
     //Constructor
     public fabrica_proto(){
@@ -23,23 +18,17 @@ public class fabrica_proto {
 
     //Metodo que genera un grupo y lo devuelve, que seria el protoboard
     public Protoboard protoboard(){
-
         Protoboard proto = new Protoboard();
-
-
         proto=decoracion(proto);
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
-       // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
-
         return proto;
     }
 
     // Metodo que generar de decoracion, base, numeros, letras, simbolos etc
     public Protoboard decoracion(Protoboard proto){
         //Decoracion
-
         Rectangle base = new Rectangle(5,26,582,435);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal
@@ -84,18 +73,17 @@ public class fabrica_proto {
         proto.getChildren().add(base);
 
         //Genera numeros
-        proto=numeros(33, 376,proto);
-        proto=numeros(33, 100,proto);
+        numeros(33, 376, proto);
+        numeros(33, 100, proto);
 
         //Generar letras
-        proto=letras(9,369,proto);
+        letras(9, 369, proto);
 
         //Generar buses
         crear_buses(proto.x, proto.y, 2,proto);
         crear_buses(proto.x, proto.y+70, 5,proto);
         crear_buses(proto.x, proto.y+224, 5,proto);
         crear_buses(proto.x, proto.y+361, 2,proto);
-
         proto.getChildren().add(menos_superior);
         proto.getChildren().add(mas_superior);
         proto.getChildren().add(menos_inferior);
@@ -104,13 +92,11 @@ public class fabrica_proto {
         proto.getChildren().add(negativo_inferior);
         proto.getChildren().add(positivo_superior);
         proto.getChildren().add(positivo_inferior);
-
         return proto;
-
     }
 
     //Funcion que crea los numeros
-    private Protoboard numeros(int X, int Y,Protoboard proto) {
+    private void numeros(int X, int Y, Protoboard proto) {
         int i = 0;
         //A travez de rangos definidos se generan los numeros;
         while (i < 30) {
@@ -122,11 +108,10 @@ public class fabrica_proto {
             X = X + 18;
             i++;
         }
-        return proto;
     }
 
     //Funcion que crea letra
-    private Protoboard letras(int X, int Y,Protoboard proto) {
+    private void letras(int X, int Y, Protoboard proto) {
         int num=65;
         int alto=Y;
         int i=0;
@@ -146,7 +131,6 @@ public class fabrica_proto {
             num++;
             i++;
         }
-        return proto;
     }
 
     //Funcion que crea los circulos
@@ -157,8 +141,6 @@ public class fabrica_proto {
         int col = 0;
         int fil = 0;
         double x = X;
-        double y = Y;
-
         int mas_x=0;
         int mas_y=0;
         //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
@@ -167,7 +149,7 @@ public class fabrica_proto {
                 //circulo
                 bus circulo = new bus();
                 circulo.setCenterX(x+mas_x);
-                circulo.setCenterY(y+mas_y);
+                circulo.setCenterY(Y +mas_y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
@@ -181,7 +163,6 @@ public class fabrica_proto {
                 proto.alimentacion[proto.filas][proto.columnas].y=circulo.getCenterY();
                 //Agregar
                 proto.getChildren().add(circulo);
-                //x = x + 18;
                 mas_x=mas_x+18;
                 col++;
                 proto.columnas++;
@@ -191,7 +172,6 @@ public class fabrica_proto {
                     x = 37;
                     mas_x=0;
                     mas_y=mas_y+22;
-                    //y = y + 22;
                     carga = carga + 1;
                 }
             }
@@ -209,103 +189,48 @@ public class fabrica_proto {
     }
 
     private void arrastrar(MouseEvent event){
-
-        if(event.getSource() instanceof Protoboard){
-            Protoboard proto = (Protoboard) event.getSource();
-
+        if(event.getSource() instanceof Protoboard proto){
             double deltaX = event.getSceneX() - proto.initialX;
             double deltaY = event.getSceneY() - proto.initialY;
-
             for (Node node : proto.getChildren()) {
-                if (node instanceof bus) {
-                    bus circle = (bus) node;
+                if (node instanceof bus circle) {
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
-
                     int i=0;
-
                     while(i<proto.getConections().size()){
-
                         if(proto.getConections().get(i).getFin()==circle){
-
                             proto.getConections().get(i).endXProperty().unbind();
                             proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
                             proto.getConections().get(i).endYProperty().unbind();
                             proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
                         }
-
                         i++;
                     }
-
                 }
-                if(node instanceof Rectangle){
-                    Rectangle rectangle = (Rectangle) node;
+                if(node instanceof Rectangle rectangle){
                     rectangle.setX(rectangle.getX() + deltaX);
                     rectangle.setY(rectangle.getY() + deltaY);
                 }
-                if(node instanceof Text){
-                    Text text = (Text) node;
+                if(node instanceof Text text){
                     text.setX(text.getX() + deltaX);
                     text.setY(text.getY() + deltaY);
                 }
-                if(node instanceof Label){
-                    Label label = (Label) node;
+                if(node instanceof Label label){
                     label.setLayoutX(label.getLayoutX() + deltaX);
                     label.setLayoutY(label.getLayoutY() + deltaY);
                 }
-                if(node instanceof conection){
-                    conection cable =(conection) node;
+                if(node instanceof conection cable){
                     cable.setLayoutX(cable.getLayoutX() + deltaX);
                     cable.setLayoutY(cable.getLayoutY() + deltaY);
-                    //cable.setX(cable.getX() + deltaX);
-                    //cable.setY(cable.getY() + deltaY);
-
                 }
-                if(node instanceof ImageView){
-                    ImageView image = (ImageView) node;
+                if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);
                     image.setLayoutY(image.getLayoutY() + deltaY);
                 }
-
-
             }
-
             // Actualizar la posición inicial
             proto.initialX = event.getSceneX();
             proto.initialY = event.getSceneY();
-
         }
-
-
     }
-
-    private void terminar(MouseEvent event){
-        Protoboard proto = (Protoboard) event.getSource();
-
-
-        System.out.println(proto.getLayoutX());
-       // coordenadas(proto);
-    }
-
-    private void coordenadas(Protoboard proto){
-        int i=0;
-        while(i<14){
-            int j=0;
-            while(j<30){
-
-                bus circulo=proto.alimentacion[i][j];
-                circulo.setCenterX(proto.x-circulo.getCenterX());
-                circulo.setCenterY(proto.y-circulo.getCenterY());
-                j++;
-            }
-            i++;
-        }
-
-
-    }
-
-
-
-
-
 }

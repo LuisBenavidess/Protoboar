@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Bateria {
@@ -12,11 +13,13 @@ public class Bateria {
     private final bus positivo = new bus();
     private final bus negativo;
     private final ImageView batteryImagen;
-    private double offsetX;
-    private double offsetY;
+    private double initialX;
+    private double initialY;
+    private final ArrayList<conection> cables;
 
     // Constructor
     public Bateria(Pane pane) {
+        cables = new ArrayList<>();
         this.batteryImagen = new ImageView();
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/battery.png")));
         this.batteryImagen.setImage(image);
@@ -49,19 +52,46 @@ public class Bateria {
     }
 
     private void handleMousePressed(MouseEvent event) {
-        offsetX = event.getX();
-        offsetY = event.getY();
+        initialX = event.getX();
+        initialY = event.getY();
     }
 
     private void handleMouseDragged(MouseEvent event) {
-        double newX = batteryImagen.getLayoutX() + event.getX() - offsetX;
-        double newY = batteryImagen.getLayoutY() + event.getY() - offsetY;
+        double newX = batteryImagen.getLayoutX() + event.getX() - initialX;
+        double newY = batteryImagen.getLayoutY() + event.getY() - initialY;
         batteryImagen.setLayoutX(newX);
         batteryImagen.setLayoutY(newY);
+        // Actualizar posiciones de los buses
         positivo.setCenterX(newX + 25);
         positivo.setCenterY(newY + 12);
         negativo.setCenterX(newX + 75);
         negativo.setCenterY(newY + 12);
+        // Actualizar los cables conectados a los buses
+        updateCables();
+    }
+
+    public void addCable(conection cable) {
+        cables.add(cable);
+    }
+
+    private void updateCables() {
+        for (conection cable : cables) {
+            System.out.println("xd");
+            if (cable.getInicio() == positivo) {
+                cable.setStartX(positivo.getCenterX());
+                cable.setStartY(positivo.getCenterY());
+            } else if (cable.getInicio() == negativo) {
+                cable.setStartX(negativo.getCenterX());
+                cable.setStartY(negativo.getCenterY());
+            }
+            if (cable.getFin() == positivo) {
+                cable.setEndX(positivo.getCenterX());
+                cable.setEndY(positivo.getCenterY());
+            } else if (cable.getFin() == negativo) {
+                cable.setEndX(negativo.getCenterX());
+                cable.setEndY(negativo.getCenterY());
+            }
+        }
     }
 
     public bus getPositivo() {
@@ -79,3 +109,4 @@ public class Bateria {
         }
     }
 }
+

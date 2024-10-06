@@ -1,16 +1,10 @@
 package com.example.protoboar;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 
 //Controlador
@@ -18,10 +12,6 @@ public class HelloController {
     //Atributos
     @FXML
     private Pane pane;
-    @FXML
-    private int columnas;
-    @FXML
-    private int filas;
     @FXML
     private Click clickHandler;
     @FXML
@@ -33,34 +23,18 @@ public class HelloController {
     @FXML
     private ImageView basurero;
     @FXML
-    private Motor motor;
-    @FXML
-    private fabrica_proto fabrica;
-    @FXML
-    private ArrayList<Protoboard> protos;
-    @FXML
-    private double ratonx;
-    @FXML
-    private double ratony;
-    @FXML
     private boolean basureroActivo = false;
-
-    ///////////////////////////////
     private int cantidad;
-    ///////////////////////////////77
+    ///////////////////////////////
 
-    private double initialMouseX;
-    private double initialMouseY;
-    private double initialGroupX;
-    private double initialGroupY;
 
 
     //Metodos
     @FXML
     private void initialize() {
         cantidad=0;
-        protos = new ArrayList<>();
-        fabrica = new fabrica_proto();
+        ArrayList<Protoboard> protos = new ArrayList<>();
+        fabrica_proto fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
@@ -71,21 +45,16 @@ public class HelloController {
 
         //Genera la matriz con los buses
         Bateria bateria = new Bateria(pane);
-        motor = new Motor(pane);
-        clickHandler = new Click(pane, protos, ledClicked, cableClicked,bateria,motor);
-
+        Motor motor = new Motor(pane);
+        clickHandler = new Click(pane, protos, ledClicked, cableClicked,bateria, motor);
 
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
 
-        //System.out.println("Etapa 2");
         accion_presionar((protos.get(cantidad)));
         cantidad++;
-
-
-
     }
 
     @FXML
@@ -96,7 +65,6 @@ public class HelloController {
             int j = 0;
             while (j < 30) {
                 bus circulo = proto.alimentacion[i][j];
-                //System.out.println("circulo: " + circulo);
                 if (circulo != null) {
                     circulo.setOnMouseClicked(clickHandler::presionarCirculo);
                 }
@@ -162,38 +130,12 @@ public class HelloController {
             desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(true);
-            System.out.println("Switch true");
             switchClicked=true;
         } else{
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(false);
-
-            System.out.println("Switch false");
             switchClicked=false;
         }
-    }
-
-    @FXML
-    private void toggleMotor() {
-        if (motor.isEncendido()) {
-            motor.apagarMotor(); // Apagar el motor si está encendido
-            System.out.println("Motor apagado");
-        } else {
-            motor.encenderMotor(); // Encender el motor si está apagado
-            System.out.println("Motor encendido");
-        }
-    }
-
-
-    @FXML
-    private void crear_proto(ActionEvent event) {
-        System.out.println("creo");
-        protos.add(fabrica.protoboard());
-        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(cantidad));
-        accion_presionar((protos.get(cantidad)));
-        cantidad++;
-
     }
 
     private void desactivarOpciones() {
@@ -213,5 +155,4 @@ public class HelloController {
         basurero.setImage(image);
         System.out.println("Basurero false");
     }
-
 }
