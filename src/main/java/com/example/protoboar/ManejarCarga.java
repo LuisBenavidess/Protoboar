@@ -15,7 +15,7 @@ public class ManejarCarga {
        this.protos = protos;
     }
 
-    // Método que se encarga de volver a neutro (Negro) a todos los buses
+    // Metodo que se encarga de volver a neutro (Negro) a todos los buses
     public void revovinar() {
         //Viaja por toda la matriz de los buses convirtiendolos en neutro(negro)
         int x=0;
@@ -38,7 +38,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método que verifica si tiene corriente y lo dispersa
+    // Metodo que verifica si tiene corriente y lo dispersa
     public void corriente() {
         //Viajo por la matriz y verifico si este bus esta en positivo o negatico
         int x=0;
@@ -66,7 +66,7 @@ public class ManejarCarga {
 
     }
 
-    // Método que se encarga de distribuir la carga en el sector correspondiente
+    // Metodo que se encarga de distribuir la carga en el sector correspondiente
     public void marcar(int i, int j, String carga,Protoboard proto) {
         // Si el bus ya está quemado, no hacer nada
         if (proto.alimentacion[i][j].getFill() == Color.YELLOW) {
@@ -128,7 +128,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método que verifica el ArrayList de los cables
+    // Metodo que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
         //Viaja atraves del ArrayList
@@ -159,7 +159,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método que quema una fila completa según la fila del bus
+    // Metodo que quema una fila completa según la fila del bus
     public void quemarFila(int fila,Protoboard proto) {
         // Verifica si la fila está en el rango que debe ser quemado
         if (fila == 0 || fila == 1 || fila == 13 || fila == 14) {
@@ -169,7 +169,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método que quema una sección de la columna según la fila del bus
+    // Metodo que quema una sección de la columna según la fila del bus
     public void quemarColumna(bus fin) {
         int x=0;
         while(x<protos.size()) {
@@ -201,7 +201,7 @@ public class ManejarCarga {
 
     }
 
-    // Método que obtiene la fila de un bus
+    // Metodo que obtiene la fila de un bus
     private int getFila(bus circulo,Protoboard proto) {
         for (int i = 0; i < proto.alimentacion.length; i++) {
             for (int j = 0; j < proto.alimentacion[i].length; j++) {
@@ -213,7 +213,7 @@ public class ManejarCarga {
         return -1; // No se encontró la fila
     }
 
-    // Método que obtiene la columna de un bus
+    // Metodo que obtiene la columna de un bus
     private int getColumna(bus circulo,Protoboard proto) {
         for (int i = 0; i < proto.alimentacion.length; i++) {
             for (int j = 0; j < proto.alimentacion[i].length; j++) {
@@ -225,7 +225,7 @@ public class ManejarCarga {
         return -1; // No se encontró la columna
     }
 
-    // Método que quema un bus específico
+    // Metodo que quema un bus específico
     private void quemarBus(int fila, int columna,Protoboard proto) {
         bus circulo = proto.alimentacion[fila][columna];
         if (circulo != null && circulo.getFill() != Color.YELLOW) {
@@ -234,7 +234,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método para prender el led
+    // Metodo para prender el led
     public void prenderLed(ArrayList<Led> Leds) {
         int i = 0;
         while (i < Leds.size()) {
@@ -249,7 +249,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método para verificar los switches
+    // Metodo para verificar los switches
     public void verificarSwitches(ArrayList<Switch> switches) {
         int i = 0;
         while (i < switches.size()) {
@@ -272,4 +272,27 @@ public class ManejarCarga {
             i++;
         }
     }
+
+    // Metodo para verificar los switches
+    public void verificarResistencias(ArrayList<Resistencia> resistencias) {
+        int i = 0;
+        while (i < resistencias.size()) {
+            conection lin = resistencias.get(i).getCable();
+            String ini = lin.getInicio().getCarga();
+            String fin = lin.getFin().getCarga();
+            if (!ini.equals(" ")) {
+                if (fin.equals(" ")) {
+                    lin.getFin().setCarga(ini);
+                    corriente();
+                }
+            } else {
+                if (!fin.equals(" ")) {
+                    lin.getInicio().setCarga(fin);
+                    corriente();
+                }
+            }
+            i++;
+        }
+    }
+
 }

@@ -14,23 +14,25 @@ public class Click {
     public static boolean eliminarProximaImagen = false;
     private static ArrayList<conection> cables;
     private static ArrayList<Switch> switches;
+    private static ArrayList<Resistencia> resistencias;
     private static ManejarCirculos manejarCirculos;
     private static ArrayList<Protoboard> protos;
     private static ArrayList<Led> leds;
 
     //Construcctor
-    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
+    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
         Click.pane = pane;
         cables = new ArrayList<>();
         switches = new ArrayList<>();
+        resistencias = new ArrayList<>();
         leds = new ArrayList<>();
         manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
         // Configura el Timeline para ejecutar iniciar() cada segundo
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> iniciar()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        this.protos = protos;
-        this.manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria,motor);
+        Click.protos = protos;
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria,motor);
     }
 
     //Funciones get y set
@@ -46,6 +48,10 @@ public class Click {
         return manejarCirculos.get_leds();
     }
 
+    public static ArrayList<Resistencia> getResistencias() {
+        return manejarCirculos.getResistencias();
+    }
+
     public void setLedClicked(boolean ledClicked) {
         manejarCirculos.setLedClicked(ledClicked);
     }
@@ -58,8 +64,8 @@ public class Click {
         manejarCirculos.setSwitchClicked(switchClicked);
     }
 
-    public void setEliminarProximaImagen(boolean b) {
-        eliminarProximaImagen = true;
+    public void setResistencias(boolean resistClicked){
+        manejarCirculos.setResistClicked(resistClicked);
     }
 
     public static void setCables(ArrayList<conection> cable) {
@@ -68,6 +74,10 @@ public class Click {
 
     public static void setSwitches(ArrayList<Switch> switche) {
         switches = switche;
+    }
+
+    public static void setResistencias(ArrayList<Resistencia> resistencia) {
+        resistencias = resistencia;
     }
 
     public void setprotos(ArrayList<Protoboard> proto) {
@@ -112,6 +122,13 @@ public class Click {
         manejarCirculos.verificar_switch();
     }
 
+    // verifica los switch para el intercambio de cargas
+    public static void verificar_resistencia() {
+        System.out.println("verifica la resistencia");
+        setResistencias(manejarCirculos.getResistencias());
+        manejarCirculos.verificar_resistencia();
+    }
+
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
@@ -121,9 +138,9 @@ public class Click {
         int i=0;
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
-            //System.out.println("morrrriirirr");
             verificar_cables();
             verificar_switch();
+            verificar_resistencia();
             i++;
         }
         i=0;
@@ -137,11 +154,7 @@ public class Click {
     //Metodo para cuando se preciona el basurero (Borrar)
     public void ClickEnBasurero() {
         System.out.println("Modo borrar");
-        if(eliminarProximaImagen){
-            eliminarProximaImagen = false;
-        }else{
-            eliminarProximaImagen = true;
-        }
+        eliminarProximaImagen = !eliminarProximaImagen;
     }
 
     //Metodo que llama a eliminar elemento de otra clase
@@ -220,6 +233,5 @@ public class Click {
             }
         }
     }
-
 
 }

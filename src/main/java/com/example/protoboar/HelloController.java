@@ -19,10 +19,6 @@ public class HelloController {
     @FXML
     private Pane pane;
     @FXML
-    private int columnas;
-    @FXML
-    private int filas;
-    @FXML
     private Click clickHandler;
     @FXML
     private boolean ledClicked=false;
@@ -30,6 +26,8 @@ public class HelloController {
     private boolean cableClicked=false;
     @FXML
     private boolean switchClicked;
+    @FXML
+    private boolean resistClicked;
     @FXML
     private ImageView basurero;
     @FXML
@@ -39,21 +37,10 @@ public class HelloController {
     @FXML
     private ArrayList<Protoboard> protos;
     @FXML
-    private double ratonx;
-    @FXML
-    private double ratony;
-    @FXML
     private boolean basureroActivo = false;
 
     ///////////////////////////////
     private int cantidad;
-    ///////////////////////////////77
-
-    private double initialMouseX;
-    private double initialMouseY;
-    private double initialGroupX;
-    private double initialGroupY;
-
 
     //Metodos
     @FXML
@@ -84,8 +71,6 @@ public class HelloController {
         accion_presionar((protos.get(cantidad)));
         cantidad++;
 
-
-
     }
 
     @FXML
@@ -105,6 +90,7 @@ public class HelloController {
             i++;
         }
     }
+
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
@@ -156,7 +142,7 @@ public class HelloController {
     }
 
     @FXML
-    // Genera y controla la creacion de switch
+    // Controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
             desactivarOpciones();
@@ -165,11 +151,28 @@ public class HelloController {
             System.out.println("Switch true");
             switchClicked=true;
         } else{
+            desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(false);
-
             System.out.println("Switch false");
             switchClicked=false;
+        }
+    }
+    @FXML
+    // Controla la creacion de la resistencia
+    private void crearResistencia() {
+        if(!resistClicked) {
+            desactivarOpciones();
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(true);
+            System.out.println("Resitencia true");
+            resistClicked=true;
+        } else{
+            desactivarOpciones();
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(false);
+            System.out.println("Resistencia false");
+            resistClicked=false;
         }
     }
 
@@ -184,7 +187,6 @@ public class HelloController {
         }
     }
 
-
     @FXML
     private void crear_proto(ActionEvent event) {
         System.out.println("creo");
@@ -196,6 +198,7 @@ public class HelloController {
 
     }
 
+    @FXML
     private void desactivarOpciones() {
         clickHandler.setLedClicked(false);
         ledClicked = false;

@@ -22,6 +22,7 @@ public class Switch extends Node {
         this.cables = cables;
         Image image = new Image("/Switch1.png");
         this.imageView = new ImageView(image);
+        this.Carga = "+";
 
         // Ajustar las dimensiones del ImageView
         imageView.setFitWidth(40);
@@ -33,12 +34,10 @@ public class Switch extends Node {
 
         // Configurar el evento del basurero
         imageView.setOnMousePressed(Click::eliminarElemento);
-        //imageView.setOnMouseReleased(Click::presiona);
-        // Configurar el evento de click
-        this.Carga = "+";
+
+        // Configurar el evento de cambio de cargas
         imageView.setOnMouseClicked(this::cambiarCarga);
-        // imageView.setOnTouchPressed((Click::presiona));
-        // Posicionar el switch en la ubicación adecuada
+
         group.getChildren().add(imageView);
         imageView.toFront();
 
@@ -59,6 +58,7 @@ public class Switch extends Node {
     public ImageView getImageView(){
         return imageView;
     }
+
     ///////////////////////////7
 
     //Metodo que recibe el evento de apretar el switch y este cambia la carga y la imagen

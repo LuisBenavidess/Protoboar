@@ -18,28 +18,29 @@ public class ManejarCirculos {
     private boolean ledClicked;
     private boolean cableClicked;
     private boolean switchClicked;
+    private boolean resistClicked;
     private bus primercircle;
     private boolean circulo_bateria;
-    private ArrayList<conection> cables;
+    private final ArrayList<conection> cables;
     private final ArrayList<Led> leds;
     private final ArrayList<Switch> switches;
+    private static ArrayList<Resistencia> resistencias;
     private final Bateria bateria;
-    private final Motor motor;
     private final ManejarCarga manejarCarga;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
         this.pane = pane;
         this.protos = protos;
-        //this.alimentacion = alimentacion;
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
         this.bateria = bateria;
-        this.motor = motor;
         this.switchClicked = false;
+        this.resistClicked = false;
         cables = new ArrayList<>();
         leds = new ArrayList<>();
         switches = new ArrayList<>();
+        resistencias = new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
     }
 
@@ -50,13 +51,15 @@ public class ManejarCirculos {
     }
 
     public ArrayList<Switch> getswitches() {
-        System.out.println(" cuantos se pasan");
-        System.out.println(switches.size());
         return switches;
     }
 
     public ArrayList<Led> get_leds() {
         return leds;
+    }
+
+    public ArrayList<Resistencia> getResistencias() {
+        return resistencias;
     }
 
     public void setLedClicked(boolean ledClicked) {
@@ -74,10 +77,18 @@ public class ManejarCirculos {
         }
     }
 
+    public void setResistClicked(boolean resistClicked){
+        this.resistClicked = resistClicked;
+        if(!resistClicked){
+            primercircle=null;
+        }
+    }
+
     public void setprotos(ArrayList<Protoboard> protos) {
         this.protos = protos;
-        System.out.println(protos.get(0).alimentacion[0][0].getCenterX());
+        System.out.println(protos.getFirst().alimentacion[0][0].getCenterX());
     }
+
     //////////////////////////////////////////////////
 
     //Metodos
@@ -100,7 +111,6 @@ public class ManejarCirculos {
                 }
                 i++;
             }
-
             primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
         } else if (primercircle == null && switchClicked) {
             primercircle = circulo; // Asignación del primer círculo
@@ -115,12 +125,25 @@ public class ManejarCirculos {
                 i++;
             }
             primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
-        } else if (cableClicked) {
+        } else if (primercircle == null && resistClicked) {
+            primercircle = circulo; // Asignación del primer círculo
+            System.out.println("Primer círculo asignado");
+        }else if (primercircle != null && resistClicked) {
+            System.out.println("Segundo círculo");
+            int i=0;
+            while(i<protos.size()){
+                if(protos.get(i).getChildren().contains(primercircle)){
+                    crearCableEntreCirculos(primercircle, circulo,protos.get(i));
+                }
+                i++;
+            }
+            primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
+        }else if (cableClicked) {
             inicio(event);
         }
     }
 
-    // Método que genera cable para los led y switch
+    // Metodo que genera cable para los led y switch
     private void crearCableEntreCirculos(bus c1, bus c2, Protoboard proto) {
         if (c1 == null || c2 == null) {
             return;
@@ -128,12 +151,12 @@ public class ManejarCirculos {
 
         // Genera un cable de tipo conection con los dos círculos presionados
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
-        cable.setInicio(c1); //pisitivo
+        cable.setInicio(c1); //positivo
 
 
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
-
+        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
         if (ledClicked) {
             cable.setStroke(Color.RED);
             cable.setStrokeWidth(5);
@@ -156,8 +179,6 @@ public class ManejarCirculos {
             led.setCable_azul(cableAzul);
             led.setCable_rojo(cable);
             leds.add(led);
-            //cables_led.add(cable);
-            //cable.set_foto(led);
 
         } else if (switchClicked) {
             cable.setFin(c2);
@@ -171,15 +192,27 @@ public class ManejarCirculos {
 
             // Colocar la imagen del switch en el punto medio
             crearSwitch(proto, midX, midY, cable);
-        } else {
-            // Para cables básicos (sin LED o switch), mantener la lógica genérica
+        } else if (resistClicked) {
+            System.out.println("Se creó una resistencia");
+            cable.setFin(c2);
+            cable.setStroke(Color.ORANGE);
+            cable.setStrokeWidth(5);
+            proto.getChildren().add(cable);
+
+            // Calcular el punto medio de la línea
+            double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
+            double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
+
+            // Colocar la imagen del switch en el punto medio
+            crearResistencia(proto, midX, midY, cable);
+        }else {
+            // Para cables básicos (sin LED, switch o otro elemento), mantener la lógica genérica
             cable.setStroke(Color.GREEN);  // O cualquier color específico para cables básicos
             cable.setStrokeWidth(5);
             cables.add(cable);
             pane.getChildren().add(cable);
         }
     }
-
 
     //Metodo que empieza la creacion del cable
     public void inicio(MouseEvent event) {
@@ -291,7 +324,6 @@ public class ManejarCirculos {
         }
     }
 
-
     //Metodo para verificar los circulos de la bateria
     private void verificarCírculoBateria(MouseEvent event, bus circuloBateria) {
         double dx = event.getX() - circuloBateria.getCenterX();
@@ -334,6 +366,15 @@ public class ManejarCirculos {
         primercircle = null;
     }
 
+    // Metodo que crea Resistencia
+    public void crearResistencia(Protoboard proto, double x, double y, conection cables) {
+        // Crear el objeto Resitencia en la posición calculada
+        Resistencia R = new Resistencia(proto, x, y, cables);
+        setResistClicked(true);
+        resistencias.add(R);
+        primercircle = null;
+    }
+
     //Metodo que llama a la funcion revovinar en la clase manejarCarga
     public  void revovinar() {
         manejarCarga.revovinar();
@@ -352,6 +393,11 @@ public class ManejarCirculos {
     //Metodo que llama a la funcion verificar switch en la clase manejarCarga
     public void verificar_switch() {
         manejarCarga.verificarSwitches(switches);
+    }
+
+    //Metodo que llama a la funcion verificar switch en la clase manejarCarga
+    public void verificar_resistencia() {
+        manejarCarga.verificarResistencias(resistencias);
     }
 
 }

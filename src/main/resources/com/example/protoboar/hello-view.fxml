@@ -36,12 +36,12 @@
             <ImageView fitHeight="30.0" fitWidth="70.0" onMouseClicked="#crearSwitch">
                <Image url="@Switch.png" />
             </ImageView>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../resistencia1.png" />
+                  <Image url="@../../../resistencia1.png " />
                </image>
             </ImageView>
-            <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="10.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="10.0" layoutY="180.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../resistencia2.png" />
                </image>
