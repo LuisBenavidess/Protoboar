@@ -40,7 +40,7 @@ public class fabrica_proto {
     public Protoboard decoracion(Protoboard proto){
         //Decoracion
 
-        Rectangle base = new Rectangle(5,26,582,435);
+        Rectangle base = new Rectangle(5,26,582,413/*435*/);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal
         base.setArcHeight(15); // Curvatura vertical
@@ -56,9 +56,9 @@ public class fabrica_proto {
 
         Text menos_inferior = new Text("-");
         menos_inferior.setLayoutX(12);
-        menos_inferior.setLayoutY(402);
+        menos_inferior.setLayoutY(380);
         menos_inferior.setRotate(-90);
-        Rectangle negativo_inferior = new Rectangle(25,394,544,6);
+        Rectangle negativo_inferior = new Rectangle(25,372/*394*/,544,6);
         negativo_inferior.setFill(Color.web("#0ea4e0"));
         negativo_inferior.setArcWidth(5);  // Curvatura horizontal
         negativo_inferior.setArcHeight(5); // Curvatura vertical
@@ -74,9 +74,9 @@ public class fabrica_proto {
 
         Text mas_inferior = new Text("+");
         mas_inferior.setLayoutX(10);
-        mas_inferior.setLayoutY(453);
+        mas_inferior.setLayoutY(431);
         mas_inferior.setRotate(-90);
-        Rectangle positivo_inferior = new Rectangle(25,445,544,6);
+        Rectangle positivo_inferior = new Rectangle(25,423,544,6);
         positivo_inferior.setFill(Color.web("#c43238"));
         positivo_inferior.setArcWidth(5);  // Curvatura horizontal
         positivo_inferior.setArcHeight(5); // Curvatura vertical
@@ -84,17 +84,17 @@ public class fabrica_proto {
         proto.getChildren().add(base);
 
         //Genera numeros
-        proto=numeros(33, 376,proto);
+        proto=numeros(33, 352/*376*/,proto);
         proto=numeros(33, 100,proto);
 
         //Generar letras
-        proto=letras(9,369,proto);
+        proto=letras(9,348,proto);
 
         //Generar buses
         crear_buses(proto.x, proto.y, 2,proto);
         crear_buses(proto.x, proto.y+70, 5,proto);
-        crear_buses(proto.x, proto.y+224, 5,proto);
-        crear_buses(proto.x, proto.y+361, 2,proto);
+        crear_buses(proto.x, proto.y+200/*224*/, 5,proto);
+        crear_buses(proto.x, proto.y+337, 2,proto);
 
         proto.getChildren().add(menos_superior);
         proto.getChildren().add(mas_superior);
@@ -137,8 +137,8 @@ public class fabrica_proto {
             text.setLayoutX(X);
             text.setLayoutY(alto);
             text.setRotate(-90);
-            if(alto==281){
-                alto=alto-63;
+            if(alto==260){
+                alto=alto-42;
             }else{
                 alto=alto-22;
             }
@@ -255,8 +255,8 @@ public class fabrica_proto {
                 }
                 if(node instanceof conection){
                     conection cable =(conection) node;
-                    cable.setLayoutX(cable.getLayoutX() + deltaX);
-                    cable.setLayoutY(cable.getLayoutY() + deltaY);
+                    //cable.setLayoutX(cable.getLayoutX() + deltaX);
+                    //cable.setLayoutY(cable.getLayoutY() + deltaY);
                     //cable.setX(cable.getX() + deltaX);
                     //cable.setY(cable.getY() + deltaY);
 

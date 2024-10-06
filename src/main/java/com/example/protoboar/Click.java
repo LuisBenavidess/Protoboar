@@ -144,6 +144,10 @@ public class Click {
         }
     }
 
+    public void CrearChip(){
+        manejarCirculos.crearChip();
+    }
+
     //Metodo que llama a eliminar elemento de otra clase
     public static void eliminarElemento(MouseEvent event) {
         //Condcion para saber si se desea eliminar un objeto

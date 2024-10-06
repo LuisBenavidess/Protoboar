@@ -26,6 +26,7 @@ public class ManejarCirculos {
     private final Bateria bateria;
     private final Motor motor;
     private final ManejarCarga manejarCarga;
+    private ArrayList<Chip> chips;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -40,6 +41,7 @@ public class ManejarCirculos {
         cables = new ArrayList<>();
         leds = new ArrayList<>();
         switches = new ArrayList<>();
+        chips=new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
     }
 
@@ -196,7 +198,7 @@ public class ManejarCirculos {
         if (parent instanceof Pane) {
             ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
             System.out.println("Paso la bateria");
-            linea.setStartX(circulo_apret.getCenterX());
+            //linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
         } else if (parent instanceof Group) {
             System.out.println("pasoooooooooooo");
@@ -332,6 +334,14 @@ public class ManejarCirculos {
         setSwitchClicked(true);
         switches.add(SW);
         primercircle = null;
+    }
+
+    public void crearChip(){
+        Fabrica_Chip fabrica = new Fabrica_Chip();
+        Chip chip=fabrica.crear();
+        pane.getChildren().add(chip);
+        chips.add(chip);
+
     }
 
     //Metodo que llama a la funcion revovinar en la clase manejarCarga

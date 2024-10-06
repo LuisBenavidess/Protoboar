@@ -2,15 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.protoboar.HelloController">
    <center>
@@ -22,9 +19,8 @@
          <ImageView fitHeight="100.0" fitWidth="116.0" layoutX="569.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@battery.png" />
          </ImageView>
-         <ImageView fitHeight="156.0" fitWidth="200.0" layoutX="413.0" layoutY="424.0" pickOnBounds="true"
-                    preserveRatio="true">
-            <Image url="@motor.png"/>
+         <ImageView fitHeight="156.0" fitWidth="200.0" layoutX="413.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@motor.png" />
          </ImageView>
          <Button layoutX="459.0" layoutY="546.0" mnemonicParsing="false" onAction="#toggleMotor" text="Encender" />
       </Pane>
@@ -41,8 +37,8 @@
             <ImageView fitHeight="28.0" fitWidth="57.0" onMouseClicked="#crearSwitch">
                <Image url="@Switch.png" />
             </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="40.0" onMouseClicked="#crearChip" stroke="BLACK" strokeType="INSIDE" width="60.0" />
          </children>
       </VBox>
    </right>
 </BorderPane>
-
