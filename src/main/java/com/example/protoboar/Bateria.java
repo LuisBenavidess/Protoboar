@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Bateria {
@@ -15,11 +16,11 @@ public class Bateria {
     private final ImageView batteryImagen;
     private double initialX;
     private double initialY;
-    private final ArrayList<conection> cables;
+    private final List<conection> cablesConectados = new ArrayList<>();
 
     // Constructor
     public Bateria(Pane pane) {
-        cables = new ArrayList<>();
+        ArrayList<conection> cables = new ArrayList<>();
         this.batteryImagen = new ImageView();
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/battery.png")));
         this.batteryImagen.setImage(image);
@@ -57,41 +58,31 @@ public class Bateria {
     }
 
     private void handleMouseDragged(MouseEvent event) {
-        double newX = batteryImagen.getLayoutX() + event.getX() - initialX;
-        double newY = batteryImagen.getLayoutY() + event.getY() - initialY;
-        batteryImagen.setLayoutX(newX);
-        batteryImagen.setLayoutY(newY);
+        double deltaX = batteryImagen.getLayoutX() + event.getX() - initialX;
+        double deltaY = batteryImagen.getLayoutY() + event.getY() - initialY;
+        batteryImagen.setLayoutX(deltaX);
+        batteryImagen.setLayoutY(deltaY);
         // Actualizar posiciones de los buses
-        positivo.setCenterX(newX + 25);
-        positivo.setCenterY(newY + 12);
-        negativo.setCenterX(newX + 75);
-        negativo.setCenterY(newY + 12);
+        positivo.setCenterX(deltaX + 25);
+        positivo.setCenterY(deltaY + 12);
+        negativo.setCenterX(deltaX + 75);
+        negativo.setCenterY(deltaY + 12);
         // Actualizar los cables conectados a los buses
-        updateCables();
-    }
-
-    public void addCable(conection cable) {
-        cables.add(cable);
-    }
-
-    private void updateCables() {
-        for (conection cable : cables) {
-            System.out.println("xd");
-            if (cable.getInicio() == positivo) {
-                cable.setStartX(positivo.getCenterX());
-                cable.setStartY(positivo.getCenterY());
-            } else if (cable.getInicio() == negativo) {
-                cable.setStartX(negativo.getCenterX());
-                cable.setStartY(negativo.getCenterY());
-            }
-            if (cable.getFin() == positivo) {
-                cable.setEndX(positivo.getCenterX());
-                cable.setEndY(positivo.getCenterY());
-            } else if (cable.getFin() == negativo) {
-                cable.setEndX(negativo.getCenterX());
-                cable.setEndY(negativo.getCenterY());
-            }
+        for (conection cable : cablesConectados) {
+            System.out.println("XD");
+            //cable.setLayoutX(cable.getLayoutX() + deltaX);
+            //cable.setLayoutY(cable.getLayoutY() + deltaY);
         }
+    }
+
+    // Método para añadir cables conectados
+    public void addCable(conection cable) {
+        cablesConectados.add(cable);
+    }
+
+    // Método para obtener los cables conectados
+    public List<conection> getCablesConectados() {
+        return cablesConectados;
     }
 
     public bus getPositivo() {

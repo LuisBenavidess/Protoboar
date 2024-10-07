@@ -7,8 +7,7 @@ import java.util.ArrayList;
 public class ManejarCarga {
 
     //Atributo
-    private ArrayList<Protoboard> protos;
-    //private  bus[][] alimentacion;
+    private final ArrayList<Protoboard> protos;
 
     //Constructor
     public ManejarCarga(ArrayList<Protoboard> protos) {

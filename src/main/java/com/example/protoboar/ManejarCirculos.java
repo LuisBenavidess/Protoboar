@@ -106,14 +106,17 @@ public class ManejarCirculos {
         }
         // Verificar si uno de los círculos es la batería
         if (cableClicked && (cableConectadoABateria(circulo) || cableConectadoABateria(primercircle))) {
-            // Si se conecta a la batería, agregar el cable a la batería
             System.out.println("PASA");
             bateria.addCable(nuevoCable);
         }
+        System.out.println("Círculo presionado: " + circulo);
+        System.out.println("Primer círculo: " + primercircle);
     }
 
     private boolean cableConectadoABateria(bus circulo) {
-        return circulo == bateria.getPositivo() || circulo == bateria.getNegativo();
+        boolean result = (circulo == bateria.getPositivo() || circulo == bateria.getNegativo());
+        System.out.println("Verificando si el círculo está conectado a la batería: " + result);
+        return result;
     }
 
     // Método que genera cable para los led y switch
@@ -121,18 +124,16 @@ public class ManejarCirculos {
         if (c1 == null || c2 == null) {
             return;
         }
-
         // Genera un cable de tipo conection con los dos círculos presionados
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
         cable.setInicio(c1); // positivo
         cable.setFin(c2); // negativo
-
         if (cableConectadoABateria(c1) || cableConectadoABateria(c2)) {
+            System.out.println("Cable conectado a la batería");
             bateria.addCable(cable);
         }
-
         if (ledClicked) {
             cable.setStroke(Color.RED);
             cable.setStrokeWidth(5);

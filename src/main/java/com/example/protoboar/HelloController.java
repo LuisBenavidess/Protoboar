@@ -24,15 +24,12 @@ public class HelloController {
     private ImageView basurero;
     @FXML
     private boolean basureroActivo = false;
-    private int cantidad;
     ///////////////////////////////
-
-
 
     //Metodos
     @FXML
     private void initialize() {
-        cantidad=0;
+        int cantidad = 0;
         ArrayList<Protoboard> protos = new ArrayList<>();
         fabrica_proto fabrica = new fabrica_proto();
         protos.add(fabrica.protoboard());
@@ -106,20 +103,17 @@ public class HelloController {
     @FXML
     //Metodo que llama a la funcion borrar basura atravez de un evento del basurero
     private void activarBasurero(MouseEvent event) {
-
         if(basureroActivo) {
             Image image = new Image("/basurero.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
             basureroActivo=false;
-
         }else{
             desactivarOpciones();
             Image image = new Image("/basureroOn.png");
             basurero.setImage(image);
             clickHandler.ClickEnBasurero();
             basureroActivo=true;
-
         }
     }
 

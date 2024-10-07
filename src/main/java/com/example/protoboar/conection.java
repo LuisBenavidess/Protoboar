@@ -29,6 +29,4 @@ public class conection extends Line {
     public bus getFin() {
         return fin;
     }
-
-
 }
