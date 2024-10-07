@@ -156,7 +156,7 @@ public class ManejarCirculos {
 
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
+
         if (ledClicked) {
             cable.setStroke(Color.RED);
             cable.setStrokeWidth(5);
@@ -192,10 +192,12 @@ public class ManejarCirculos {
 
             // Colocar la imagen del switch en el punto medio
             crearSwitch(proto, midX, midY, cable);
+
         } else if (resistClicked) {
+
             System.out.println("Se creó una resistencia");
             cable.setFin(c2);
-            cable.setStroke(Color.ORANGE);
+            cable.setStroke(Color.GRAY);
             cable.setStrokeWidth(5);
             proto.getChildren().add(cable);
 
@@ -256,7 +258,6 @@ public class ManejarCirculos {
     }
 
     //Metodo para parar la creacion del cable
-
 
     void parar(MouseEvent event) {
        // System.out.println("Termino esta chingada");

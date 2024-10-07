@@ -15,13 +15,41 @@ public class Resistencia extends Node{
 
     public Resistencia(Group group, double x, double y, conection cables) {
         this.cables = cables;
-        Image image = new Image("/resistencia1.png");
-        this.imageView = new ImageView(image);
+
+        //If para decidir la imagen que corresponde
+        if(cables.getInicio().getCenterX() > cables.getFin().getCenterX()){
+            Image image = new Image("/resistencia1.png");
+            this.imageView = new ImageView(image);
+            // Ajustar las dimensiones del ImageView
+            imageView.setFitWidth(25);
+            imageView.setFitHeight(40);
+        }else{
+            if(cables.getInicio().getCenterX() < cables.getFin().getCenterX()){
+                Image image = new Image("/resistencia4.png");
+                this.imageView = new ImageView(image);
+                // Ajustar las dimensiones del ImageView
+                imageView.setFitWidth(25);
+                imageView.setFitHeight(40);
+            }else{
+                if(cables.getInicio().getCenterY() > cables.getFin().getCenterY()){
+                    Image image = new Image("/resistencia2.png");
+                    this.imageView = new ImageView(image);
+                    // Ajustar las dimensiones del ImageView
+                    imageView.setFitWidth(40);
+                    imageView.setFitHeight(25);
+                }else{
+                    Image image = new Image("/resistencia3.png");
+                    this.imageView = new ImageView(image);
+                    // Ajustar las dimensiones del ImageView
+                    imageView.setFitWidth(40);
+                    imageView.setFitHeight(25);
+                }
+            }
+        }
+
         this.Reduccion = "10";
 
-        // Ajustar las dimensiones del ImageView
-        imageView.setFitWidth(40);
-        imageView.setFitHeight(20);
+
 
         // Posicionar el ImageView en las coordenadas dadas
         imageView.setX(x - imageView.getFitWidth() / 2);
@@ -32,8 +60,6 @@ public class Resistencia extends Node{
 
         group.getChildren().add(imageView);
         imageView.toFront();
-
-
     }
 
     public String getReduccion() {
