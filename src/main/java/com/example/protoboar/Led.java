@@ -3,7 +3,6 @@ package com.example.protoboar;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import java.util.Objects;
 //Clase que genera la imagen del led
 public class Led extends Node{
@@ -72,12 +71,15 @@ public class Led extends Node{
     public void setCable_rojo(conection cable_rojo) {
         this.cable_rojo = cable_rojo;
     }
+
     public void setCable_azul(conection cable_azul) {
         this.cable_azul = cable_azul;
     }
+
     public conection getCable_rojo() {
         return cable_rojo;
     }
+
     public conection getCable_azul() {
         return cable_azul;
     }

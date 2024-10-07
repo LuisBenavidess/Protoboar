@@ -1,5 +1,6 @@
 package com.example.protoboar;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,10 +22,19 @@ public class HelloController {
     @FXML
     private boolean switchClicked;
     @FXML
+    private boolean resistClicked;
+    @FXML
     private ImageView basurero;
+    @FXML
+    private Motor motor;
+    @FXML
+    private fabrica_proto fabrica;
+    @FXML
+    private ArrayList<Protoboard> protos;
     @FXML
     private boolean basureroActivo = false;
     ///////////////////////////////
+    private int cantidad;
 
     //Metodos
     @FXML
@@ -52,6 +62,7 @@ public class HelloController {
 
         accion_presionar((protos.get(cantidad)));
         cantidad++;
+
     }
 
     @FXML
@@ -70,6 +81,7 @@ public class HelloController {
             i++;
         }
     }
+
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
@@ -118,7 +130,7 @@ public class HelloController {
     }
 
     @FXML
-    // Genera y controla la creacion de switch
+    // Controla la creacion de switch
     private void crearSwitch() {
         if(!switchClicked) {
             desactivarOpciones();
@@ -126,12 +138,54 @@ public class HelloController {
             clickHandler.setSwitchClicked(true);
             switchClicked=true;
         } else{
+            desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setSwitchClicked(false);
+            System.out.println("Switch false");
             switchClicked=false;
         }
     }
+    @FXML
+    // Controla la creacion de la resistencia
+    private void crearResistencia() {
+        if(!resistClicked) {
+            desactivarOpciones();
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(true);
+            System.out.println("Resitencia true");
+            resistClicked=true;
+        } else{
+            desactivarOpciones();
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(false);
+            System.out.println("Resistencia false");
+            resistClicked=false;
+        }
+    }
 
+    @FXML
+    private void toggleMotor() {
+        if (motor.isEncendido()) {
+            motor.apagarMotor(); // Apagar el motor si está encendido
+            System.out.println("Motor apagado");
+        } else {
+            motor.encenderMotor(); // Encender el motor si está apagado
+            System.out.println("Motor encendido");
+        }
+    }
+
+    @FXML
+    private void crear_proto(ActionEvent event) {
+        System.out.println("creo");
+        protos.add(fabrica.protoboard());
+        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad));
+        accion_presionar((protos.get(cantidad)));
+        cantidad++;
+
+    }
+
+    @FXML
     private void desactivarOpciones() {
         clickHandler.setLedClicked(false);
         ledClicked = false;
