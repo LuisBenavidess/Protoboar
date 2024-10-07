@@ -231,6 +231,27 @@ public class Click {
                     i++;
                 }
             }
+            i=0;
+            //bucles switch
+            resistencias=manejarCirculos.getResistencias();
+            System.out.println(switches.size());
+            while (i < resistencias.size()) {
+                System.out.println("busca resistencia");
+                if (basura.equals(resistencias.get(i).getImageView())) {
+                    System.out.println("se elimino resistencia");
+
+                    // Remover el switch de los protoboards
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(resistencias.get(i).getImageView());
+                        proto.getChildren().remove(resistencias.get(i).getCable());
+                    }
+
+                    // Remover el switch del array
+                    resistencias.remove(i);
+                } else {
+                    i++;
+                }
+            }
         }
     }
 
