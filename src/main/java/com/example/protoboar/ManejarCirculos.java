@@ -80,6 +80,9 @@ public class ManejarCirculos {
         this.protos = protos;
         System.out.println(protos.get(0).alimentacion[0][0].getCenterX());
     }
+    public ArrayList<Protoboard> getprotos() {
+        return protos;
+    }
     //////////////////////////////////////////////////
 
     //Metodos
@@ -339,6 +342,7 @@ public class ManejarCirculos {
     public void crearChip(){
         Fabrica_Chip fabrica = new Fabrica_Chip();
         Chip chip=fabrica.crear();
+        chip.setProtos(getprotos());
         pane.getChildren().add(chip);
         chips.add(chip);
 

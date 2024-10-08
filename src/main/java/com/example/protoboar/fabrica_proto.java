@@ -279,30 +279,9 @@ public class fabrica_proto {
 
     }
 
-    private void terminar(MouseEvent event){
-        Protoboard proto = (Protoboard) event.getSource();
 
 
-        System.out.println(proto.getLayoutX());
-       // coordenadas(proto);
-    }
 
-    private void coordenadas(Protoboard proto){
-        int i=0;
-        while(i<14){
-            int j=0;
-            while(j<30){
-
-                bus circulo=proto.alimentacion[i][j];
-                circulo.setCenterX(proto.x-circulo.getCenterX());
-                circulo.setCenterY(proto.y-circulo.getCenterY());
-                j++;
-            }
-            i++;
-        }
-
-
-    }
 
 
 
