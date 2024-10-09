@@ -30,6 +30,7 @@ public class fabrica_proto {
         proto=decoracion(proto);
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
+        proto.setOnMouseClicked(Click::eliminarElemento);
        // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
 
@@ -265,6 +266,11 @@ public class fabrica_proto {
                     ImageView image = (ImageView) node;
                     image.setLayoutX(image.getLayoutX() + deltaX);
                     image.setLayoutY(image.getLayoutY() + deltaY);
+                }
+                if(node instanceof Chip){
+                    Chip chip = (Chip) node;
+                    chip.setLayoutX(chip.getLayoutX() + deltaX);
+                    chip.setLayoutY(chip.getLayoutY() + deltaY);
                 }
 
 

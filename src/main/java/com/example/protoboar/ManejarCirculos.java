@@ -83,6 +83,10 @@ public class ManejarCirculos {
     public ArrayList<Protoboard> getprotos() {
         return protos;
     }
+
+    public ArrayList<Chip> getChips() {
+        return chips;
+    }
     //////////////////////////////////////////////////
 
     //Metodos
@@ -366,6 +370,10 @@ public class ManejarCirculos {
     //Metodo que llama a la funcion verificar switch en la clase manejarCarga
     public void verificar_switch() {
         manejarCarga.verificarSwitches(switches);
+    }
+
+    public void verificar_chip(){
+        manejarCarga.verificar_chips(chips);
     }
 
 }

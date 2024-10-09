@@ -9,6 +9,7 @@ public class Chip extends Group {
 
     public double initX;
     public double initY;
+    private Rectangle base;
     private ArrayList<Protoboard> protos;
     private ArrayList<Pata> patas;
     public int pos_proto;
@@ -46,6 +47,12 @@ public class Chip extends Group {
     }
     public Pata getPats(int x){
         return patas.get(x);
+    }
+    public void setBase(Rectangle base){
+        this.base = base;
+    }
+    public Rectangle getBase(){
+        return base;
     }
 
 }

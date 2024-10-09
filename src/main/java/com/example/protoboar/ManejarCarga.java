@@ -272,4 +272,16 @@ public class ManejarCarga {
             i++;
         }
     }
+
+    public void verificar_chips(ArrayList<Chip> chips) {
+        int i=0;
+        while (i < chips.size()) {
+            if(chips.get(i).terminado){
+                protos.get(chips.get(i).pos_proto).getChildren().add(chips.get(i));
+                chips.get(i).terminado=false;
+            }
+            i++;
+        }
+
+    }
 }

@@ -7,6 +7,10 @@ import javafx.scene.shape.Rectangle;
 
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class Fabrica_Chip {
     public Fabrica_Chip() {}
@@ -18,6 +22,7 @@ public class Fabrica_Chip {
         chip.setOnMousePressed(this::iniciar_mov);
         chip.setOnMouseDragged(this::arrastrar);
         chip.setOnMouseReleased(this::terminar);
+        chip.setOnMouseClicked(Click::eliminarElemento);
 
         return chip;
 
@@ -27,13 +32,22 @@ public class Fabrica_Chip {
     public Chip decoracion(Chip chip){
 
         Rectangle base = new Rectangle(700,300,65,38/*40*/);
+        Text letra = new Text("Chip");
+        letra.setFill(Color.WHITE);
+        letra.setFont(Font.font("Bodoni", FontWeight.BOLD, 10));
+        letra.setLayoutX(700);
+        letra.setLayoutY(325);
         chip.getChildren().add(base);
+        chip.getChildren().add(letra);
+        chip.setBase(base);
         int i=0;
         int x=700;
         int y=295;
         while(i<8){
             Pata pata= new Pata(x,y,10,10);
             pata.setFill(Color.GRAY);
+            pata.setArcWidth(5);  // Curvatura horizontal
+            pata.setArcHeight(5);
             chip.addPat(pata);
             chip.getChildren().add(pata);
 
@@ -99,6 +113,12 @@ public class Fabrica_Chip {
                 x++;
 
             }
+            double centerX = (chip.getPats(0).getX() + chip.getPats(3).getX() + chip.getPats(4).getX() +
+                    chip.getPats(7).getX() + chip.getPats(0).getWidth() + chip.getPats(4).getWidth()) / 4;
+            double centerY = (chip.getPats(0).getY() + chip.getPats(3).getY() + chip.getPats(4).getY() +
+                    chip.getPats(7).getY() + chip.getPats(0).getHeight() + chip.getPats(3).getHeight()) / 4;
+            chip.getBase().setX(centerX - chip.getBase().getWidth() / 2);
+            chip.getBase().setY(centerY - chip.getBase().getHeight() / 2);
             chip.setOnMousePressed(null);
             chip.setOnMouseDragged(null);
             chip.setOnMouseReleased(null);
@@ -120,8 +140,10 @@ public class Fabrica_Chip {
 
                     while(i<chip.getPatas().size()){
 
-
-                        if (chip.getPats(i).localToScene(chip.getPats(i).getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
+                        boolean bandera= pasa_50(bus,chip.getPats(i));
+                        //System.out.println(bandera);
+                        if (bandera/*chip.getPats(i).localToScene(chip.getPats(i).getBoundsInLocal())
+                                .intersects(bus.localToScene(bus.getBoundsInLocal()))*/) {
                             bus.setFill(Color.RED);
                             chip.getPats(i).setPata(1);
                             chip.getPats(i).setBus_conectado(bus);
@@ -135,6 +157,27 @@ public class Fabrica_Chip {
             x++;
         }
 
+    }
+
+    public boolean pasa_50(bus bus, Pata pata){
+        // Obtener los bounds del círculo y del rectángulo
+        if (pata.localToScene(pata.getBoundsInLocal())
+                .intersects(bus.localToScene(bus.getBoundsInLocal()))) {
+            //System.out.println("pasa");
+            // Calcular el área cubierta
+            double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
+            double Area = Area(bus, pata);
+
+            // Verificar si más del 50% del círculo está cubierto
+            return Area >= (0.5 * circleArea);
+        }
+        return false;
+    }
+
+    private double Area(bus bus,Pata pata) {
+        Shape inter = Shape.intersect(bus, pata);
+        //Calcular la interseccion entre el bus y la pata
+        return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
 
 
