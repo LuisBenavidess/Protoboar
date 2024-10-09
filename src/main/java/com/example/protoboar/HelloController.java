@@ -164,6 +164,11 @@ public class HelloController {
     }
 
     @FXML
+    private void crearChip(){
+        clickHandler.CrearChip();
+    }
+
+    @FXML
     private void toggleMotor() {
         if (motor.isEncendido()) {
             motor.apagarMotor(); // Apagar el motor si está encendido

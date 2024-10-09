@@ -18,6 +18,7 @@ public class Click {
     private static ManejarCirculos manejarCirculos;
     private static ArrayList<Protoboard> protos;
     private static ArrayList<Led> leds;
+    private static ArrayList<Chip> chips;
 
     //Construcctor
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -146,12 +147,19 @@ public class Click {
             prender_led();
             i++;
         }
+        i=0;
+        //Verifica los chips
+        manejarCirculos.verificar_chip();
     }
 
     //Metodo para cuando se preciona el basurero (Borrar)
     public void ClickEnBasurero() {
         System.out.println("Modo borrar");
         eliminarProximaImagen = !eliminarProximaImagen;
+    }
+
+    public void CrearChip(){
+        manejarCirculos.crearChip();
     }
 
     //Metodo que llama a eliminar elemento de otra clase
@@ -243,6 +251,27 @@ public class Click {
                 }
                 i++;
 
+            }
+
+            i=0;
+            //bucle chips
+            chips=manejarCirculos.getChips();
+            while(i < chips.size()){
+                System.out.println("busca Chip");
+                if (basura.equals(chips.get(i))) {
+                    System.out.println("se elimino Chip");
+                    int x=0;
+                    while(x<getprotos().size()){
+                        if(protos.get(x).getChildren().contains(chips.get(i))){
+                            System.out.println("se borro el Chip");
+                            protos.get(x).getChildren().remove(chips.get(i));
+                        }
+                        x++;
+                    }
+                    chips.remove(i);
+
+                }
+                i++;
             }
         }
     }
