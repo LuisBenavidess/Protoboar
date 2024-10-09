@@ -25,8 +25,10 @@ public class ManejarCirculos {
     private final ArrayList<Led> leds;
     private final ArrayList<Switch> switches;
     private static ArrayList<Resistencia> resistencias;
+    private static ArrayList<Switch3x3> switches3x3;
     private final Bateria bateria;
     private final ManejarCarga manejarCarga;
+    private ArrayList<Chip> chips;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -38,9 +40,11 @@ public class ManejarCirculos {
         this.switchClicked = false;
         this.resistClicked = false;
         cables = new ArrayList<>();
+        switches3x3 = new ArrayList<>();
         leds = new ArrayList<>();
         switches = new ArrayList<>();
         resistencias = new ArrayList<>();
+        chips=new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
     }
 
@@ -89,6 +93,17 @@ public class ManejarCirculos {
         System.out.println(protos.getFirst().alimentacion[0][0].getCenterX());
     }
 
+    public ArrayList<Protoboard> getprotos() {
+        return protos;
+    }
+
+    public ArrayList<Chip> getChips() {
+        return chips;
+    }
+
+    public ArrayList<Switch3x3> getswitches3x3() {
+        return switches3x3;
+    }
     //////////////////////////////////////////////////
 
     //Metodos
@@ -376,6 +391,23 @@ public class ManejarCirculos {
         primercircle = null;
     }
 
+    public void crearChip(){
+        Fabrica_Chip fabrica = new Fabrica_Chip();
+        Chip chip=fabrica.crear();
+        chip.setProtos(getprotos());
+        pane.getChildren().add(chip);
+        chips.add(chip);
+
+    }
+
+    public void crearSwitch3x3(){
+        Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
+        Switch3x3 switch3x3 = fabrica.crear();
+        switch3x3.setProtos(getprotos());
+        pane.getChildren().add(switch3x3);
+        switches3x3.add(switch3x3);
+    }
+
     //Metodo que llama a la funcion revovinar en la clase manejarCarga
     public  void revovinar() {
         manejarCarga.revovinar();
@@ -399,6 +431,14 @@ public class ManejarCirculos {
     //Metodo que llama a la funcion verificar switch en la clase manejarCarga
     public void verificar_resistencia() {
         manejarCarga.verificarResistencias(resistencias);
+    }
+
+    public void verificar_chip(){
+        manejarCarga.verificar_chips(chips);
+    }
+
+    public void verificar_sw3x3(){
+        manejarCarga.verificar_sw3x3(switches3x3);
     }
 
 }

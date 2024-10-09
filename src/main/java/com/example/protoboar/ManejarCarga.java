@@ -1,5 +1,6 @@
 package com.example.protoboar;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
@@ -292,6 +293,74 @@ public class ManejarCarga {
             }
             i++;
         }
+    }
+
+    public void verificar_chips(ArrayList<Chip> chips) {
+        int i=0;
+        while (i < chips.size()) {
+            if(chips.get(i).terminado){
+                protos.get(chips.get(i).pos_proto).getChildren().add(chips.get(i));
+                chips.get(i).terminado=false;
+            }
+            i++;
+        }
+
+    }
+
+    public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
+
+        int i=0;
+        while (i < sw.size()) {
+            if(sw.get(i).terminado){
+                protos.get(sw.get(i).pos_proto).getChildren().add(sw.get(i));
+                sw.get(i).terminado=false;
+            }
+            i++;
+        }
+
+        i=0;
+        while (i < sw.size()) {
+            if(sw.get(i).getCarga().equals("+")){
+                bus Bus = sw.get(i).getPats(i).getBus_conectado();
+
+                int j = 1;
+                while(j < sw.get(i).getPatas().size()){
+                    bus Bus2 = sw.get(i).getPats(j).getBus_conectado();
+                    if (!Bus.getCarga().equals(" ")) {
+                        if(Bus2.getCarga().equals(" ")){
+                            Bus2.setCarga(Bus.getCarga());
+                        }else{ //Aqui se puede verificar el corto cuando reciba un negativo y positivo
+
+                        }
+                    }
+                    j++;
+                }
+
+            }else{
+                int j = 0;
+                while(j < sw.get(i).getPatas().size()){
+                    sw.get(i).getPats(j).getBus_conectado().setCarga(" ");
+                    j++;
+                }
+            }
+            i++;
+
+        }
+        i = 0;
+        for (Node node : protos.get(sw.get(i).pos_proto).getChildren()) {
+            if(node instanceof bus && i < sw.size()){
+                int j=0;
+                bus Bus = (bus) node;
+                while(j < sw.get(i).getPatas().size()){
+                    if(Bus == sw.get(i).getPats(j).getBus_conectado()){
+                        Bus.setCarga(sw.get(i).getPats(j).getBus_conectado().getCarga());
+                    }
+                    j++;
+                }
+                i++;
+            }
+        }
+
     }
 
 }

@@ -28,7 +28,7 @@ public class HelloController {
     @FXML
     private Motor motor;
     @FXML
-    private fabrica_proto fabrica;
+    private Fabrica_Proto fabrica;
     @FXML
     private ArrayList<Protoboard> protos;
     @FXML
@@ -41,7 +41,7 @@ public class HelloController {
     private void initialize() {
         int cantidad = 0;
         ArrayList<Protoboard> protos = new ArrayList<>();
-        fabrica_proto fabrica = new fabrica_proto();
+        Fabrica_Proto fabrica = new Fabrica_Proto();
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
@@ -161,6 +161,16 @@ public class HelloController {
             System.out.println("Resistencia false");
             resistClicked=false;
         }
+    }
+
+    @FXML
+    private void crearChip(){
+        clickHandler.CrearChip();
+    }
+
+    @FXML
+    private void crearSwitch3x3(MouseEvent event) {
+        clickHandler.CrearSwitch3x3();
     }
 
     @FXML
