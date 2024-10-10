@@ -112,17 +112,17 @@ public class Fabrica_Chip {
                 pata.setY(newY);
                 x++;
 
-}
-double centerX = (chip.getPats(0).getX() + chip.getPats(3).getX() + chip.getPats(4).getX() +
-        chip.getPats(7).getX() + chip.getPats(0).getWidth() + chip.getPats(4).getWidth()) / 4;
-double centerY = (chip.getPats(0).getY() + chip.getPats(3).getY() + chip.getPats(4).getY() +
-        chip.getPats(7).getY() + chip.getPats(0).getHeight() + chip.getPats(3).getHeight()) / 4;
+            }
+            double centerX = (chip.getPats(0).getX() + chip.getPats(3).getX() + chip.getPats(4).getX() +
+                    chip.getPats(7).getX() + chip.getPats(0).getWidth() + chip.getPats(4).getWidth()) / 4;
+            double centerY = (chip.getPats(0).getY() + chip.getPats(3).getY() + chip.getPats(4).getY() +
+            chip.getPats(7).getY() + chip.getPats(0).getHeight() + chip.getPats(3).getHeight()) / 4;
             chip.getBase().setX(centerX - chip.getBase().getWidth() / 2);
-        chip.getBase().setY(centerY - chip.getBase().getHeight() / 2);
-        chip.setOnMousePressed(null);
+            chip.getBase().setY(centerY - chip.getBase().getHeight() / 2);
+            chip.setOnMousePressed(null);
             chip.setOnMouseDragged(null);
             chip.setOnMouseReleased(null);
-chip.terminado=true;
+            chip.terminado=true;
         }
 
 
@@ -161,8 +161,7 @@ chip.terminado=true;
 
     public boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
-        if (pata.localToScene(pata.getBoundsInLocal())
-                .intersects(bus.localToScene(bus.getBoundsInLocal()))) {
+        if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
             //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);

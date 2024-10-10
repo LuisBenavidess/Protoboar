@@ -16,7 +16,7 @@ public class Fabrica_Switch3x3 {
         sw.setOnMousePressed(this::iniciar_mov);
         sw.setOnMouseDragged(this::arrastrar);
         sw.setOnMouseReleased(this::terminar);
-        sw.setOnMouseClicked(Click::eliminarElemento);
+
         sw.setOnMouseClicked(Switch3x3::cambiarCarga);
 
         return sw;
@@ -118,6 +118,7 @@ public class Fabrica_Switch3x3 {
             sw.setOnMousePressed(null);
             sw.setOnMouseDragged(null);
             sw.setOnMouseReleased(null);
+            sw.setOnMousePressed(Click::eliminarElemento);
             sw.terminado=true;
         }
 

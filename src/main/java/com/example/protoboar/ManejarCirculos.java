@@ -265,7 +265,7 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
-            System.out.println("movimiento");
+            //System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
         }else{
             System.out.println("El Linea no existe");
@@ -438,7 +438,9 @@ public class ManejarCirculos {
     }
 
     public void verificar_sw3x3(){
+
         manejarCarga.verificar_sw3x3(switches3x3);
+
     }
 
 }
