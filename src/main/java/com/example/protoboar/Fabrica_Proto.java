@@ -160,6 +160,7 @@ public class Fabrica_Proto {
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
                 circulo.setOnMouseDragged(this::arrastrar);
+
                 //Guardar el circulo dentro de la matriz
                 proto.alimentacion[proto.filas][proto.columnas] = circulo;
                 proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
