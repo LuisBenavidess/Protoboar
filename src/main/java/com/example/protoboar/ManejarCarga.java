@@ -27,6 +27,7 @@ public class ManejarCarga {
                         if (protos.get(x).alimentacion[i][j].getFill() != Color.YELLOW) {
                             protos.get(x).alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
                             protos.get(x).alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
+                            protos.get(x).alimentacion[i][j].setVoltaje(null);
                         }
                     }
                     j++;
@@ -72,16 +73,17 @@ public class ManejarCarga {
             return;
         }
         if (i <= 1) {
-            // Filas 0 y 1
-            // Forma Horizontal
+            // Filas 0 y 1 - Forma Horizontal
             int col = 0;
             while (col < 30) {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
+                    proto.alimentacion[i][col].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
+                    proto.alimentacion[i][col].setVoltaje(0.0);
                 }
                 col++;
             }
@@ -91,23 +93,26 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
+                    proto.alimentacion[fil][j].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
+                    proto.alimentacion[fil][j].setVoltaje(0.0);
                 }
                 fil++;
             }
         } else if (i <= 11) {
-            // Filas 7-11
-            //Forma vertical
+            // Filas 7-11 - Forma vertical
             int fil = 11;
             while (fil >= 7) {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
+                    proto.alimentacion[fil][j].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
+                    proto.alimentacion[fil][j].setVoltaje(0.0);
                 }
                 fil--;
             }
@@ -118,9 +123,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
+                    proto.alimentacion[i][col].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
+                    proto.alimentacion[i][col].setVoltaje(0.0);
                 }
                 col++;
             }
@@ -164,6 +171,7 @@ public class ManejarCarga {
         if (fila == 0 || fila == 1 || fila == 13 || fila == 14) {
             for (int col = 0; col < proto.alimentacion[fila].length; col++) {
                 quemarBus(fila, col,proto);
+
             }
         }
     }
@@ -230,6 +238,7 @@ public class ManejarCarga {
         if (circulo != null && circulo.getFill() != Color.YELLOW) {
             circulo.setFill(Color.YELLOW); // Cambia el color a amarillo para indicar que está quemado
             circulo.setCarga("X"); // Indica que el bus está quemado e inutilizable
+            circulo.setVoltaje(null);
         }
     }
 

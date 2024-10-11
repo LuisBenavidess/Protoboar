@@ -27,7 +27,7 @@ public class ManejarCirculos {
     private static ArrayList<Resistencia> resistencias;
     private final Bateria bateria;
     private final ManejarCarga manejarCarga;
-    private ArrayList<Chip> chips;
+    private final ArrayList<Chip> chips;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -239,17 +239,12 @@ public class ManejarCirculos {
         Parent parent = circulo_apret.getParent();
         if (parent instanceof Pane) {
             ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
-            System.out.println("Paso la bateria");
             linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
         } else if (parent instanceof Group) {
-            System.out.println("pasoooooooooooo");
             ((Group) circulo_apret.getParent()).getChildren().add(linea);  // Si fuera Group, agregaría aquí
 
-        } else {
-            System.out.println("El Parent no es ni Pane ni Group.");
         }
-
         // Movimiento de la línea
         circulo_apret.getParent().setOnMouseMoved(this::movimiento);
     }
@@ -259,21 +254,16 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
-            System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
-        }else{
-            System.out.println("El Linea no existe");
         }
     }
 
     //Metodo para parar la creacion del cable
 
     void parar(MouseEvent event) {
-       // System.out.println("Termino esta chingada");
 
         // Desactivar temporalmente eventos
-        if (event.getSource() instanceof Parent) {
-            Parent parent = (Parent) event.getSource();
+        if (event.getSource() instanceof Parent parent) {
             parent.setOnMouseMoved(null);
             parent.setOnMouseClicked(null);
         }
@@ -295,7 +285,6 @@ public class ManejarCirculos {
 
                                 // Anclar el extremo inicial de la línea a la posición del grupo
                                if(circulo_bateria){
-                                   System.out.println("entroooooo");
                                    protos.get(x).setConections(linea);
                                    linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                    linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
@@ -304,9 +293,6 @@ public class ManejarCirculos {
 
                                 cables.add(nuevo);
                                 linea = null;
-
-                                System.out.println("termino esta chingada para siempre");
-
                                 // Reactivar eventos después de la creación
                                 /*parent.setOnMouseMoved(this::movimiento);
                                 parent.setOnMouseClicked(this::parar);*/
@@ -323,12 +309,10 @@ public class ManejarCirculos {
                 verificarCírculoBateria(event, bateria.getPositivo());
                 verificarCírculoBateria(event, bateria.getNegativo());
             }
-            System.out.println("No entra");
         }
 
         // Reactivar eventos si no se completó la operación
-        if (event.getSource() instanceof Parent) {
-            Parent parent = (Parent) event.getSource();
+        if (event.getSource() instanceof Parent parent) {
             parent.setOnMouseMoved(this::movimiento);
             parent.setOnMouseClicked(this::parar);
         }

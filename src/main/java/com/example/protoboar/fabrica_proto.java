@@ -140,47 +140,56 @@ public class fabrica_proto {
         }
     }
 
-    //Funcion que crea los circulos
+
+    // Función que crea los circulos
     @FXML
-    private void crear_buses(double X, double Y, int FIL,Protoboard proto) {
+    private void crear_buses(double X, double Y, int FIL, Protoboard proto) {
         // Variables a utilizar
-        int carga=0;
+        int carga = 0;
         int col = 0;
         int fil = 0;
         double x = X;
         double y = Y;
 
-        int mas_x=0;
-        int mas_y=0;
-        //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
+        int mas_x = 0;
+        int mas_y = 0;
+
+        // Bucle que viaja a través de la matriz de alimentación generando buses con su respectiva posición
         while (fil < FIL) {
             while (col < 30) {
-                //circulo
+                // Circulo
                 bus circulo = new bus();
-                circulo.setCenterX(x+mas_x);
-                circulo.setCenterY(y+mas_y);
+                circulo.setCenterX(x + mas_x);
+                circulo.setCenterY(y + mas_y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
                 circulo.setOnMouseDragged(this::arrastrar);
-                //Guardar el circulo dentro de la matriz
+
+                // Guardar el circulo dentro de la matriz
                 proto.alimentacion[proto.filas][proto.columnas] = circulo;
                 proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
                 proto.alimentacion[proto.filas][proto.columnas].setColumna(proto.columnas);
                 proto.alimentacion[proto.filas][proto.columnas].setCarga(" ");
-                proto.alimentacion[proto.filas][proto.columnas].x=circulo.getCenterX();
-                proto.alimentacion[proto.filas][proto.columnas].y=circulo.getCenterY();
-                //Agregar
+                proto.alimentacion[proto.filas][proto.columnas].x = circulo.getCenterX();
+                proto.alimentacion[proto.filas][proto.columnas].y = circulo.getCenterY();
+                circulo.setVoltaje(null);
+
+                // Agregar el bus al protoboard
                 proto.getChildren().add(circulo);
-                mas_x=mas_x+18;
+                // Agregar el display del voltaje al protoboard
+                proto.getChildren().add(circulo.getVoltajeDisplay());
+
+                mas_x = mas_x + 18;
                 col++;
                 proto.columnas++;
+
                 if (col == 30) {
                     fil = fil + 1;
                     proto.filas = proto.filas + 1;
                     x = 37;
-                    mas_x=0;
-                    mas_y=mas_y+22;
+                    mas_x = 0;
+                    mas_y = mas_y + 22;
                     carga = carga + 1;
                 }
             }
@@ -188,6 +197,8 @@ public class fabrica_proto {
             proto.columnas = 0;
         }
     }
+
+
 
     private void iniciar_Arrastre(MouseEvent event){
         Protoboard proto = (Protoboard) event.getSource();
