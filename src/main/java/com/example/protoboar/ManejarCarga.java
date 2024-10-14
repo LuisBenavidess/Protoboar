@@ -1,5 +1,6 @@
 package com.example.protoboar;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
@@ -305,5 +306,50 @@ public class ManejarCarga {
         }
 
     }
+
+    public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
+
+        int i=0;
+        while (i < sw.size()) {
+            if(sw.get(i).terminado){
+                protos.get(sw.get(i).pos_proto).getChildren().add(sw.get(i));
+                sw.get(i).terminado=false;
+            }
+            i++;
+        }
+
+        i=0;
+        // Condicion para que recorra todos los switches
+        while (i < sw.size()) {
+
+            //Condicion de prendido
+            if(sw.get(i).getCarga().equals("+")){
+
+                int j = 0;
+                while(j < sw.get(i).getPatas().size()){
+                    bus Bus = sw.get(i).getPats(j).getBus_conectado();
+                    if (!Bus.getCarga().equals(" ")) {
+
+                        sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                        sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                        sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                        sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+
+
+                        corriente();
+
+                    }
+
+                    j++;
+                }
+
+            }
+            i++;
+
+        }
+
+
+    }
+
 
 }

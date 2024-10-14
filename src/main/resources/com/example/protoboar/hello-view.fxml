@@ -17,7 +17,6 @@
    <center>
       <Pane fx:id="pane" prefHeight="516.0" prefWidth="605.0" BorderPane.alignment="CENTER">
          <Label fx:id="label" layoutX="283.0" layoutY="30.0" />
-
       </Pane>
    </center>
    <right>
@@ -40,6 +39,11 @@
             <ImageView fitHeight="65.0" fitWidth="72.0" onMouseClicked="#crearChip" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@chip.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="63.0" fitWidth="67.0" onMousePressed="#crearSwitch3x3" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Switch3x3.png" />
                </image>
             </ImageView>
          </children>

@@ -19,6 +19,7 @@ public class Click {
     private static ArrayList<Protoboard> protos;
     private static ArrayList<Led> leds;
     private static ArrayList<Chip> chips;
+    private static ArrayList<Switch3x3> switch3x3;
 
     //Construcctor
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -89,6 +90,13 @@ public class Click {
         return protos;
     }
 
+    public static void  setSwitch3x3(ArrayList<Switch3x3> switch3x3s) {
+        switch3x3 = switch3x3s;
+    }
+    public static ArrayList<Switch3x3> getSwitch3x3s() {
+        return switch3x3;
+    }
+
     ////////////////////////////////////////////////////////////////////////
 
     //Metodo para cuando se preciona algun circlu(bus)
@@ -123,9 +131,14 @@ public class Click {
 
     // verifica los switch para el intercambio de cargas
     public static void verificar_resistencia() {
-        System.out.println("verifica la resistencia");
         setResistencias(manejarCirculos.getResistencias());
         manejarCirculos.verificar_resistencia();
+    }
+
+    // verifica los switch3x3 para el intercambio de carga
+    public static void verificar_Switch3x3s() {
+
+        manejarCirculos.verificar_sw3x3();
     }
 
     @FXML
@@ -134,13 +147,21 @@ public class Click {
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
+        setSwitch3x3(manejarCirculos.getswitches3x3());
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
             verificar_cables();
             verificar_switch();
             verificar_resistencia();
+            int j=0;
+            while(j<getSwitch3x3s().size()){
+                verificar_Switch3x3s();
+                j++;
+            }
+
             i++;
         }
+
         i=0;
         //Verifica los leds
         while(i<getCables_led().size()){
@@ -150,6 +171,7 @@ public class Click {
         i=0;
         //Verifica los chips
         manejarCirculos.verificar_chip();
+
     }
 
     //Metodo para cuando se preciona el basurero (Borrar)
@@ -160,6 +182,10 @@ public class Click {
 
     public void CrearChip(){
         manejarCirculos.crearChip();
+    }
+
+    public void CrearSwitch3x3(){
+        manejarCirculos.crearSwitch3x3();
     }
 
     //Metodo que llama a eliminar elemento de otra clase
@@ -214,9 +240,9 @@ public class Click {
             leds=manejarCirculos.get_leds();
             System.out.println(leds.size());
             while (i < leds.size()) {
-                System.out.println("busca switch");
+                System.out.println("busca switch3x3");
                 if (basura.equals(leds.get(i).getImageView())) {
-                    System.out.println("se elimino switch");
+                    System.out.println("se elimino switch3x3");
 
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
@@ -236,9 +262,9 @@ public class Click {
             resistencias=manejarCirculos.getResistencias();
             System.out.println(switches.size());
             while (i < resistencias.size()) {
-                System.out.println("busca resistencia");
+                System.out.println("busca switch3x3");
                 if (basura.equals(resistencias.get(i).getImageView())) {
-                    System.out.println("se elimino resistencia");
+                    System.out.println("se elimino switch3x3");
 
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
@@ -257,13 +283,13 @@ public class Click {
             //bucle chips
             chips=manejarCirculos.getChips();
             while(i < chips.size()){
-                System.out.println("busca Chip");
+                System.out.println("busca switch3x3");
                 if (basura.equals(chips.get(i))) {
                     System.out.println("se elimino Chip");
                     int x=0;
                     while(x<getprotos().size()){
                         if(protos.get(x).getChildren().contains(chips.get(i))){
-                            System.out.println("se borro el Chip");
+                            System.out.println("se borro el switch3x3");
                             protos.get(x).getChildren().remove(chips.get(i));
                         }
                         x++;
@@ -273,8 +299,28 @@ public class Click {
                 }
                 i++;
             }
+
+            i=0;
+            //bucle Switch3x3
+            switch3x3=manejarCirculos.getswitches3x3();
+            while(i < switch3x3.size()){
+                System.out.println("busca Switch3x3");
+                if (basura.equals(switch3x3.get(i))) {
+                    System.out.println("se elimino Switch3x3");
+                    int x=0;
+                    while(x<getprotos().size()){
+                        if(protos.get(x).getChildren().contains(switch3x3.get(i))){
+                            System.out.println("se borro el Switch3x3");
+                            protos.get(x).getChildren().remove(switch3x3.get(i));
+                        }
+                        x++;
+                    }
+                    switch3x3.remove(i);
+
+                }
+                i++;
+            }
         }
     }
-
 
 }

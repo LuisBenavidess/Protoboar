@@ -70,17 +70,15 @@ public class Bateria {
         // Actualizar los cables conectados a los buses
         for (conection cable : cablesConectados) {
             System.out.println("XD");
-            //cable.setLayoutX(cable.getLayoutX() + deltaX);
-            //cable.setLayoutY(cable.getLayoutY() + deltaY);
         }
     }
 
-    // Método para añadir cables conectados
+    // Metodo para añadir cables conectados
     public void addCable(conection cable) {
         cablesConectados.add(cable);
     }
 
-    // Método para obtener los cables conectados
+    // Metodo para obtener los cables conectados
     public List<conection> getCablesConectados() {
         return cablesConectados;
     }

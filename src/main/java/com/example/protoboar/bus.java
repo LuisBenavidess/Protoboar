@@ -38,4 +38,12 @@ public class bus extends Circle {
     public String getCarga() {
         return carga;
     }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public int getFila() {
+        return fila;
+    }
 }

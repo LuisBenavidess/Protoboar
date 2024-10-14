@@ -13,10 +13,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 // Clase que se encargara de generar los protoboards
-public class fabrica_proto {
+public class Fabrica_Proto {
 
     //Constructor
-    public fabrica_proto(){
+    public Fabrica_Proto(){
     }
 
     //Metodo que genera un grupo y lo devuelve, que seria el protoboard
@@ -26,7 +26,7 @@ public class fabrica_proto {
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
         //proto.setOnMouseClicked(Click::eliminarElemento);
-       // proto.setOnMouseReleased(this::terminar);
+        //proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
         return proto;
     }
@@ -163,6 +163,7 @@ public class fabrica_proto {
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
                 circulo.setOnMouseDragged(this::arrastrar);
+
                 //Guardar el circulo dentro de la matriz
                 proto.alimentacion[proto.filas][proto.columnas] = circulo;
                 proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
@@ -240,6 +241,11 @@ public class fabrica_proto {
                     Chip chip = (Chip) node;
                     chip.setLayoutX(chip.getLayoutX() + deltaX);
                     chip.setLayoutY(chip.getLayoutY() + deltaY);
+                }
+                if(node instanceof Switch3x3){
+                    Switch3x3 switch3x3 = (Switch3x3) node;
+                    switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
+                    switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
                 }
 
 

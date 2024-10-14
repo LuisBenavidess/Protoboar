@@ -13,11 +13,12 @@ public class Pata extends Rectangle {
     public void setPata(int pata) {
         this.pata = pata;
     }
-    public int getPata() {
-        return pata;
-    }
     public void setBus_conectado(bus bus_conectado) {
         this.bus_conectado = bus_conectado;
+    }
+
+    public int getPata() {
+        return pata;
     }
     public bus getBus_conectado() {
         return bus_conectado;

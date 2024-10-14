@@ -25,6 +25,7 @@ public class ManejarCirculos {
     private final ArrayList<Led> leds;
     private final ArrayList<Switch> switches;
     private static ArrayList<Resistencia> resistencias;
+    private static ArrayList<Switch3x3> switches3x3;
     private final Bateria bateria;
     private final ManejarCarga manejarCarga;
     private ArrayList<Chip> chips;
@@ -39,6 +40,7 @@ public class ManejarCirculos {
         this.switchClicked = false;
         this.resistClicked = false;
         cables = new ArrayList<>();
+        switches3x3 = new ArrayList<>();
         leds = new ArrayList<>();
         switches = new ArrayList<>();
         resistencias = new ArrayList<>();
@@ -97,6 +99,10 @@ public class ManejarCirculos {
 
     public ArrayList<Chip> getChips() {
         return chips;
+    }
+
+    public ArrayList<Switch3x3> getswitches3x3() {
+        return switches3x3;
     }
     //////////////////////////////////////////////////
 
@@ -259,7 +265,7 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
-            System.out.println("movimiento");
+            //System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
         }else{
             System.out.println("El Linea no existe");
@@ -394,6 +400,14 @@ public class ManejarCirculos {
 
     }
 
+    public void crearSwitch3x3(){
+        Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
+        Switch3x3 switch3x3 = fabrica.crear();
+        switch3x3.setProtos(getprotos());
+        pane.getChildren().add(switch3x3);
+        switches3x3.add(switch3x3);
+    }
+
     //Metodo que llama a la funcion revovinar en la clase manejarCarga
     public  void revovinar() {
         manejarCarga.revovinar();
@@ -421,6 +435,12 @@ public class ManejarCirculos {
 
     public void verificar_chip(){
         manejarCarga.verificar_chips(chips);
+    }
+
+    public void verificar_sw3x3(){
+
+        manejarCarga.verificar_sw3x3(switches3x3);
+
     }
 
 }
