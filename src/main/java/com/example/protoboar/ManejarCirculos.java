@@ -28,7 +28,7 @@ public class ManejarCirculos {
     private static ArrayList<Switch3x3> switches3x3;
     private final Bateria bateria;
     private final ManejarCarga manejarCarga;
-    private ArrayList<Chip> chips;
+    private final ArrayList<Chip> chips;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -265,7 +265,7 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
-            //System.out.println("movimiento");
+            System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
         }else{
             System.out.println("El Linea no existe");
@@ -278,8 +278,7 @@ public class ManejarCirculos {
        // System.out.println("Termino esta chingada");
 
         // Desactivar temporalmente eventos
-        if (event.getSource() instanceof Parent) {
-            Parent parent = (Parent) event.getSource();
+        if (event.getSource() instanceof Parent parent) {
             parent.setOnMouseMoved(null);
             parent.setOnMouseClicked(null);
         }
@@ -333,8 +332,7 @@ public class ManejarCirculos {
         }
 
         // Reactivar eventos si no se completó la operación
-        if (event.getSource() instanceof Parent) {
-            Parent parent = (Parent) event.getSource();
+        if (event.getSource() instanceof Parent parent) {
             parent.setOnMouseMoved(this::movimiento);
             parent.setOnMouseClicked(this::parar);
         }

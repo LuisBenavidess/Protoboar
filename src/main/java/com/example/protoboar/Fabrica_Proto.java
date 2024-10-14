@@ -26,7 +26,7 @@ public class Fabrica_Proto {
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
         //proto.setOnMouseClicked(Click::eliminarElemento);
-        //proto.setOnMouseReleased(this::terminar);
+       // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
         return proto;
     }
@@ -163,17 +163,21 @@ public class Fabrica_Proto {
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
                 circulo.setOnMouseDragged(this::arrastrar);
-
                 //Guardar el circulo dentro de la matriz
                 proto.alimentacion[proto.filas][proto.columnas] = circulo;
                 proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
                 proto.alimentacion[proto.filas][proto.columnas].setColumna(proto.columnas);
                 proto.alimentacion[proto.filas][proto.columnas].setCarga(" ");
-                proto.alimentacion[proto.filas][proto.columnas].x=circulo.getCenterX();
-                proto.alimentacion[proto.filas][proto.columnas].y=circulo.getCenterY();
-                //Agregar
+                proto.alimentacion[proto.filas][proto.columnas].x = circulo.getCenterX();
+                proto.alimentacion[proto.filas][proto.columnas].y = circulo.getCenterY();
+                circulo.setVoltaje(null);
+
+                // Agregar el bus al protoboard
                 proto.getChildren().add(circulo);
-                mas_x=mas_x+18;
+                // Agregar el display del voltaje al protoboard
+                proto.getChildren().add(circulo.getVoltajeDisplay());
+
+                mas_x = mas_x + 18;
                 col++;
                 proto.columnas++;
                 if (col == 30) {

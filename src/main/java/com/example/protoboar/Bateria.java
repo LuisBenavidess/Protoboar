@@ -29,19 +29,19 @@ public class Bateria {
         this.batteryImagen.setLayoutX(568.0);
         this.batteryImagen.setLayoutY(468.0);
         pane.getChildren().add(this.batteryImagen);
-
         this.positivo.setCenterX(593.0);
         this.positivo.setCenterY(480.0);
         this.positivo.setRadius(8.0);
         this.positivo.setFill(Color.RED);
         this.positivo.setCarga("+");
-
+        this.positivo.voltaje = 9.0; // Voltaje activo de 9V
         this.negativo = new bus();
         this.negativo.setCenterX(645.0);
         this.negativo.setCenterY(480.0);
         this.negativo.setRadius(8.0);
         this.negativo.setFill(Color.BLUE);
         this.negativo.setCarga("-");
+        this.negativo.voltaje = 0.0; // Voltaje activo de 0V
 
         pane.getChildren().add(this.positivo);
         pane.getChildren().add(this.negativo);
@@ -98,4 +98,3 @@ public class Bateria {
         }
     }
 }
-
