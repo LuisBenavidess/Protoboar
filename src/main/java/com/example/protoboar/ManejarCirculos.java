@@ -1,10 +1,14 @@
 package com.example.protoboar;
 
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 //Clase se encarga de los circulos
@@ -29,6 +33,7 @@ public class ManejarCirculos {
     private final Bateria bateria;
     private final ManejarCarga manejarCarga;
     private final ArrayList<Chip> chips;
+    private Scene scene;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -251,36 +256,63 @@ public class ManejarCirculos {
         } else if (parent instanceof Group) {
             System.out.println("pasoooooooooooo");
             ((Group) circulo_apret.getParent()).getChildren().add(linea);  // Si fuera Group, agregaría aquí
+            int x=0;
+            while(x<protos.size()){
+                for(Node node:protos.get(x).getChildren()){
+                    if(node instanceof bus){
+                        if(node==circulo_apret){
+                            linea.pos_proto=x;
+                        }
+                    }
+                }
+                x++;
+            }
+
 
         } else {
             System.out.println("El Parent no es ni Pane ni Group.");
         }
 
         // Movimiento de la línea
-        circulo_apret.getParent().setOnMouseMoved(this::movimiento);
+        //circulo_apret.getParent().setOnMouseMoved(this::movimiento);
+        scene = circulo_apret.getScene();
+        scene.setOnMouseMoved(this::movimiento);
+
     }
 
     //Metodo que actualiza la pocision del cable hasta presionar un circulo
     void movimiento(MouseEvent event) {
         if (linea != null) {
-            linea.setEndX(event.getX());
-            linea.setEndY(event.getY());
-            System.out.println("movimiento");
+            Parent parent = linea.getParent();
+            double localX = parent.sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
+            double localY = parent.sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+
+            // Establecer el extremo de la línea basado en las coordenadas locales
+            linea.setEndX(localX);
+            linea.setEndY(localY);
+            /*linea.setEndX(event.getSceneX());
+            linea.setEndY(event.getSceneY());
+            //System.out.println("movimiento");*/
             linea.getParent().setOnMouseClicked(this::parar);
-        }else{
-            System.out.println("El Linea no existe");
+        } else{
+            //System.out.println(event);
+            Node sourceNode = (Node) event.getTarget(); // Hacer un casting a Node
+            Scene scene = sourceNode.getScene();
+            scene.setOnMouseMoved(null);
+            //System.out.println("El Linea no existe");
+
         }
     }
 
-    //Metodo para parar la creacion del cable
-
     void parar(MouseEvent event) {
        // System.out.println("Termino esta chingada");
-
         // Desactivar temporalmente eventos
+        //System.out.println(event);
         if (event.getSource() instanceof Parent parent) {
+            System.out.println("entra");
             parent.setOnMouseMoved(null);
             parent.setOnMouseClicked(null);
+
         }
 
         if (linea != null) {
@@ -309,7 +341,9 @@ public class ManejarCirculos {
 
                                 cables.add(nuevo);
                                 linea = null;
+                                scene = null;
 
+                                //event.setOnMouseMoved(null);
                                 System.out.println("termino esta chingada para siempre");
 
                                 // Reactivar eventos después de la creación

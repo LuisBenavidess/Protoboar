@@ -40,8 +40,8 @@ public class HelloController {
     @FXML
     private void initialize() {
         int cantidad = 0;
-        ArrayList<Protoboard> protos = new ArrayList<>();
-        Fabrica_Proto fabrica = new Fabrica_Proto();
+        protos = new ArrayList<>();
+        fabrica = new Fabrica_Proto();
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
@@ -61,7 +61,7 @@ public class HelloController {
         motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
 
         accion_presionar((protos.get(cantidad)));
-        cantidad++;
+        cantidad= cantidad+1;
 
     }
 
@@ -186,6 +186,10 @@ public class HelloController {
 
     @FXML
     private void crear_proto(ActionEvent event) {
+        if(cantidad==0){
+            cantidad++;
+        }
+        System.out.println(cantidad);
         System.out.println("creo");
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);

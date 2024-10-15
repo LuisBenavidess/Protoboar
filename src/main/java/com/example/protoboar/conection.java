@@ -7,10 +7,11 @@ public class conection extends Line {
     //Atributos
     private bus inicio;
     private bus fin;
-
+    public int pos_proto;
     //Constructor
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
+        pos_proto = -1;
     }
 
     // set y get
