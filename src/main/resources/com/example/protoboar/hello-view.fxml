@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -20,37 +19,9 @@
       </Pane>
    </center>
    <right>
-      <VBox prefHeight="404.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #87CEEB;">
-         <children>
-            <ImageView fx:id="led" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
-               <Image url="@led.png" />
-            </ImageView>
-            <ImageView fx:id="cable" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
-               <Image url="@../../../cable.png" />
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="70.0" onMouseClicked="#crearSwitch">
-               <Image url="@Switch.png" />
-            </ImageView>
-            <ImageView fitHeight="70.0" fitWidth="70.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../resistencia1.png " />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="65.0" fitWidth="72.0" onMouseClicked="#crearChip" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@chip.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="63.0" fitWidth="67.0" onMousePressed="#crearSwitch3x3" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Switch3x3.png" />
-               </image>
-            </ImageView>
-         </children>
-      </VBox>
    </right>
    <bottom>
-      <ButtonBar fx:id="buttonbar" prefHeight="36.0" prefWidth="682.0" style="-fx-background-color: #87CEEB;" BorderPane.alignment="CENTER">
+      <ButtonBar fx:id="buttonbar" prefHeight="36.0" prefWidth="682.0" style="-fx-background-color: #808080;" BorderPane.alignment="CENTER">
          <buttons>
             <ImageView fx:id="basurero" fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
                <Image url="@../../../basurero.png" />
@@ -65,14 +36,34 @@
       </ButtonBar>
    </bottom>
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#crear_proto" text="Agregar protoboard" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <VBox>
+         <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+               <Menu mnemonicParsing="false" text="File">
+                  <items>
+                     <MenuItem mnemonicParsing="false" onAction="#crear_proto" text="Agregar protoboard" />
+                  </items>
+               </Menu>
+            </menus>
+         </MenuBar>
+         <!-- Ajusta el margen del HBox para que esté debajo del menú -->
+         <HBox alignment="TOP_LEFT" spacing="10" style="-fx-background-color: #808080;">
+            <ImageView fx:id="led" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
+               <Image url="@led.png" />
+            </ImageView>
+            <ImageView fx:id="cable" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../cable.png" />
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="70.0" onMouseClicked="#crearSwitch" translateY="20.0">
+               <Image url="@Switch.png" />
+            </ImageView>
+            <ImageView fitHeight="65.0" fitWidth="72.0" onMouseClicked="#crearChip" pickOnBounds="true" preserveRatio="true">
+               <Image url="@chip.png" />
+            </ImageView>
+            <ImageView fitHeight="63.0" fitWidth="67.0" onMousePressed="#crearSwitch3x3" pickOnBounds="true" preserveRatio="true">
+               <Image url="@Switch3x3.png" />
+            </ImageView>
+         </HBox>
+      </VBox>
    </top>
 </BorderPane>

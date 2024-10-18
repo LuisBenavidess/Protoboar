@@ -4,16 +4,15 @@ import javafx.scene.shape.Line;
 //Clase que se encarga de las coneciones de las cargas
 public class conection extends Line {
 
-    //Atributos
     private bus inicio;
     private bus fin;
 
-    //Constructor
+    // Constructor
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
     }
 
-    // set y get
+    // Setters y Getters
     public void setInicio(bus inicio) {
         this.inicio = inicio;
     }
@@ -30,5 +29,15 @@ public class conection extends Line {
         return fin;
     }
 
-
+    // Método para actualizar la posición de la punta del cable
+    public void updatePosition(bus bus) {
+        if (bus == inicio) {
+            setStartX(bus.getCenterX());
+            setStartY(bus.getCenterY());
+        } else if (bus == fin) {
+            setEndX(bus.getCenterX());
+            setEndY(bus.getCenterY());
+        }
+    }
 }
+

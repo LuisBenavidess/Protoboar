@@ -6,6 +6,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Motor {
@@ -17,6 +19,7 @@ public class Motor {
     private final Button encenderButton; // Botón para encender el motor
     private double offsetX;
     private double offsetY;
+    private final List<conection> cablesConectados = new ArrayList<>(); // Lista de cables conectados
 
     // Constructor
     public Motor(Pane pane) {
@@ -25,27 +28,27 @@ public class Motor {
         this.motorImagen.setImage(image);
         this.motorImagen.setFitHeight(100.0);
         this.motorImagen.setFitWidth(100.0);
-        this.motorImagen.setLayoutX(408.0);
-        this.motorImagen.setLayoutY(468.0);
+        this.motorImagen.setLayoutX(668.0);
+        this.motorImagen.setLayoutY(268.0);
         pane.getChildren().add(this.motorImagen);
 
         // Inicialización del botón
         this.encenderButton = new Button("Encender");
-        this.encenderButton.setLayoutX(428.0);
-        this.encenderButton.setLayoutY(550.0);
+        this.encenderButton.setLayoutX(688.0);
+        this.encenderButton.setLayoutY(350.0);
         this.encenderButton.setOnAction(_ -> toggleMotor()); // clic
         pane.getChildren().add(this.encenderButton);
 
         // Círculo positivo
-        this.positivo.setCenterX(430.0);
-        this.positivo.setCenterY(508.0);
+        this.positivo.setCenterX(690.0);
+        this.positivo.setCenterY(308.0);
         this.positivo.setRadius(8.0);
         this.positivo.setFill(Color.BLACK);
         this.positivo.setCarga(" "); // Sin carga
 
         // Círculo negativo
-        this.negativo.setCenterX(430.0);
-        this.negativo.setCenterY(538.0);
+        this.negativo.setCenterX(690.0);
+        this.negativo.setCenterY(338.0);
         this.negativo.setRadius(8.0);
         this.negativo.setFill(Color.BLACK);
         this.negativo.setCarga(" "); // Sin carga
@@ -79,6 +82,28 @@ public class Motor {
         positivo.setCenterY(newY + 40);
         negativo.setCenterX(newX + 15);
         negativo.setCenterY(newY + 70);
+
+        // Actualizar posiciones de los cables conectados
+        for (conection cable : cablesConectados) {
+            if (cable.getInicio() == positivo) {
+                cable.setStartX(positivo.getCenterX());
+                cable.setStartY(positivo.getCenterY());
+            } else if (cable.getInicio() == negativo) {
+                cable.setStartX(negativo.getCenterX());
+                cable.setStartY(negativo.getCenterY());
+            }
+            if (cable.getFin() == positivo) {
+                cable.setEndX(positivo.getCenterX());
+                cable.setEndY(positivo.getCenterY());
+            } else if (cable.getFin() == negativo) {
+                cable.setEndX(negativo.getCenterX());
+                cable.setEndY(negativo.getCenterY());
+            }
+        }
+    }
+
+    public void addCable(conection cable) {
+        cablesConectados.add(cable);
     }
 
     // Alternar el motor

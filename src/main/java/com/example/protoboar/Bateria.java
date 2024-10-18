@@ -26,26 +26,24 @@ public class Bateria {
         this.batteryImagen.setImage(image);
         this.batteryImagen.setFitHeight(100.0);
         this.batteryImagen.setFitWidth(100.0);
-        this.batteryImagen.setLayoutX(568.0);
-        this.batteryImagen.setLayoutY(468.0);
+        this.batteryImagen.setLayoutX(668.0);
+        this.batteryImagen.setLayoutY(168.0);
         pane.getChildren().add(this.batteryImagen);
-        this.positivo.setCenterX(593.0);
-        this.positivo.setCenterY(480.0);
+        this.positivo.setCenterX(693.0);
+        this.positivo.setCenterY(180.0);
         this.positivo.setRadius(8.0);
         this.positivo.setFill(Color.RED);
         this.positivo.setCarga("+");
         this.positivo.voltaje = 9.0; // Voltaje activo de 9V
         this.negativo = new bus();
-        this.negativo.setCenterX(645.0);
-        this.negativo.setCenterY(480.0);
+        this.negativo.setCenterX(745.0);
+        this.negativo.setCenterY(180.0);
         this.negativo.setRadius(8.0);
         this.negativo.setFill(Color.BLUE);
         this.negativo.setCarga("-");
         this.negativo.voltaje = 0.0; // Voltaje activo de 0V
-
         pane.getChildren().add(this.positivo);
         pane.getChildren().add(this.negativo);
-
         this.positivo.setUserData(new busData("+"));
         this.negativo.setUserData(new busData("-"));
         this.batteryImagen.setOnMousePressed(this::handleMousePressed);
@@ -69,18 +67,27 @@ public class Bateria {
         negativo.setCenterY(deltaY + 12);
         // Actualizar los cables conectados a los buses
         for (conection cable : cablesConectados) {
-            System.out.println("XD");
+            // Verificar si el cable está conectado al bus positivo o negativo
+            if (cable.getInicio() == positivo) {
+                cable.setStartX(positivo.getCenterX());
+                cable.setStartY(positivo.getCenterY());
+            } else if (cable.getInicio() == negativo) {
+                cable.setStartX(negativo.getCenterX());
+                cable.setStartY(negativo.getCenterY());
+            }
+            if (cable.getFin() == positivo) {
+                cable.setEndX(positivo.getCenterX());
+                cable.setEndY(positivo.getCenterY());
+            } else if (cable.getFin() == negativo) {
+                cable.setEndX(negativo.getCenterX());
+                cable.setEndY(negativo.getCenterY());
+            }
         }
     }
 
     // Metodo para añadir cables conectados
     public void addCable(conection cable) {
         cablesConectados.add(cable);
-    }
-
-    // Metodo para obtener los cables conectados
-    public List<conection> getCablesConectados() {
-        return cablesConectados;
     }
 
     public bus getPositivo() {

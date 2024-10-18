@@ -5,15 +5,14 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
+
 //Clase se encarga de los circulos
 public class ManejarCirculos {
 
     //Atributos
     private final Pane pane;
     private ArrayList<Protoboard> protos;
-    //private final bus[][] alimentacion;
     private conection linea;
     private boolean ledClicked;
     private boolean cableClicked;
@@ -21,22 +20,25 @@ public class ManejarCirculos {
     private boolean resistClicked;
     private bus primercircle;
     private boolean circulo_bateria;
+    private boolean circulo_motor;
     private final ArrayList<conection> cables;
     private final ArrayList<Led> leds;
     private final ArrayList<Switch> switches;
     private static ArrayList<Resistencia> resistencias;
     private static ArrayList<Switch3x3> switches3x3;
     private final Bateria bateria;
+    private final Motor motor;
     private final ManejarCarga manejarCarga;
     private final ArrayList<Chip> chips;
 
     //Constructor
-    public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
+    public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
         this.pane = pane;
         this.protos = protos;
         this.ledClicked = ledClicked;
         this.cableClicked = cableClicked;
         this.bateria = bateria;
+        this.motor = motor;
         this.switchClicked = false;
         this.resistClicked = false;
         cables = new ArrayList<>();
@@ -168,7 +170,6 @@ public class ManejarCirculos {
         conection cable = new conection(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
         cable.setInicio(c1); //positivo
 
-
         // Agregar función para borrar al presionar si el modo borrar está activo
         cable.setOnMouseClicked(Click::eliminarElemento);
 
@@ -255,7 +256,10 @@ public class ManejarCirculos {
         } else {
             System.out.println("El Parent no es ni Pane ni Group.");
         }
-
+        if (circulo_apret == motor.getPositivo() || circulo_apret == motor.getNegativo()) {
+            System.out.println("El motor está conectado.");
+            circulo_motor = true; // Activar estado del motor
+        }
         // Movimiento de la línea
         circulo_apret.getParent().setOnMouseMoved(this::movimiento);
     }
@@ -265,7 +269,6 @@ public class ManejarCirculos {
         if (linea != null) {
             linea.setEndX(event.getX());
             linea.setEndY(event.getY());
-            System.out.println("movimiento");
             linea.getParent().setOnMouseClicked(this::parar);
         }else{
             System.out.println("El Linea no existe");
@@ -273,10 +276,7 @@ public class ManejarCirculos {
     }
 
     //Metodo para parar la creacion del cable
-
     void parar(MouseEvent event) {
-       // System.out.println("Termino esta chingada");
-
         // Desactivar temporalmente eventos
         if (event.getSource() instanceof Parent parent) {
             parent.setOnMouseMoved(null);
@@ -300,21 +300,17 @@ public class ManejarCirculos {
 
                                 // Anclar el extremo inicial de la línea a la posición del grupo
                                if(circulo_bateria){
-                                   System.out.println("entroooooo");
-                                   protos.get(x).setConections(linea);
-                                   linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
-                                   linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
+                                   System.out.println("BATERIA");
+                                   bateria.addCable(nuevo); // Añade el cable a la batería
                                }
-                               circulo_bateria=false;
-
+                                if(circulo_motor){
+                                    System.out.println("MOTOR");
+                                    motor.addCable(nuevo); // Añade el cable a la batería
+                                }
+                                circulo_bateria=false;
+                                circulo_motor=false;
                                 cables.add(nuevo);
                                 linea = null;
-
-                                System.out.println("termino esta chingada para siempre");
-
-                                // Reactivar eventos después de la creación
-                                /*parent.setOnMouseMoved(this::movimiento);
-                                parent.setOnMouseClicked(this::parar);*/
                                 return; // Salir del método una vez que se haya encontrado un círculo
                             }
                         }
@@ -327,6 +323,10 @@ public class ManejarCirculos {
             if (bateria != null) {
                 verificarCírculoBateria(event, bateria.getPositivo());
                 verificarCírculoBateria(event, bateria.getNegativo());
+            }
+            if (motor != null) {
+                verificarCírculoMotor(event, motor.getPositivo());
+                verificarCírculoMotor(event, motor.getNegativo());
             }
             System.out.println("No entra");
         }
@@ -348,6 +348,8 @@ public class ManejarCirculos {
             linea.setFin(circuloBateria);
             conection nuevo = linea;
             nuevo.setOnMouseClicked(Click::eliminarElemento);
+            // Agregar el cable a la lista de cables de batería
+            bateria.addCable(nuevo);
             cables.add(nuevo);
             linea = null;
             circuloBateria.getParent().setOnMouseMoved(null);
@@ -395,7 +397,6 @@ public class ManejarCirculos {
         chip.setProtos(getprotos());
         pane.getChildren().add(chip);
         chips.add(chip);
-
     }
 
     public void crearSwitch3x3(){
@@ -436,9 +437,6 @@ public class ManejarCirculos {
     }
 
     public void verificar_sw3x3(){
-
         manejarCarga.verificar_sw3x3(switches3x3);
-
     }
-
 }
