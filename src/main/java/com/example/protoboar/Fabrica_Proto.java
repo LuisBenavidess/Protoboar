@@ -81,7 +81,7 @@ public class Fabrica_Proto {
 
         //Genera numeros
         numeros(33, 352/*376*/,proto);
-        numeros(33, 100,proto);
+        numeros(33, 95,proto);
 
         //Generar letras
         letras(9,348,proto);
@@ -213,11 +213,26 @@ public class Fabrica_Proto {
                     circle.setCenterY(circle.getCenterY() + deltaY);
                     int i=0;
                     while(i<proto.getConections().size()){
-                        if(proto.getConections().get(i).getFin()==circle){
-                            proto.getConections().get(i).endXProperty().unbind();
-                            proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
-                            proto.getConections().get(i).endYProperty().unbind();
-                            proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
+                        if(proto.getConections().get(i).getFin()==circle && (proto.getConections().get(i).salio ||
+                                proto.getConections().get(i).bateria)){
+
+                            if(((bus) node).getExtremo()==1 || proto.getConections().get(i).bateria){
+                                System.out.println("se mueve desde final");
+                                proto.getConections().get(i).endXProperty().unbind();
+                                proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
+                                proto.getConections().get(i).endYProperty().unbind();
+                                proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
+                            }
+                        }else{
+                            if(proto.getConections().get(i).getInicio()==circle && proto.getConections().get(i).salio){
+                                if(((bus) node).getExtremo()==0){
+                                    System.out.println("se mueve desde inicio");
+                                    proto.getConections().get(i).startXProperty().unbind();
+                                    proto.getConections().get(i).setStartX(circle.getCenterX() + deltaX);
+                                    proto.getConections().get(i).startYProperty().unbind();
+                                    proto.getConections().get(i).setStartY(circle.getCenterY() + deltaY);
+                                }
+                            }
                         }
                         i++;
                     }
@@ -235,8 +250,15 @@ public class Fabrica_Proto {
                     label.setLayoutY(label.getLayoutY() + deltaY);
                 }
                 if(node instanceof conection cable){
-                    cable.setLayoutX(cable.getLayoutX() + deltaX);
-                    cable.setLayoutY(cable.getLayoutY() + deltaY);
+                    int i=0;
+                    while(i<proto.getConections().size()){
+                        if(cable!=proto.getConections().get(i)){
+                            cable.setLayoutX(cable.getLayoutX() + deltaX);
+                            cable.setLayoutY(cable.getLayoutY() + deltaY);
+                        }
+                        i++;
+                    }
+
                 }
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);

@@ -2,6 +2,7 @@ package com.example.protoboar;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
@@ -33,18 +34,22 @@ public class HelloController {
     private ArrayList<Protoboard> protos;
     @FXML
     private boolean basureroActivo = false;
+
     ///////////////////////////////
     private int cantidad;
 
     //Metodos
     @FXML
     private void initialize() {
+
+
         int cantidad = 0;
         protos = new ArrayList<>();
         fabrica = new Fabrica_Proto();
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
+        //pane.getChildren().add(grupo_principal);
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::activarBasurero);

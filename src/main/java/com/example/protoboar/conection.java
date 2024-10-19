@@ -8,9 +8,12 @@ public class conection extends Line {
     private bus inicio;
     private bus fin;
     public int pos_proto;
+    public boolean salio=false;
+    public boolean bateria;
     //Constructor
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
+        bateria=false;
         pos_proto = -1;
     }
 

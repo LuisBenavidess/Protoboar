@@ -34,6 +34,7 @@ public class ManejarCirculos {
     private final ManejarCarga manejarCarga;
     private final ArrayList<Chip> chips;
     private Scene scene;
+    private bus bus_inicio;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria,Motor motor) {
@@ -247,6 +248,7 @@ public class ManejarCirculos {
         linea.setEndY(circulo_apret.getCenterY());
         linea.setStrokeWidth(5);
         linea.setInicio(circulo_apret);
+        linea.pos_proto=-1;
         Parent parent = circulo_apret.getParent();
         if (parent instanceof Pane) {
             ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
@@ -255,7 +257,8 @@ public class ManejarCirculos {
             circulo_bateria=true;
         } else if (parent instanceof Group) {
             System.out.println("pasoooooooooooo");
-            ((Group) circulo_apret.getParent()).getChildren().add(linea);  // Si fuera Group, agregaría aquí
+            ((Group) circulo_apret.getParent()).getChildren().add(linea);
+            // Si fuera Group, agregaría aquí
             int x=0;
             while(x<protos.size()){
                 for(Node node:protos.get(x).getChildren()){
@@ -267,11 +270,15 @@ public class ManejarCirculos {
                 }
                 x++;
             }
+            circulo_apret.setExtremo(0);
+            linea.setStartX(circulo_apret.getCenterX());
+            linea.setStartY(circulo_apret.getCenterY());
+            bus_inicio=circulo_apret;
 
 
-        } else {
+        } /*else {
             System.out.println("El Parent no es ni Pane ni Group.");
-        }
+        }*/
 
         // Movimiento de la línea
         //circulo_apret.getParent().setOnMouseMoved(this::movimiento);
@@ -310,6 +317,7 @@ public class ManejarCirculos {
         //System.out.println(event);
         if (event.getSource() instanceof Parent parent) {
             System.out.println("entra");
+            System.out.println("esta fuera del proto");
             parent.setOnMouseMoved(null);
             parent.setOnMouseClicked(null);
 
@@ -332,11 +340,25 @@ public class ManejarCirculos {
 
                                 // Anclar el extremo inicial de la línea a la posición del grupo
                                if(circulo_bateria){
-                                   System.out.println("entroooooo");
-                                   protos.get(x).setConections(linea);
-                                   linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
-                                   linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
+                                   linea.bateria=true;
                                }
+                                   System.out.println("entroooooo");
+                                if(linea.pos_proto>-1){
+                                    System.out.println(linea.pos_proto);
+                                    if(!protos.get(linea.pos_proto).getChildren().contains(targetCircle)){
+                                        linea.salio=true;
+                                        protos.get(linea.pos_proto).setConections(linea);
+                                    }
+                                }
+
+
+                                   protos.get(x).setConections(linea);
+                                    linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
+                                    linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
+
+
+                                   targetCircle.setExtremo(1);
+                               //}
                                circulo_bateria=false;
 
                                 cables.add(nuevo);

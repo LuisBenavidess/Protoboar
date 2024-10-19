@@ -12,6 +12,7 @@ public class bus extends Circle {
     int fila;
     double x;
     double y;
+    private int extremo;
     Double voltaje; // Cambiado a Double para permitir null
     Text voltajeDisplay; // Para mostrar el voltaje en pantalla
 
@@ -36,6 +37,13 @@ public class bus extends Circle {
     // Ingresar carga
     public void setCarga(String carga) {
         this.carga = carga;
+    }
+
+    public void setExtremo(int extremo) {
+        this.extremo = extremo;
+    }
+    public int getExtremo(){
+        return this.extremo;
     }
 
     // Devolver carga

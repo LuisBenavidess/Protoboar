@@ -131,6 +131,7 @@ public class Fabrica_Chip {
     public void detectar(MouseEvent event){
         Chip chip = (Chip) event.getSource();
         int x=0;
+
         while(x<chip.getProtos().size()){
             Protoboard proto = chip.getProtos().get(x);
             for(Node node : proto.getChildren()){
@@ -139,8 +140,11 @@ public class Fabrica_Chip {
                     int i=0;
 
                     while(i<chip.getPatas().size()){
+                        boolean bandera=false;
+                        if(6==bus.fila || 7==bus.fila || 1==bus.fila || 2==bus.fila || 11==bus.fila || 12==bus.fila){
+                            bandera= pasa_50(bus,chip.getPats(i));
+                        }
 
-                        boolean bandera= pasa_50(bus,chip.getPats(i));
                         //System.out.println(bandera);
                         if (bandera/*chip.getPats(i).localToScene(chip.getPats(i).getBoundsInLocal())
                                 .intersects(bus.localToScene(bus.getBoundsInLocal()))*/) {
@@ -168,7 +172,7 @@ public class Fabrica_Chip {
             double Area = Area(bus, pata);
 
             // Verificar si más del 50% del círculo está cubierto
-            return Area >= (0.5 * circleArea);
+            return Area >= (0.1 * circleArea);
         }
         return false;
     }
