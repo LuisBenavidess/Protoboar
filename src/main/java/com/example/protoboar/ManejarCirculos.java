@@ -248,6 +248,7 @@ public class ManejarCirculos {
         linea.setEndY(circulo_apret.getCenterY());
         linea.setStrokeWidth(5);
         linea.setInicio(circulo_apret);
+        linea.toFront();
         linea.pos_proto=-1;
         Parent parent = circulo_apret.getParent();
         if (parent instanceof Pane) {

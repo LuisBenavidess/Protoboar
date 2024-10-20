@@ -232,6 +232,13 @@ public class Fabrica_Proto {
                                     proto.getConections().get(i).startYProperty().unbind();
                                     proto.getConections().get(i).setStartY(circle.getCenterY() + deltaY);
                                 }
+                            }else{
+                                if(proto.getConections().get(i).getFin()==circle && !proto.getConections().get(i).getMovimiento()){
+                                    conection cable=proto.getConections().get(i);
+                                    cable.setLayoutX(cable.getLayoutX() + deltaX);
+                                    cable.setLayoutY(cable.getLayoutY() + deltaY);
+                                    proto.getConections().get(i).setMovimiento(true);
+                                };
                             }
                         }
                         i++;
@@ -250,14 +257,14 @@ public class Fabrica_Proto {
                     label.setLayoutY(label.getLayoutY() + deltaY);
                 }
                 if(node instanceof conection cable){
-                    int i=0;
+                  /* int i=0;
                     while(i<proto.getConections().size()){
                         if(cable!=proto.getConections().get(i)){
                             cable.setLayoutX(cable.getLayoutX() + deltaX);
                             cable.setLayoutY(cable.getLayoutY() + deltaY);
                         }
                         i++;
-                    }
+                    }*/
 
                 }
                 if(node instanceof ImageView image){
@@ -277,6 +284,13 @@ public class Fabrica_Proto {
 
 
             }
+
+            int i=0;
+            while(i<proto.getConections().size()){
+                proto.getConections().get(i).setMovimiento(false);
+                i++;
+            }
+
             // Actualizar la posición inicial
             proto.initialX = event.getSceneX();
             proto.initialY = event.getSceneY();

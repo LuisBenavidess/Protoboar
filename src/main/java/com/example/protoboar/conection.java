@@ -10,9 +10,11 @@ public class conection extends Line {
     public int pos_proto;
     public boolean salio=false;
     public boolean bateria;
+    private boolean movimiento;
     //Constructor
     public conection(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
+        movimiento=false;
         bateria=false;
         pos_proto = -1;
     }
@@ -32,6 +34,13 @@ public class conection extends Line {
 
     public bus getFin() {
         return fin;
+    }
+
+    public void setMovimiento(boolean movimiento) {
+        this.movimiento = movimiento;
+    }
+    public boolean getMovimiento() {
+        return movimiento;
     }
 
 

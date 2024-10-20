@@ -31,11 +31,6 @@
             <ImageView fitHeight="30.0" fitWidth="70.0" onMouseClicked="#crearSwitch">
                <Image url="@Switch.png" />
             </ImageView>
-            <ImageView fitHeight="70.0" fitWidth="70.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../resistencia1.png " />
-               </image>
-            </ImageView>
             <ImageView fitHeight="65.0" fitWidth="72.0" onMouseClicked="#crearChip" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@chip.png" />

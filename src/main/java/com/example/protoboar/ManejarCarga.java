@@ -141,6 +141,7 @@ public class ManejarCarga {
         //Viaja atraves del ArrayList
         while (i < cables.size()) {
             conection lin = cables.get(i);
+            lin.toFront();
             String ini = lin.getInicio().getCarga();
             String fin = lin.getFin().getCarga();
             if (lin.getInicio().getFill() == Color.YELLOW || lin.getFin().getFill() == Color.YELLOW) {
