@@ -18,6 +18,7 @@ public class Switch3x3 extends Group {
     public int pos_proto;
     public boolean terminado;
     public static String Carga;
+    public boolean agregado=false;
 
     Switch3x3() {
         Patas = new ArrayList<>();

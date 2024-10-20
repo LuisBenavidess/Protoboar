@@ -277,6 +277,7 @@ public class Fabrica_Proto {
                     chip.setLayoutY(chip.getLayoutY() + deltaY);
                 }
                 if(node instanceof Switch3x3){
+
                     Switch3x3 switch3x3 = (Switch3x3) node;
                     switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
                     switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
@@ -296,13 +297,5 @@ public class Fabrica_Proto {
             proto.initialY = event.getSceneY();
         }
     }
-
-
-
-
-
-
-
-
 
 }

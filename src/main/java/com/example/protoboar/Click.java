@@ -171,6 +171,10 @@ public class Click {
         i=0;
         //Verifica los chips
         manejarCirculos.verificar_chip();
+        if(switch3x3!=null){
+            manejarCirculos.verificar_sw3x3();
+        }
+
 
     }
 

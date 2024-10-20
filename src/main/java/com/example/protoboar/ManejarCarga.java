@@ -324,10 +324,10 @@ public class ManejarCarga {
             if(sw.get(i).terminado){
                 protos.get(sw.get(i).pos_proto).getChildren().add(sw.get(i));
                 sw.get(i).terminado=false;
+                sw.get(i).agregado=true;
             }
             i++;
         }
-
         i=0;
         // Condicion para que recorra todos los switches
         while (i < sw.size()) {
@@ -337,29 +337,55 @@ public class ManejarCarga {
 
                 int j = 0;
                 while(j < sw.get(i).getPatas().size()){
-                    bus Bus = sw.get(i).getPats(j).getBus_conectado();
-                    if (!Bus.getCarga().equals(" ")) {
+                   if(sw.get(i).agregado){
+                       bus Bus = sw.get(i).getPats(j).getBus_conectado();
+                       if (!Bus.getCarga().equals(" ")) {
 
-                        sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
-                        sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
-                        sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
-                        sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                           sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                           sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                           sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                           sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
 
+                           corriente();
+                       }
+                   }
 
-                        corriente();
-
-                    }
 
                     j++;
                 }
 
+            }else{
+                int j = 0;
+                while(j < sw.get(i).getPatas().size()){
+                    if(sw.get(i).agregado){
+                        bus Bus = sw.get(i).getPats(j).getBus_conectado();
+                        if (!Bus.getCarga().equals(" ")) {
+
+                            if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
+                                sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
+                                sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
+                                sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
+                                sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+
+                            corriente();
+                        }
+                    }
+
+
+                    j++;
+                }
             }
             i++;
 
         }
 
-
     }
-
 
 }

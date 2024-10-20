@@ -58,7 +58,7 @@ public class bus extends Circle {
         updateVoltajeDisplay();
     }
 
-    // Método para actualizar la visualización del voltaje
+    // Metodo para actualizar la visualización del voltaje
     private void updateVoltajeDisplay() {
         if (voltaje != null) {
             voltajeDisplay.setText(String.valueOf(voltaje));
@@ -70,7 +70,7 @@ public class bus extends Circle {
         voltajeDisplay.setLayoutY(this.getCenterY() + 15);
     }
 
-    // Método para obtener el nodo que muestra el voltaje
+    // Metodo para obtener el nodo que muestra el voltaje
     public Text getVoltajeDisplay() {
         return voltajeDisplay;
     }
