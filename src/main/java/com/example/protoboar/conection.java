@@ -4,7 +4,6 @@ import javafx.scene.shape.Line;
 //Clase que se encarga de las coneciones de las cargas
 public class conection extends Line {
 
-    //Atributos
     private bus inicio;
     private bus fin;
     public int pos_proto;
@@ -42,6 +41,4 @@ public class conection extends Line {
     public boolean getMovimiento() {
         return movimiento;
     }
-
-
 }

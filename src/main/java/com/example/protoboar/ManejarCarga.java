@@ -15,7 +15,7 @@ public class ManejarCarga {
        this.protos = protos;
     }
 
-    // Metodo que se encarga de volver a neutro (Negro) a todos los buses
+    // Metodo que se encarga de volver a neutro a todos los buses
     public void revovinar() {
         //Viaja por toda la matriz de los buses convirtiendolos en neutro(negro)
         int x=0;
@@ -80,11 +80,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(9.0);
+                    proto.alimentacion[i][col].setVoltaje(null);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(0.0);
+                    proto.alimentacion[i][col].setVoltaje(null);
                 }
                 col++;
             }
@@ -94,11 +94,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(9.0);
+                    proto.alimentacion[fil][j].setVoltaje(null);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(0.0);
+                    proto.alimentacion[fil][j].setVoltaje(null);
                 }
                 fil++;
             }
@@ -109,11 +109,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(9.0);
+                    proto.alimentacion[fil][j].setVoltaje(null);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(0.0);
+                    proto.alimentacion[fil][j].setVoltaje(null);
                 }
                 fil--;
             }
@@ -124,11 +124,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(9.0);
+                    proto.alimentacion[i][col].setVoltaje(null);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(0.0);
+                    proto.alimentacion[i][col].setVoltaje(null);
                 }
                 col++;
             }
@@ -203,11 +203,9 @@ public class ManejarCarga {
                     // Si la fila es 0, 1, 13 o 14, quemar la fila completa
                     quemarFila(fila,protos.get(x));
                 }
-
             }
             x++;
         }
-
     }
 
     // Metodo que obtiene la fila de un bus
@@ -314,7 +312,6 @@ public class ManejarCarga {
             }
             i++;
         }
-
     }
 
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
@@ -340,20 +337,15 @@ public class ManejarCarga {
                    if(sw.get(i).agregado){
                        bus Bus = sw.get(i).getPats(j).getBus_conectado();
                        if (!Bus.getCarga().equals(" ")) {
-
                            sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
                            sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
                            sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
                            sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
-
                            corriente();
                        }
                    }
-
-
                     j++;
                 }
-
             }else{
                 int j = 0;
                 while(j < sw.get(i).getPatas().size()){
@@ -373,19 +365,13 @@ public class ManejarCarga {
                             if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
                                 sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
                             }
-
                             corriente();
                         }
                     }
-
-
                     j++;
                 }
             }
             i++;
-
         }
-
     }
-
 }

@@ -131,24 +131,28 @@ public class Fabrica_Switch3x3 {
         while(x<sw.getProtos().size()){
             Protoboard proto = sw.getProtos().get(x);
             for(Node node : proto.getChildren()){
-                if(node instanceof bus){
-                    bus bus = (bus) node;
+                if(node instanceof bus bus){
                     int i=0;
-
+                    boolean SwitchEncimaDelBus = false;
                     while(i<sw.getPatas().size()){
-
+                        Pata pata = sw.getPats(i);
                         boolean bandera= pasa_50(bus,sw.getPats(i));
                         //System.out.println(bandera);
-                        if (bandera/*chip.getPats(i).localToScene(chip.getPats(i).getBoundsInLocal())
-                                .intersects(bus.localToScene(bus.getBoundsInLocal()))*/) {
+                        if (bandera) {
                             bus.setFill(Color.RED);
                             sw.getPats(i).setPata(1);
                             sw.getPats(i).setBus_conectado(bus);
+                            SwitchEncimaDelBus = true;
                             sw.pos_proto=x;
                         }
                         i++;
                     }
-
+                    // Si hay una pata encima del bus, marcamos el bus como ocupado por un componente
+                    if (SwitchEncimaDelBus) {
+                        bus.crearComponente(); // Cambiamos a true
+                    } else {
+                        bus.componenteCreado = false; // Cambiamos a false si no hay patas encima
+                    }
                 }
             }
             x++;
