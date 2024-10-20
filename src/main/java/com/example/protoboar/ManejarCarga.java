@@ -203,11 +203,9 @@ public class ManejarCarga {
                     // Si la fila es 0, 1, 13 o 14, quemar la fila completa
                     quemarFila(fila,protos.get(x));
                 }
-
             }
             x++;
         }
-
     }
 
     // Metodo que obtiene la fila de un bus
@@ -314,7 +312,6 @@ public class ManejarCarga {
             }
             i++;
         }
-
     }
 
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
@@ -327,7 +324,6 @@ public class ManejarCarga {
             }
             i++;
         }
-
         i=0;
         // Condicion para que recorra todos los switches
         while (i < sw.size()) {
@@ -344,22 +340,12 @@ public class ManejarCarga {
                         sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
                         sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
                         sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
-
-
                         corriente();
-
                     }
-
                     j++;
                 }
-
             }
             i++;
-
         }
-
-
     }
-
-
 }

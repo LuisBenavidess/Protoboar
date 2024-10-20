@@ -28,16 +28,4 @@ public class conection extends Line {
     public bus getFin() {
         return fin;
     }
-
-    // Método para actualizar la posición de la punta del cable
-    public void updatePosition(bus bus) {
-        if (bus == inicio) {
-            setStartX(bus.getCenterX());
-            setStartY(bus.getCenterY());
-        } else if (bus == fin) {
-            setEndX(bus.getCenterX());
-            setEndY(bus.getCenterY());
-        }
-    }
 }
-

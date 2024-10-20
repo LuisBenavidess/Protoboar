@@ -2,7 +2,6 @@ package com.example.protoboar;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.scene.layout.Pane;
 
 // Esta clase es la que utilizamos para cada círculo que se encuentra en el protoboard
 public class bus extends Circle {
@@ -12,14 +11,14 @@ public class bus extends Circle {
     int fila;
     double x;
     double y;
-    Double voltaje; // Cambiado a Double para permitir null
+    boolean componenteCreado = false; // Indica si se ha creado un componente en este círculo
+    Double voltaje;
     Text voltajeDisplay; // Para mostrar el voltaje en pantalla
 
     // Constructor
     public bus() {
         this.voltaje = null; // Inicializamos el voltaje como null
-        this.voltajeDisplay = new Text(); // Creamos el objeto Text para el voltaje
-        // Inicializar el texto vacío
+        this.voltajeDisplay = new Text();
         this.voltajeDisplay.setText("");
     }
 
@@ -50,6 +49,19 @@ public class bus extends Circle {
         updateVoltajeDisplay();
     }
 
+    public void crearComponente() {
+        componenteCreado = true;
+    }
+
+    // Método para comprobar si se puede crear un componente
+    public boolean puedeCrearComponente() {
+        return !componenteCreado;
+    }
+
+    public void eliminarComponente() {
+        this.componenteCreado = false;
+    }
+
     // Método para actualizar la visualización del voltaje
     private void updateVoltajeDisplay() {
         if (voltaje != null) {
@@ -66,5 +78,4 @@ public class bus extends Circle {
     public Text getVoltajeDisplay() {
         return voltajeDisplay;
     }
-
 }

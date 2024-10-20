@@ -20,7 +20,6 @@ public class Bateria {
 
     // Constructor
     public Bateria(Pane pane) {
-        ArrayList<conection> cables = new ArrayList<>();
         this.batteryImagen = new ImageView();
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/battery.png")));
         this.batteryImagen.setImage(image);

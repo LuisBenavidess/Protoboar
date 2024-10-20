@@ -198,16 +198,16 @@ public class Click {
             System.out.println("Se eliminó algo");
             //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
             // verificar si el objeto obtenido es el mismo que alguno de los array
-            int i = 0;
-            //bucle cables
-
+            int i = 0; //bucle cables
             while (i < cables.size()) {
                 if (basura.equals(cables.get(i))) {
+                    cables.get(i).getInicio().componenteCreado = false;
+                    cables.get(i).getFin().componenteCreado = false;
                     int x=0;
                     while(x<getprotos().size()){
                         protos.get(x).getChildren().remove(cables.get(i));
                         if(protos.get(x).getChildren().contains(cables.get(i))){
-                            System.out.println("se borro el calbe");
+                            System.out.println("se borro el cable");
                             protos.get(x).getChildren().remove(cables.get(i));
                         }
                         x++;
@@ -223,104 +223,93 @@ public class Click {
             while (i < switches.size()) {
                 if (basura.equals(switches.get(i).getImageView())) {
                     System.out.println("se elimino switch");
-
+                    switches.get(i).getCable().getInicio().componenteCreado = false;
+                    switches.get(i).getCable().getFin().componenteCreado = false;
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(switches.get(i).getImageView());
                         proto.getChildren().remove(switches.get(i).getCable());
                     }
-
                     // Remover el switch del array
                     switches.remove(i);
                 }
             }
-
             i=0;
             //bucles Leds
             leds=manejarCirculos.get_leds();
             System.out.println(leds.size());
             while (i < leds.size()) {
-                System.out.println("busca switch3x3");
                 if (basura.equals(leds.get(i).getImageView())) {
-                    System.out.println("se elimino switch3x3");
-
+                    System.out.println("se elimino led");
+                    leds.get(i).getCable_rojo().getInicio().componenteCreado = false;
+                    leds.get(i).getCable_azul().getFin().componenteCreado = false;
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(leds.get(i).getImageView());
                         proto.getChildren().remove(leds.get(i).getCable_rojo());
                         proto.getChildren().remove(leds.get(i).getCable_azul());
                     }
-
                     // Remover el switch del array
                     leds.remove(i);
                 }
                 i++;
-
             }
             i=0;
             //bucles switch
             resistencias=manejarCirculos.getResistencias();
             System.out.println(switches.size());
             while (i < resistencias.size()) {
-                System.out.println("busca switch3x3");
                 if (basura.equals(resistencias.get(i).getImageView())) {
-                    System.out.println("se elimino switch3x3");
-
+                    System.out.println("se elimino resistencia");
                     // Remover el switch de los protoboards
                     for (Protoboard proto : getprotos()) {
                         proto.getChildren().remove(resistencias.get(i).getImageView());
                         proto.getChildren().remove(resistencias.get(i).getCable());
                     }
-
                     // Remover el switch del array
                     resistencias.remove(i);
                 }
                 i++;
-
             }
-
             i=0;
             //bucle chips
             chips=manejarCirculos.getChips();
-            while(i < chips.size()){
-                System.out.println("busca switch3x3");
+            while (i < chips.size()) {
                 if (basura.equals(chips.get(i))) {
                     System.out.println("se elimino Chip");
-                    int x=0;
-                    while(x<getprotos().size()){
-                        if(protos.get(x).getChildren().contains(chips.get(i))){
-                            System.out.println("se borro el switch3x3");
-                            protos.get(x).getChildren().remove(chips.get(i));
+                    // Actualiza buses conectados al chip eliminado
+                    for (Pata pata : chips.get(i).getPatas()) {
+                        if (pata.getBus_conectado() != null) {
+                            pata.getBus_conectado().componenteCreado = false; // Actualiza el bus
                         }
-                        x++;
+                    }
+                    // Remover el chip de los protoboards
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(chips.get(i));
                     }
                     chips.remove(i);
-
                 }
                 i++;
             }
-
             i=0;
             //bucle Switch3x3
             switch3x3=manejarCirculos.getswitches3x3();
             while(i < switch3x3.size()){
-                System.out.println("busca Switch3x3");
                 if (basura.equals(switch3x3.get(i))) {
                     System.out.println("se elimino Switch3x3");
-                    int x=0;
-                    while(x<getprotos().size()){
-                        if(protos.get(x).getChildren().contains(switch3x3.get(i))){
-                            System.out.println("se borro el Switch3x3");
-                            protos.get(x).getChildren().remove(switch3x3.get(i));
+                    for (Pata pata : switch3x3.get(i).getPatas()) {
+                        if (pata.getBus_conectado() != null) {
+                            pata.getBus_conectado().componenteCreado = false; // Actualiza el bus
                         }
-                        x++;
+                    }
+                    // Remover el chip de los protoboards
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(switch3x3.get(i));
                     }
                     switch3x3.remove(i);
-
                 }
                 i++;
             }
         }
     }
-
 }

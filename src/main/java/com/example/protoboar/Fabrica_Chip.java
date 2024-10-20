@@ -123,40 +123,43 @@ public class Fabrica_Chip {
             chip.setOnMouseDragged(null);
             chip.setOnMouseReleased(null);
             chip.terminado=true;
-        }
+             }
 
 
         }
 
-    public void detectar(MouseEvent event){
+    public void detectar(MouseEvent event) {
         Chip chip = (Chip) event.getSource();
-        int x=0;
-        while(x<chip.getProtos().size()){
+        int x = 0;
+        while (x < chip.getProtos().size()) {
             Protoboard proto = chip.getProtos().get(x);
-            for(Node node : proto.getChildren()){
-                if(node instanceof bus){
-                    bus bus = (bus) node;
-                    int i=0;
+            for (Node node : proto.getChildren()) {
+                if (node instanceof bus bus) {
+                    int i = 0;
+                    boolean chipEncimaDelBus = false;
+                    while (i < chip.getPatas().size()) {
+                        Pata pata = chip.getPats(i);
+                        boolean bandera = pasa_50(bus, pata);
 
-                    while(i<chip.getPatas().size()){
-
-                        boolean bandera= pasa_50(bus,chip.getPats(i));
-                        //System.out.println(bandera);
-                        if (bandera/*chip.getPats(i).localToScene(chip.getPats(i).getBoundsInLocal())
-                                .intersects(bus.localToScene(bus.getBoundsInLocal()))*/) {
+                        if (bandera) {
                             bus.setFill(Color.RED);
-                            chip.getPats(i).setPata(1);
-                            chip.getPats(i).setBus_conectado(bus);
-                            chip.pos_proto=x;
+                            chip.getPats(i).setPata(1); // Marcamos que la pata está conectada
+                            chip.getPats(i).setBus_conectado(bus); // Asignamos el bus a la pata
+                            chipEncimaDelBus = true; // Marcamos que hay al menos una pata encima del bus
+                            chip.pos_proto = x;
                         }
                         i++;
                     }
-
+                    // Si hay una pata encima del bus, marcamos el bus como ocupado por un componente
+                    if (chipEncimaDelBus) {
+                        bus.crearComponente(); // Cambiamos a true
+                    } else {
+                        bus.componenteCreado = false; // Cambiamos a false si no hay patas encima
+                    }
                 }
             }
             x++;
         }
-
     }
 
     public boolean pasa_50(bus bus, Pata pata){
