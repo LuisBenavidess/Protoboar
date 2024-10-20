@@ -41,4 +41,17 @@ public class conection extends Line {
     public boolean getMovimiento() {
         return movimiento;
     }
+    public void moverInicio(double deltaX, double deltaY) {
+        double newStartX = getStartX() + deltaX;
+        double newStartY = getStartY() + deltaY;
+        setStartX(newStartX);
+        setStartY(newStartY);
+    }
+
+    public void moverFin(double deltaX, double deltaY) {
+        double newEndX = getEndX() + deltaX;
+        double newEndY = getEndY() + deltaY;
+        setEndX(newEndX);
+        setEndY(newEndY);
+    }
 }

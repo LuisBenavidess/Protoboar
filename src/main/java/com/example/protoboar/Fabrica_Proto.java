@@ -203,43 +203,57 @@ public class Fabrica_Proto {
         proto.movimientoY= proto.y;
     }
 
-    private void arrastrar(MouseEvent event){
+    private void arrastrar(MouseEvent event) {
         if(event.getSource() instanceof Protoboard proto){
             double deltaX = event.getSceneX() - proto.initialX;
             double deltaY = event.getSceneY() - proto.initialY;
-            for (Node node : proto.getChildren()) {
+            /*for (Node node : proto.getChildren()) {
                 if (node instanceof bus circle) {
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
-                    int i=0;
-                    while(i<proto.getConections().size()){
-                        if(proto.getConections().get(i).getFin()==circle && (proto.getConections().get(i).salio ||
-                                proto.getConections().get(i).bateria)){
+                    int i = 0;
+                    while (i < proto.getConections().size()) {
+                        if (proto.getConections().get(i).getFin() == circle &&
+                                (proto.getConections().get(i).salio || proto.getConections().get(i).bateria)) {
 
-                            if(((bus) node).getExtremo()==1 || proto.getConections().get(i).bateria){
+                            if (((bus) node).getExtremo() == 1 || proto.getConections().get(i).bateria) {
                                 System.out.println("se mueve desde final");
                                 proto.getConections().get(i).endXProperty().unbind();
                                 proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
                                 proto.getConections().get(i).endYProperty().unbind();
                                 proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
                             }
-                        }else{
-                            if(proto.getConections().get(i).getInicio()==circle && proto.getConections().get(i).salio){
-                                if(((bus) node).getExtremo()==0){
+                        } else {
+                            if (proto.getConections().get(i).getInicio() == circle && proto.getConections().get(i).salio) {
+                                if (((bus) node).getExtremo() == 0) {
                                     System.out.println("se mueve desde inicio");
                                     proto.getConections().get(i).startXProperty().unbind();
                                     proto.getConections().get(i).setStartX(circle.getCenterX() + deltaX);
                                     proto.getConections().get(i).startYProperty().unbind();
                                     proto.getConections().get(i).setStartY(circle.getCenterY() + deltaY);
                                 }
-                            }else{
-                                if(proto.getConections().get(i).getFin()==circle && !proto.getConections().get(i).getMovimiento()){
-                                    conection cable=proto.getConections().get(i);
+                            } else {
+                                if (proto.getConections().get(i).getFin() == circle && !proto.getConections().get(i).getMovimiento()) {
+                                    conection cable = proto.getConections().get(i);
                                     cable.setLayoutX(cable.getLayoutX() + deltaX);
                                     cable.setLayoutY(cable.getLayoutY() + deltaY);
                                     proto.getConections().get(i).setMovimiento(true);
-                                };
+                                }
                             }
+                        }
+                        i++;
+                    }*/
+            for (Node node : proto.getChildren()) {
+                if (node instanceof bus circle) {
+                    circle.setCenterX(circle.getCenterX() + deltaX);
+                    circle.setCenterY(circle.getCenterY() + deltaY);
+                    int i=0;
+                    while(i<proto.getConections().size()){
+                        if(proto.getConections().get(i).getFin()==circle){
+                            proto.getConections().get(i).endXProperty().unbind();
+                            proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
+                            proto.getConections().get(i).endYProperty().unbind();
+                            proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
                         }
                         i++;
                     }
@@ -256,46 +270,31 @@ public class Fabrica_Proto {
                     label.setLayoutX(label.getLayoutX() + deltaX);
                     label.setLayoutY(label.getLayoutY() + deltaY);
                 }
-                if(node instanceof conection cable){
-                  /* int i=0;
-                    while(i<proto.getConections().size()){
-                        if(cable!=proto.getConections().get(i)){
-                            cable.setLayoutX(cable.getLayoutX() + deltaX);
-                            cable.setLayoutY(cable.getLayoutY() + deltaY);
-                        }
-                        i++;
-                    }*/
-
+                if (node instanceof conection cable) {
+                    cable.moverInicio(deltaX, deltaY);
+                    cable.moverFin(deltaX, deltaY);
                 }
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);
                     image.setLayoutY(image.getLayoutY() + deltaY);
                 }
-                if(node instanceof Chip){
-                    Chip chip = (Chip) node;
+                if(node instanceof Chip chip){
                     chip.setLayoutX(chip.getLayoutX() + deltaX);
                     chip.setLayoutY(chip.getLayoutY() + deltaY);
                 }
-                if(node instanceof Switch3x3){
-
-                    Switch3x3 switch3x3 = (Switch3x3) node;
+                if(node instanceof Switch3x3 switch3x3){
                     switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
                     switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
                 }
-
-
             }
-
             int i=0;
             while(i<proto.getConections().size()){
                 proto.getConections().get(i).setMovimiento(false);
                 i++;
             }
-
             // Actualizar la posición inicial
             proto.initialX = event.getSceneX();
             proto.initialY = event.getSceneY();
         }
     }
-
 }

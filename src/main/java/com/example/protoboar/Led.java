@@ -21,14 +21,11 @@ public class Led extends Node{
         imageView.setFitHeight(50); // Alto
         imageView.setX(x - (imageView.getFitWidth() / 2));
         imageView.setY(y - (imageView.getFitHeight() / 2));
-
         // Agrega la función de ser borrado con el basurero
         imageView.setOnMouseClicked(Click::eliminarElemento);
-
         // Agregar el ImageView al Pane
         proto.getChildren().add(imageView);
         imageView.toFront();
-
     }
 
     // set

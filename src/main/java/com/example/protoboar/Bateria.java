@@ -59,7 +59,6 @@ public class Bateria {
         double deltaY = batteryImagen.getLayoutY() + event.getY() - initialY;
         batteryImagen.setLayoutX(deltaX);
         batteryImagen.setLayoutY(deltaY);
-        // Actualizar posiciones de los buses
         positivo.setCenterX(deltaX + 25);
         positivo.setCenterY(deltaY + 12);
         negativo.setCenterX(deltaX + 75);

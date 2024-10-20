@@ -35,7 +35,6 @@ public class ManejarCirculos {
     private final ManejarCarga manejarCarga;
     private final ArrayList<Chip> chips;
     private Scene scene;
-    private bus bus_inicio;
 
     //Constructor
     public ManejarCirculos(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -255,8 +254,7 @@ public class ManejarCirculos {
             linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
         } else if (parent instanceof Group) {
-            ((Group) circulo_apret.getParent()).getChildren().add(linea);
-            // Si fuera Group, agregaría aquí
+            ((Group) circulo_apret.getParent()).getChildren().add(linea); // Si fuera Group, agregaría aquí
             int x=0;
             while(x<protos.size()){
                 for(Node node:protos.get(x).getChildren()){
@@ -271,16 +269,13 @@ public class ManejarCirculos {
             circulo_apret.setExtremo(0);
             linea.setStartX(circulo_apret.getCenterX());
             linea.setStartY(circulo_apret.getCenterY());
-            bus_inicio=circulo_apret;
         }
         if (circulo_apret == motor.getPositivo() || circulo_apret == motor.getNegativo()) {
             circulo_motor = true; // Activar estado del motor
         }
         // Movimiento de la línea
-        //circulo_apret.getParent().setOnMouseMoved(this::movimiento);
         scene = circulo_apret.getScene();
         scene.setOnMouseMoved(this::movimiento);
-
     }
 
     //Metodo que actualiza la pocision del cable hasta presionar un circulo
@@ -294,12 +289,9 @@ public class ManejarCirculos {
             linea.setEndY(localY);
             linea.getParent().setOnMouseClicked(this::parar);
         } else{
-            //System.out.println(event);
             Node sourceNode = (Node) event.getTarget(); // Hacer un casting a Node
             Scene scene = sourceNode.getScene();
             scene.setOnMouseMoved(null);
-            //System.out.println("El Linea no existe");
-
         }
     }
 
@@ -317,42 +309,41 @@ public class ManejarCirculos {
                         bus targetCircle = protos.get(x).alimentacion[i][j];
                         if (targetCircle != null) {
                             if (targetCircle.puedeCrearComponente()) {
-                            double dx = event.getX() - targetCircle.getCenterX();
-                            double dy = event.getY() - targetCircle.getCenterY();
-                            double distance = Math.sqrt(dx * dx + dy * dy);
-                            if (distance <= targetCircle.getRadius()) {
-                                linea.setFin(targetCircle);
-                                conection nuevo = linea;
-                                nuevo.setOnMouseClicked(Click::eliminarElemento);
-                                // Anclar el extremo inicial de la línea a la posición del grupo
-                                if (circulo_bateria) {
-                                    bateria.addCable(nuevo); // Añade el cable a la batería
-                                }
-                                if (circulo_motor) {
-                                    motor.addCable(nuevo); // Añade el cable a la batería
-                                }
-                                if(linea.pos_proto>-1){
-                                    System.out.println(linea.pos_proto);
-                                    if(!protos.get(linea.pos_proto).getChildren().contains(targetCircle)){
-                                        linea.salio=true;
-                                        protos.get(linea.pos_proto).setConections(linea);
+                                double dx = event.getX() - targetCircle.getCenterX();
+                                double dy = event.getY() - targetCircle.getCenterY();
+                                double distance = Math.sqrt(dx * dx + dy * dy);
+                                if (distance <= targetCircle.getRadius()) {
+                                    linea.setFin(targetCircle);
+                                    conection nuevo = linea;
+                                    nuevo.setOnMouseClicked(Click::eliminarElemento);
+                                    // Anclar el extremo inicial de la línea a la posición del grupo
+                                    if (linea.pos_proto > -1) {
+                                        System.out.println(linea.pos_proto);
+                                        if (!protos.get(linea.pos_proto).getChildren().contains(targetCircle)) {
+                                            linea.salio = true;
+                                            protos.get(linea.pos_proto).setConections(linea);
+                                        }
                                     }
-                                }
-                                   protos.get(x).setConections(linea);
+                                    if (circulo_bateria) {
+                                        bateria.addCable(nuevo); // Añade el cable a la batería
+                                    }
+                                    if (circulo_motor) {
+                                        motor.addCable(nuevo); // Añade el cable a la batería
+                                    }
+                                    protos.get(x).setConections(linea);
                                     linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                     linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
-                                   targetCircle.setExtremo(1);
-                                targetCircle.crearComponente();
-                                circulo_bateria = false;
-                                circulo_motor = false;
-                                cables.add(nuevo);
-                                linea = null;
-                                scene = null;
-                                System.out.println("termino esta chingada para siempre");
-                                return; // Salir del método una vez que se haya encontrado un círculo
+                                    targetCircle.setExtremo(1);
+                                    targetCircle.crearComponente();
+                                    circulo_bateria = false;
+                                    circulo_motor = false;
+                                    cables.add(nuevo);
+                                    linea = null;
+                                    scene = null;
+                                    return; // Salir del método una vez que se haya encontrado un círculo
+                                }
                             }
                         }
-                            }
                     }
                 }
                 x++;
