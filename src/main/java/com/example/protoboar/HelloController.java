@@ -209,8 +209,8 @@ public class HelloController {
         clickHandler.setLedClicked(false);
         ledClicked = false;
         System.out.println("Led false");
-        System.out.println("Switch false");
         switchClicked=false;
+        System.out.println("Switch false");
         clickHandler.setCableClicked(false);
         cableClicked = false;
         System.out.println("Cable false");
@@ -221,5 +221,6 @@ public class HelloController {
         Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
         basurero.setImage(image);
         System.out.println("Basurero false");
+
     }
 }

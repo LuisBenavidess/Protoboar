@@ -147,6 +147,7 @@ public class Click {
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
+
         setSwitch3x3(manejarCirculos.getswitches3x3());
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){

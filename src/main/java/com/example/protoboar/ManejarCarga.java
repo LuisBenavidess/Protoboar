@@ -73,6 +73,9 @@ public class ManejarCarga {
         if (proto.alimentacion[i][j].getFill() == Color.YELLOW) {
             return;
         }
+        //if () {
+
+
         if (i <= 1) {
             // Filas 0 y 1 - Forma Horizontal
             int col = 0;

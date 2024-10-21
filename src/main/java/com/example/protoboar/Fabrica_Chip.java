@@ -27,7 +27,6 @@ public class Fabrica_Chip {
 
     }
 
-
     public Chip decoracion(Chip chip){
 
         Rectangle base = new Rectangle(700,300,65,38/*40*/);

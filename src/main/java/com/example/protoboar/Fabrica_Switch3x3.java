@@ -58,12 +58,14 @@ public class Fabrica_Switch3x3 {
         return sw;
     }
 
+    //Metodo para iniciar el arrastre
     private void iniciar_mov(MouseEvent event){
         Switch3x3 sw = (Switch3x3) event.getSource();
         sw.initX= event.getSceneX();
         sw.initY= event.getSceneY();
     }
 
+    //Metodo de arrastre
     public void arrastrar(MouseEvent event){
         Switch3x3 sw = (Switch3x3) event.getSource();
         double deltaX = event.getSceneX() - sw.initX;
@@ -80,6 +82,7 @@ public class Fabrica_Switch3x3 {
         sw.initY = event.getSceneY();
     }
 
+    //Metodo que poisiciona el switch
     public void terminar(MouseEvent event){
         detectar(event);
         Switch3x3 sw = (Switch3x3) event.getSource();
@@ -125,6 +128,7 @@ public class Fabrica_Switch3x3 {
 
     }
 
+    //Metodo que detecta si las patas estan sobre un bus usando el metodo "pasa_50"
     public void detectar(MouseEvent event){
         Switch3x3 sw = (Switch3x3) event.getSource();
         int x=0;
@@ -160,6 +164,7 @@ public class Fabrica_Switch3x3 {
 
     }
 
+    //Metodo que evita errores al posicionar el switch usando el metodo "Area"
     public boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal())
@@ -175,6 +180,7 @@ public class Fabrica_Switch3x3 {
         return false;
     }
 
+    //Metodo que detecta el areca intersectada con las patas del switch y un bus
     private double Area(bus bus,Pata pata) {
         Shape inter = Shape.intersect(bus, pata);
         //Calcular la interseccion entre el bus y la pata
