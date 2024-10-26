@@ -306,6 +306,7 @@ public class ManejarCarga {
         }
     }
 
+
     public void verificar_chips(ArrayList<Chip> chips) {
         int i=0;
         while (i < chips.size()) {
@@ -334,7 +335,6 @@ public class ManejarCarga {
 
             //Condicion de prendido
             if(sw.get(i).getCarga().equals("+")){
-
                 int j = 0;
                 while(j < sw.get(i).getPatas().size()){
                    if(sw.get(i).agregado){
@@ -349,7 +349,7 @@ public class ManejarCarga {
                    }
                     j++;
                 }
-            }else{
+            }else{//entra cuando es negativo el switch
                 int j = 0;
                 while(j < sw.get(i).getPatas().size()){
                     if(sw.get(i).agregado){

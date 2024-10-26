@@ -12,12 +12,12 @@ public class Switch3x3 extends Group {
 
     private ArrayList<Pata> Patas;
     private ArrayList<Protoboard> protos;
-    private static ImageView Imagen;
+    private ImageView Imagen;
     public double initX;
     public double initY;
     public int pos_proto;
     public boolean terminado;
-    public static String Carga;
+    private String Carga;
     public boolean agregado=false;
 
     Switch3x3() {
@@ -64,33 +64,24 @@ public class Switch3x3 extends Group {
     }
 
     //Metodo que recibe el evento de apretar el switch y este cambia la carga y la imagen
-    public static void cambiarCarga(MouseEvent event) {
+    public void cambiarCarga(MouseEvent event) {
+        Image image;
+        if(this.Carga.equals("+")) {
+            image = new Image("/Switch3x3.png");
+            this.Carga = "-";
 
-        if(Objects.equals(Carga, "+")) {
-            Apagar();
             System.out.println("apagado");
         }else{
-            Encender();
+            image = new Image("/Switch3x3On.png");
+            this.Carga = "+";
+
             System.out.println("prendido");
         }
+        Imagen.setImage(image);
+        Imagen.toFront();
+
         Click.iniciar();
 
-    }
-
-    //Metodo que cambia la carga a positivo y cambia la imagen a la imagen encendida
-    public static void Encender() {
-        Image image = new Image("/Switch3x3On.png");
-        Imagen.setImage(image);
-        Imagen.toFront();
-        Carga = "+";
-    }
-
-    //Metodo que cambia la carga a negativo y cambia la imagen a la iamgen apagada
-    public static void Apagar() {
-        Image image = new Image("/Switch3x3.png");
-        Imagen.setImage(image);
-        Imagen.toFront();
-        Carga = "-";
     }
 
 }

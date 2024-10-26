@@ -429,6 +429,7 @@ public class ManejarCirculos {
     public void crearSwitch3x3(){
         Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
         Switch3x3 switch3x3 = fabrica.crear();
+        switch3x3.setOnMouseClicked(switch3x3::cambiarCarga);
         switch3x3.setProtos(getprotos());
         pane.getChildren().add(switch3x3);
         switches3x3.add(switch3x3);

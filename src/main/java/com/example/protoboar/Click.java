@@ -137,7 +137,6 @@ public class Click {
 
     // verifica los switch3x3 para el intercambio de carga
     public static void verificar_Switch3x3s() {
-
         manejarCirculos.verificar_sw3x3();
     }
 
