@@ -248,13 +248,13 @@ public class ManejarCirculos {
         linea.setInicio(circulo_apret);
         linea.toFront();
         linea.pos_proto=-1;
-        Parent parent = circulo_apret.getParent();
-        if (parent instanceof Pane) {
-            ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
+       // Parent parent = circulo_apret.getParent();
+        pane.getChildren().add(linea);  // Añadir la línea al Pane
+        if(circulo_apret == bateria.getNegativo() || circulo_apret == bateria.getPositivo() || circulo_apret == motor.getNegativo()
+                || circulo_apret == motor.getPositivo()){
             linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
-        } else if (parent instanceof Group) {
-            ((Group) circulo_apret.getParent()).getChildren().add(linea); // Si fuera Group, agregaría aquí
+        }else{
             int x=0;
             while(x<protos.size()){
                 for(Node node:protos.get(x).getChildren()){
