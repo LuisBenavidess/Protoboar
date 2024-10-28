@@ -203,12 +203,15 @@ public class Fabrica_Proto {
         proto.movimientoY= proto.y;
     }
 
+    // arrastra a cada parte del grupo protoboard
     private void arrastrar(MouseEvent event) {
         if(event.getSource() instanceof Protoboard proto){
             double deltaX = event.getSceneX() - proto.initialX;
             double deltaY = event.getSceneY() - proto.initialY;
             for (Node node : proto.getChildren()) {
+                // mueve cada objeto
                 if (node instanceof bus circle) {
+                    // si es un bus es diferente porque tambien se mueven los cables ya que estos cambiaron y no se encuentran dentro del grupo protoboard
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
                     int i=0;
@@ -239,10 +242,6 @@ public class Fabrica_Proto {
                 if(node instanceof Label label){
                     label.setLayoutX(label.getLayoutX() + deltaX);
                     label.setLayoutY(label.getLayoutY() + deltaY);
-                }
-                if (node instanceof conection cable) {
-                   // cable.moverInicio(deltaX, deltaY);
-                    //cable.moverFin(deltaX, deltaY);
                 }
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);

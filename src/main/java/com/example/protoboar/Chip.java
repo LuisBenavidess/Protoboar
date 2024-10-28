@@ -5,8 +5,9 @@ import javafx.scene.Group;
 import java.awt.*;
 import java.util.ArrayList;
 import javafx.scene.shape.Rectangle;
+//Clase chip
 public class Chip extends Group {
-
+    //Atributos utilizados (objetos vinculados al chip, coordenadas, etc.)
     public double initX;
     public double initY;
     private Rectangle base;
@@ -14,12 +15,14 @@ public class Chip extends Group {
     private ArrayList<Pata> patas;
     public int pos_proto;
     public boolean terminado;
-
+    //Construcción inicial
     Chip(){
         protos = new ArrayList<>();
         patas = new ArrayList<>();
         terminado = false;
     }
+
+    //Metodos gets y sets
     public void addProto(Protoboard proto){
         protos.add(proto);
     }
