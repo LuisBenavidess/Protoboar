@@ -13,7 +13,6 @@ public class bus extends Circle {
     double y;
     boolean componenteCreado = false; // Indica si se ha creado un componente en este círculo
     Double voltaje;
-    private int extremo;
     Text voltajeDisplay; // Para mostrar el voltaje en pantalla
 
     // Constructor
@@ -38,11 +37,7 @@ public class bus extends Circle {
         this.carga = carga;
     }
 
-    public void setExtremo(int extremo) {
-        this.extremo = extremo;
-    }
-    public int getExtremo(){
-        return this.extremo;
+    public void setExtremo() {
     }
 
     // Devolver carga
@@ -53,8 +48,7 @@ public class bus extends Circle {
     // Establecer voltaje
     public void setVoltaje(Double voltaje) {
         this.voltaje = voltaje;
-        // Actualiza el texto que muestra el voltaje
-        updateVoltajeDisplay();
+        updateVoltajeDisplay(); // Actualiza el texto que muestra el voltaje
     }
 
     public void crearComponente() {
@@ -66,10 +60,6 @@ public class bus extends Circle {
         return !componenteCreado;
     }
 
-    public void eliminarComponente() {
-        this.componenteCreado = false;
-    }
-
     // Método para actualizar la visualización del voltaje
     private void updateVoltajeDisplay() {
         if (voltaje != null) {
@@ -77,13 +67,14 @@ public class bus extends Circle {
         } else {
             voltajeDisplay.setText(""); // No mostrar nada si voltaje es null
         }
-        // Actualizar la posición del texto del voltaje
-        voltajeDisplay.setLayoutX(this.getCenterX() - 10);
-        voltajeDisplay.setLayoutY(this.getCenterY() + 15);
     }
 
     // Método para obtener el nodo que muestra el voltaje
     public Text getVoltajeDisplay() {
         return voltajeDisplay;
+    }
+
+    public void setVoltajeDisplay(String voltaje) {
+        this.voltajeDisplay.setText(voltaje);
     }
 }

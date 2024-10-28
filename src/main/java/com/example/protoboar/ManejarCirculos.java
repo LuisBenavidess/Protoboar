@@ -1,6 +1,5 @@
 package com.example.protoboar;
 
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -8,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 
 //Clase se encarga de los circulos

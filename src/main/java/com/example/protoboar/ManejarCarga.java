@@ -1,6 +1,5 @@
 package com.example.protoboar;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
@@ -61,7 +60,6 @@ public class ManejarCarga {
                 }
                 i++;
             }
-
             x++;
         }
 
@@ -69,25 +67,20 @@ public class ManejarCarga {
 
     // Metodo que se encarga de distribuir la carga en el sector correspondiente
     public void marcar(int i, int j, String carga,Protoboard proto) {
-        // Si el bus ya está quemado, no hacer nada
         if (proto.alimentacion[i][j].getFill() == Color.YELLOW) {
-            return;
+            return;  // Si el bus ya está quemado, no hacer nada
         }
-        //if () {
-
-
-        if (i <= 1) {
-            // Filas 0 y 1 - Forma Horizontal
+        if (i <= 1) { // Filas 0 y 1 - Forma Horizontal
             int col = 0;
             while (col < 30) {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(null);
+                    proto.alimentacion[i][col].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(null);
+                    proto.alimentacion[i][col].setVoltaje(0.0);
                 }
                 col++;
             }
@@ -97,11 +90,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(null);
+                    proto.alimentacion[fil][j].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(null);
+                    proto.alimentacion[fil][j].setVoltaje(0.0);
                 }
                 fil++;
             }
@@ -112,11 +105,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[fil][j].setFill(Color.RED);
                     proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(null);
+                    proto.alimentacion[fil][j].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[fil][j].setFill(Color.BLUE);
                     proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(null);
+                    proto.alimentacion[fil][j].setVoltaje(0.0);
                 }
                 fil--;
             }
@@ -127,11 +120,11 @@ public class ManejarCarga {
                 if (carga.equals("+")) {
                     proto.alimentacion[i][col].setFill(Color.RED);
                     proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(null);
+                    proto.alimentacion[i][col].setVoltaje(9.0);
                 } else if (carga.equals("-")) {
                     proto.alimentacion[i][col].setFill(Color.BLUE);
                     proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(null);
+                    proto.alimentacion[i][col].setVoltaje(0.0);
                 }
                 col++;
             }
@@ -176,35 +169,29 @@ public class ManejarCarga {
         if (fila == 0 || fila == 1 || fila == 13 || fila == 14) {
             for (int col = 0; col < proto.alimentacion[fila].length; col++) {
                 quemarBus(fila, col,proto);
-
             }
         }
     }
 
     // Metodo que quema una sección de la columna según la fila del bus
     public void quemarColumna(bus fin) {
-        int x=0;
-        while(x<protos.size()) {
-            if(protos.get(x).getChildren().contains(fin)) {
-
-                int columnaAQuemar = getColumna(fin,protos.get(x));
-                if (columnaAQuemar == -1) return; // Si no se encuentra la columna, salir
-
-                int fila = getFila(fin,protos.get(x));
+        int x = 0;
+        while (x < protos.size()) {
+            if (protos.get(x).getChildren().contains(fin)) {
+                int columnaDestino = getColumna(fin, protos.get(x));
+                if (columnaDestino == -1) return; // Si no se encuentra la columna, salir
+                int fila = getFila(fin, protos.get(x));
                 if (fila == -1) return; // Si no se encuentra la fila, salir
-
-                // Quemar la columna específica en las secciones adecuadas
                 if (fila >= 2 && fila <= 6) {
                     for (int f = 2; f <= 6; f++) {
-                        quemarBus(f, columnaAQuemar,protos.get(x));
+                        quemarBus(f, columnaDestino, protos.get(x));
                     }
                 } else if (fila >= 7 && fila <= 11) {
                     for (int f = 7; f <= 11; f++) {
-                        quemarBus(f, columnaAQuemar,protos.get(x));
+                        quemarBus(f, columnaDestino, protos.get(x));
                     }
                 } else {
-                    // Si la fila es 0, 1, 13 o 14, quemar la fila completa
-                    quemarFila(fila,protos.get(x));
+                    quemarFila(fila, protos.get(x)); // Si la fila es 0, 1, 13 o 14, quemar la fila completa
                 }
             }
             x++;
@@ -306,7 +293,6 @@ public class ManejarCarga {
         }
     }
 
-
     public void verificar_chips(ArrayList<Chip> chips) {
         int i=0;
         while (i < chips.size()) {
@@ -319,55 +305,27 @@ public class ManejarCarga {
     }
 
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
-
-        int i=0;
+        int i = 0;
         while (i < sw.size()) {
-            if(sw.get(i).terminado){
+            if (sw.get(i).terminado) {
                 protos.get(sw.get(i).pos_proto).getChildren().add(sw.get(i));
-                sw.get(i).terminado=false;
-                sw.get(i).agregado=true;
+                sw.get(i).terminado = false;
+                sw.get(i).agregado = true;
             }
             i++;
         }
-        i=0;
-        // Condicion para que recorra todos los switches
+        i = 0;
         while (i < sw.size()) {
-
-            //Condicion de prendido
-            if(sw.get(i).getCarga().equals("+")){
+            if (sw.get(i).getencendido()) {
                 int j = 0;
-                while(j < sw.get(i).getPatas().size()){
-                   if(sw.get(i).agregado){
-                       bus Bus = sw.get(i).getPats(j).getBus_conectado();
-                       if (!Bus.getCarga().equals(" ")) {
-                           sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
-                           sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
-                           sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
-                           sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
-                           corriente();
-                       }
-                   }
-                    j++;
-                }
-            }else{//entra cuando es negativo el switch
-                int j = 0;
-                while(j < sw.get(i).getPatas().size()){
-                    if(sw.get(i).agregado){
+                while (j < sw.get(i).getPatas().size()) {
+                    if (sw.get(i).agregado) {
                         bus Bus = sw.get(i).getPats(j).getBus_conectado();
-                        if (!Bus.getCarga().equals(" ")) {
-
-                            if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
-                                sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
-                            }
-                            if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
-                                sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
-                            }
-                            if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
-                                sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
-                            }
-                            if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
-                                sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
-                            }
+                        if (!Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
+                            sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                            sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                            sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                            sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
                             corriente();
                         }
                     }
