@@ -268,7 +268,7 @@ public class ManejarCirculos {
                 x++;
             }
             // se coloca en el bus si este es el extremo incial "star de la linea" o el final "end de la linea"
-            circulo_apret.setExtremo(0);
+            circulo_apret.setExtremo();
             // se coloca las coordenadas de este
             linea.setStartX(circulo_apret.getCenterX());
             linea.setStartY(circulo_apret.getCenterY());
@@ -345,7 +345,7 @@ public class ManejarCirculos {
                                     protos.get(x).setConections(linea);
                                     linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                     linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
-                                    targetCircle.setExtremo(1);
+                                    targetCircle.setExtremo();
                                     targetCircle.crearComponente();
                                     circulo_bateria = false;
                                     circulo_motor = false;
