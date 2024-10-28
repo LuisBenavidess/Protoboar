@@ -248,13 +248,16 @@ public class ManejarCirculos {
         linea.setInicio(circulo_apret);
         linea.toFront();
         linea.pos_proto=-1;
-        Parent parent = circulo_apret.getParent();
-        if (parent instanceof Pane) {
-            ((Pane) parent).getChildren().add(linea);  // Añadir la línea al Pane
+       //La linea se agrega la pane para poder moverla mas facilmente y este este siempre al frente y no se queden atras
+        pane.getChildren().add(linea);  // Añadir la línea al Pane
+        // depende si se presiono una bateria o motor o el protoboard para saber como actuar
+        if(circulo_apret == bateria.getNegativo() || circulo_apret == bateria.getPositivo() || circulo_apret == motor.getNegativo()
+                || circulo_apret == motor.getPositivo()){
+            // si es la bateria "circulo_bateria" sera true para saber que es la bateria y se coloca el star de la linea
             linea.setStartX(circulo_apret.getCenterX());
             circulo_bateria=true;
-        } else if (parent instanceof Group) {
-            ((Group) circulo_apret.getParent()).getChildren().add(linea); // Si fuera Group, agregaría aquí
+        }else{
+            // si es el protoboard viaja por todos los protoboards buscando el bus presionado y guardas en que protoboard esta
             int x=0;
             while(x<protos.size()){
                 for(Node node:protos.get(x).getChildren()){
@@ -266,7 +269,9 @@ public class ManejarCirculos {
                 }
                 x++;
             }
+            // se coloca en el bus si este es el extremo incial "star de la linea" o el final "end de la linea"
             circulo_apret.setExtremo(0);
+            // se coloca las coordenadas de este
             linea.setStartX(circulo_apret.getCenterX());
             linea.setStartY(circulo_apret.getCenterY());
         }
@@ -280,15 +285,19 @@ public class ManejarCirculos {
 
     //Metodo que actualiza la pocision del cable hasta presionar un circulo
     void movimiento(MouseEvent event) {
+        // Condicion para saber si la linea en movimiento aun existe
         if (linea != null) {
+            // este guarda su posisicon actual
             Parent parent = linea.getParent();
             double localX = parent.sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
             double localY = parent.sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
             // Establecer el extremo de la línea basado en las coordenadas locales
+            // guardando su posicion el en final de la linea
             linea.setEndX(localX);
             linea.setEndY(localY);
             linea.getParent().setOnMouseClicked(this::parar);
         } else{
+            // si la linea no existe este se elimina
             Node sourceNode = (Node) event.getTarget(); // Hacer un casting a Node
             Scene scene = sourceNode.getScene();
             scene.setOnMouseMoved(null);
@@ -301,9 +310,11 @@ public class ManejarCirculos {
             parent.setOnMouseMoved(null);
             parent.setOnMouseClicked(null);
         }
+        // si la linea esxiste comprueba si se en el lugar presionado se encuentra un bus
         if (linea != null) {
             int x = 0;
             while (x < protos.size()) {
+                // viaja pot el protoboard buscando los buses
                 for (int i = 0; i < 14; i++) {
                     for (int j = 0; j < 30; j++) {
                         bus targetCircle = protos.get(x).alimentacion[i][j];
@@ -317,16 +328,19 @@ public class ManejarCirculos {
                                     conection nuevo = linea;
                                     nuevo.setOnMouseClicked(Click::eliminarElemento);
                                     // Anclar el extremo inicial de la línea a la posición del grupo
+                                    //se agregan los cables al protoboard
                                     if (linea.pos_proto > -1) {
                                         System.out.println(linea.pos_proto);
                                         if (!protos.get(linea.pos_proto).getChildren().contains(targetCircle)) {
-                                            linea.salio = true;
+                                            //linea.salio = true;
                                             protos.get(linea.pos_proto).setConections(linea);
                                         }
                                     }
+                                    // agregar el cable a la bateria
                                     if (circulo_bateria) {
                                         bateria.addCable(nuevo); // Añade el cable a la batería
                                     }
+                                    // agregar el cable al motor
                                     if (circulo_motor) {
                                         motor.addCable(nuevo); // Añade el cable a la batería
                                     }

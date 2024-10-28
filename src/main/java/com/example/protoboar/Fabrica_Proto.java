@@ -203,48 +203,15 @@ public class Fabrica_Proto {
         proto.movimientoY= proto.y;
     }
 
+    // arrastra a cada parte del grupo protoboard
     private void arrastrar(MouseEvent event) {
         if(event.getSource() instanceof Protoboard proto){
             double deltaX = event.getSceneX() - proto.initialX;
             double deltaY = event.getSceneY() - proto.initialY;
-            /*for (Node node : proto.getChildren()) {
-                if (node instanceof bus circle) {
-                    circle.setCenterX(circle.getCenterX() + deltaX);
-                    circle.setCenterY(circle.getCenterY() + deltaY);
-                    int i = 0;
-                    while (i < proto.getConections().size()) {
-                        if (proto.getConections().get(i).getFin() == circle &&
-                                (proto.getConections().get(i).salio || proto.getConections().get(i).bateria)) {
-
-                            if (((bus) node).getExtremo() == 1 || proto.getConections().get(i).bateria) {
-                                System.out.println("se mueve desde final");
-                                proto.getConections().get(i).endXProperty().unbind();
-                                proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
-                                proto.getConections().get(i).endYProperty().unbind();
-                                proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
-                            }
-                        } else {
-                            if (proto.getConections().get(i).getInicio() == circle && proto.getConections().get(i).salio) {
-                                if (((bus) node).getExtremo() == 0) {
-                                    System.out.println("se mueve desde inicio");
-                                    proto.getConections().get(i).startXProperty().unbind();
-                                    proto.getConections().get(i).setStartX(circle.getCenterX() + deltaX);
-                                    proto.getConections().get(i).startYProperty().unbind();
-                                    proto.getConections().get(i).setStartY(circle.getCenterY() + deltaY);
-                                }
-                            } else {
-                                if (proto.getConections().get(i).getFin() == circle && !proto.getConections().get(i).getMovimiento()) {
-                                    conection cable = proto.getConections().get(i);
-                                    cable.setLayoutX(cable.getLayoutX() + deltaX);
-                                    cable.setLayoutY(cable.getLayoutY() + deltaY);
-                                    proto.getConections().get(i).setMovimiento(true);
-                                }
-                            }
-                        }
-                        i++;
-                    }*/
             for (Node node : proto.getChildren()) {
+                // mueve cada objeto
                 if (node instanceof bus circle) {
+                    // si es un bus es diferente porque tambien se mueven los cables ya que estos cambiaron y no se encuentran dentro del grupo protoboard
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
                     int i=0;
@@ -254,6 +221,12 @@ public class Fabrica_Proto {
                             proto.getConections().get(i).setEndX(circle.getCenterX() + deltaX);
                             proto.getConections().get(i).endYProperty().unbind();
                             proto.getConections().get(i).setEndY(circle.getCenterY() + deltaY);
+                        }
+                        if(proto.getConections().get(i).getInicio()==circle){
+                            proto.getConections().get(i).startXProperty().unbind();
+                            proto.getConections().get(i).setStartX(circle.getCenterX() + deltaX);
+                            proto.getConections().get(i).startYProperty().unbind();
+                            proto.getConections().get(i).setStartY(circle.getCenterY() + deltaY);
                         }
                         i++;
                     }
@@ -269,10 +242,6 @@ public class Fabrica_Proto {
                 if(node instanceof Label label){
                     label.setLayoutX(label.getLayoutX() + deltaX);
                     label.setLayoutY(label.getLayoutY() + deltaY);
-                }
-                if (node instanceof conection cable) {
-                    cable.moverInicio(deltaX, deltaY);
-                    cable.moverFin(deltaX, deltaY);
                 }
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);
