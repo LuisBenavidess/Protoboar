@@ -1,6 +1,5 @@
 package com.example.protoboar;
 
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -8,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
+
 import java.util.ArrayList;
 
 //Clase se encarga de los circulos
@@ -266,7 +265,7 @@ public class ManejarCirculos {
                 }
                 x++;
             }
-            circulo_apret.setExtremo(0);
+            circulo_apret.setExtremo();
             linea.setStartX(circulo_apret.getCenterX());
             linea.setStartY(circulo_apret.getCenterY());
         }
@@ -333,7 +332,7 @@ public class ManejarCirculos {
                                     protos.get(x).setConections(linea);
                                     linea.endXProperty().bind(protos.get(x).layoutXProperty().add(targetCircle.getCenterX()));
                                     linea.endYProperty().bind(protos.get(x).layoutYProperty().add(targetCircle.getCenterY()));
-                                    targetCircle.setExtremo(1);
+                                    targetCircle.setExtremo();
                                     targetCircle.crearComponente();
                                     circulo_bateria = false;
                                     circulo_motor = false;

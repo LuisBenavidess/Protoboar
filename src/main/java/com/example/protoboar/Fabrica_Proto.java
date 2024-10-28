@@ -171,7 +171,11 @@ public class Fabrica_Proto {
                 proto.alimentacion[proto.filas][proto.columnas].setCarga(" ");
                 proto.alimentacion[proto.filas][proto.columnas].x = circulo.getCenterX();
                 proto.alimentacion[proto.filas][proto.columnas].y = circulo.getCenterY();
-                circulo.setVoltaje(null);
+                // Establecer voltaje
+                String voltaje = "";
+                circulo.setVoltajeDisplay(voltaje);
+                circulo.getVoltajeDisplay().setX(circulo.getCenterX() - 7);
+                circulo.getVoltajeDisplay().setY(circulo.getCenterY() + 17);
 
                 // Agregar el bus al protoboard
                 proto.getChildren().add(circulo);
@@ -247,6 +251,8 @@ public class Fabrica_Proto {
                 if (node instanceof bus circle) {
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
+                    circle.getVoltajeDisplay().setX(circle.getCenterX()-7);
+                    circle.getVoltajeDisplay().setY(circle.getCenterY()+17);
                     int i=0;
                     while(i<proto.getConections().size()){
                         if(proto.getConections().get(i).getFin()==circle){

@@ -42,16 +42,8 @@ public class Click {
         return manejarCirculos.getCables();
     }
 
-    public static ArrayList<Switch> getswitch() {
-        return manejarCirculos.getswitches();
-    }
-
     public static ArrayList<Led> getCables_led() {
         return manejarCirculos.get_leds();
-    }
-
-    public static ArrayList<Resistencia> getResistencias() {
-        return manejarCirculos.getResistencias();
     }
 
     public void setLedClicked(boolean ledClicked) {
@@ -82,10 +74,6 @@ public class Click {
         resistencias = resistencia;
     }
 
-    public void setprotos(ArrayList<Protoboard> proto) {
-        manejarCirculos.setprotos(proto);
-    }
-
     public static ArrayList<Protoboard> getprotos() {
         return protos;
     }
@@ -93,6 +81,7 @@ public class Click {
     public static void  setSwitch3x3(ArrayList<Switch3x3> switch3x3s) {
         switch3x3 = switch3x3s;
     }
+
     public static ArrayList<Switch3x3> getSwitch3x3s() {
         return switch3x3;
     }
@@ -146,7 +135,6 @@ public class Click {
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
-
         setSwitch3x3(manejarCirculos.getswitches3x3());
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
@@ -158,10 +146,8 @@ public class Click {
                 verificar_Switch3x3s();
                 j++;
             }
-
             i++;
         }
-
         i=0;
         //Verifica los leds
         while(i<getCables_led().size()){
@@ -174,13 +160,10 @@ public class Click {
         if(switch3x3!=null){
             manejarCirculos.verificar_sw3x3();
         }
-
-
     }
 
     //Metodo para cuando se preciona el basurero (Borrar)
     public void ClickEnBasurero() {
-        System.out.println("Modo borrar");
         eliminarProximaImagen = !eliminarProximaImagen;
     }
 

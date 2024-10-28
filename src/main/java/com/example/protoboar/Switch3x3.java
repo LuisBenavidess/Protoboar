@@ -1,8 +1,6 @@
 package com.example.protoboar;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,14 +8,14 @@ import javafx.scene.input.MouseEvent;
 
 public class Switch3x3 extends Group {
 
-    private ArrayList<Pata> Patas;
+    private final ArrayList<Pata> Patas;
     private ArrayList<Protoboard> protos;
     private ImageView Imagen;
     public double initX;
     public double initY;
     public int pos_proto;
     public boolean terminado;
-    private String Carga;
+    private boolean encendido = false;
     public boolean agregado=false;
 
     Switch3x3() {
@@ -26,7 +24,6 @@ public class Switch3x3 extends Group {
         Patas = new ArrayList<>();
         protos = new ArrayList<>();
         terminado = false;
-        Carga = "-";
     }
 
     //Seters
@@ -59,29 +56,22 @@ public class Switch3x3 extends Group {
         return protos;
     }
 
-    public String getCarga(){
-        return Carga;
+    public boolean getencendido(){
+        return encendido;
     }
 
     //Metodo que recibe el evento de apretar el switch y este cambia la carga y la imagen
     public void cambiarCarga(MouseEvent event) {
         Image image;
-        if(this.Carga.equals("+")) {
+        if(!encendido) {
             image = new Image("/Switch3x3.png");
-            this.Carga = "-";
-
-            System.out.println("apagado");
+            encendido=true;
         }else{
             image = new Image("/Switch3x3On.png");
-            this.Carga = "+";
-
-            System.out.println("prendido");
+            encendido=false;
         }
         Imagen.setImage(image);
         Imagen.toFront();
-
         Click.iniciar();
-
     }
-
 }
