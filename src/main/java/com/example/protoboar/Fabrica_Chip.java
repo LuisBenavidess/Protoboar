@@ -31,7 +31,7 @@ public class Fabrica_Chip {
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
     public Chip decoracion(Chip chip){
 
-        Rectangle base = new Rectangle(700,300,65,38/*40*/);
+        Rectangle base = new Rectangle(700,300,119,38/*40*/);
         Text letra = new Text("Chip");
         letra.setFill(Color.WHITE);
         letra.setFont(Font.font("Bodoni", FontWeight.BOLD, 10));
@@ -43,7 +43,7 @@ public class Fabrica_Chip {
         int i=0;
         int x=700;
         int y=295;
-        while(i<8){
+        while(i<14){
             Pata pata= new Pata(x,y,10,10);
             pata.setFill(Color.GRAY);
             pata.setArcWidth(5);  // Curvatura horizontal
@@ -52,7 +52,7 @@ public class Fabrica_Chip {
             chip.getChildren().add(pata);
 
             x=x+18;
-            if(i==3){
+            if(i==6){
                 x=700;
                 y=y+38;
             }
@@ -61,12 +61,14 @@ public class Fabrica_Chip {
 
         return chip;
     }
+
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial
     private void iniciar_mov(MouseEvent event){
         Chip chip = (Chip) event.getSource();
         chip.initX= event.getSceneX();
         chip.initY= event.getSceneY();
     }
+
     // el metodo arrastre se utiliza cuando se mueve un objeto, actualizando las coordenas
     public void arrastrar(MouseEvent event){
         Chip chip = (Chip) event.getSource();
@@ -83,6 +85,7 @@ public class Fabrica_Chip {
         chip.initX = event.getSceneX();
         chip.initY = event.getSceneY();
     }
+
     // el evento terminar se activa cuando se suelta el obejto y realiza unas verificaciones para saber si esta dentro de los buses
     public void terminar(MouseEvent event){
         detectar(event);
@@ -113,10 +116,10 @@ public class Fabrica_Chip {
                 x++;
 
             }
-            double centerX = (chip.getPats(0).getX() + chip.getPats(3).getX() + chip.getPats(4).getX() +
-                    chip.getPats(7).getX() + chip.getPats(0).getWidth() + chip.getPats(4).getWidth()) / 4;
-            double centerY = (chip.getPats(0).getY() + chip.getPats(3).getY() + chip.getPats(4).getY() +
-            chip.getPats(7).getY() + chip.getPats(0).getHeight() + chip.getPats(3).getHeight()) / 4;
+            double centerX = (chip.getPats(0).getX() + chip.getPats(6).getX() + chip.getPats(7).getX() +
+                    chip.getPats(13).getX() + chip.getPats(0).getWidth() + chip.getPats(7).getWidth()) / 4;
+            double centerY = (chip.getPats(0).getY() + chip.getPats(6).getY() + chip.getPats(7).getY() +
+            chip.getPats(13).getY() + chip.getPats(0).getHeight() + chip.getPats(7).getHeight()) / 4;
             chip.getBase().setX(centerX - chip.getBase().getWidth() / 2);
             chip.getBase().setY(centerY - chip.getBase().getHeight() / 2);
             chip.setOnMousePressed(null);
@@ -127,7 +130,8 @@ public class Fabrica_Chip {
 
 
         }
-    // este metodo verifica si cada pata se encuentra en un bus
+
+        // este metodo verifica si cada pata se encuentra en un bus
     public void detectar(MouseEvent event) {
         Chip chip = (Chip) event.getSource();
         int x = 0;
