@@ -294,14 +294,58 @@ public class ManejarCarga {
     }
 
     public void verificar_chips(ArrayList<Chip> chips) {
+        //Agregar al protoboard
         int i=0;
         while (i < chips.size()) {
             if(chips.get(i).terminado){
+                System.out.println("entra");
                 protos.get(chips.get(i).pos_proto).getChildren().add(chips.get(i));
                 chips.get(i).terminado=false;
+                chips.get(i).agregado=true;
             }
             i++;
         }
+
+        // Iniciar procedimiento
+
+        i=0;
+        while (i < chips.size()) {
+            if(chips.get(i).agregado){
+                //System.out.println("cual es el chip");
+                Chip chip = chips.get(i);
+                //System.out.println(chip.getPats(0).getBus_conectado().getCarga());
+                if(chip.getPats(0).getBus_conectado().getCarga().equals("+") && chip.getPats(13).getBus_conectado().getCarga().equals("-")){
+                    //System.out.println("entra");
+                    if(chip.getTipo().equals("NOT")){
+
+                        chip_not(chip);
+                    }else{
+                        if(chip.getTipo().equals("AND")){
+
+                        }else{
+
+                        }
+                    }
+                }
+            }
+            i++;
+        }
+
+    }
+
+    public void chip_not(Chip chip){
+
+        int i=1;
+        while(i<chip.getPatas().size()){
+           // System.out.println("verifica chip not");
+            if(chip.getPats(i).getBus_conectado().getCarga().equals("-") && i!=13){
+                chip.getPats(i+1).getBus_conectado().setCarga("+");
+                //System.out.println("true");
+                corriente();
+            }
+            i=i+2;
+        }
+
     }
 
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {

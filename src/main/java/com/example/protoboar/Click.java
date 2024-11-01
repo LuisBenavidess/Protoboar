@@ -86,6 +86,15 @@ public class Click {
         return switch3x3;
     }
 
+    public static void  setChips(ArrayList<Chip> chip) {
+        chips=chip;
+    }
+
+    public static ArrayList<Chip> getChips() {
+        return chips;
+    }
+
+
     ////////////////////////////////////////////////////////////////////////
 
     //Metodo para cuando se preciona algun circlu(bus)
@@ -128,13 +137,16 @@ public class Click {
     public static void verificar_Switch3x3s() {
         manejarCirculos.verificar_sw3x3();
     }
-
+    public static void verificar_chips() {
+        manejarCirculos.verificar_chip();
+    }
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {
         //Revovina todos los circulos a neutro(negro) para verificar de forma correcta
         revovinar();
         int i=0;
+        setChips(manejarCirculos.getChips());
         setSwitch3x3(manejarCirculos.getswitches3x3());
         // Verifica los cables y switch para trasladar la carga
         while(i<getCables().size()){
@@ -144,6 +156,11 @@ public class Click {
             int j=0;
             while(j<getSwitch3x3s().size()){
                 verificar_Switch3x3s();
+                j++;
+            }
+            j=0;
+            while(j<getChips().size()){
+                verificar_chips();
                 j++;
             }
             i++;
@@ -156,9 +173,12 @@ public class Click {
         }
         i=0;
         //Verifica los chips
-        manejarCirculos.verificar_chip();
+        //manejarCirculos.verificar_chip();
         if(switch3x3!=null){
             manejarCirculos.verificar_sw3x3();
+        }
+        if(chips!=null){
+            manejarCirculos.verificar_chip();
         }
     }
 
@@ -167,8 +187,8 @@ public class Click {
         eliminarProximaImagen = !eliminarProximaImagen;
     }
 
-    public void CrearChip(){
-        manejarCirculos.crearChip();
+    public void CrearChip(String tipo){
+        manejarCirculos.crearChip(tipo);
     }
 
     public void CrearSwitch3x3(){

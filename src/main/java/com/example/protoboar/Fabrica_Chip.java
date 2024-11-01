@@ -16,10 +16,10 @@ public class Fabrica_Chip {
     public Fabrica_Chip() {}
 
     //Metodo inicial para crear el chip
-    public Chip crear(){
+    public Chip crear(String tipo){
 
-        Chip chip = new Chip();
-        chip=decoracion(chip);
+        Chip chip = new Chip(tipo);
+        chip=decoracion(chip,tipo);
         chip.setOnMousePressed(this::iniciar_mov);
         chip.setOnMouseDragged(this::arrastrar);
         chip.setOnMouseReleased(this::terminar);
@@ -29,10 +29,20 @@ public class Fabrica_Chip {
 
     }
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
-    public Chip decoracion(Chip chip){
+    public Chip decoracion(Chip chip,String tipo){
 
         Rectangle base = new Rectangle(700,300,119,38/*40*/);
-        Text letra = new Text("Chip");
+        Text letra;
+        if(tipo.equals("OR")){
+            letra = new Text("OR");
+        }else{
+            if(tipo.equals("AND")){
+                letra = new Text("AND");
+            }else{
+                letra = new Text("NOT");
+            }
+        }
+
         letra.setFill(Color.WHITE);
         letra.setFont(Font.font("Bodoni", FontWeight.BOLD, 10));
         letra.setLayoutX(700);

@@ -169,8 +169,22 @@ public class HelloController {
     }
 
     @FXML
-    private void crearChip(){
-        clickHandler.CrearChip();
+    private void crearChip_or(){
+        crearChip("OR");
+    }
+
+    @FXML
+    private void crearChip_and(){
+        crearChip("AND");
+    }
+
+    @FXML
+    private void crearChip_not(){
+        crearChip("NOT");
+    }
+
+    private void crearChip(String tipo){
+        clickHandler.CrearChip(tipo);
     }
 
     @FXML

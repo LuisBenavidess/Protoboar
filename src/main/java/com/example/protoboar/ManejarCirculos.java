@@ -430,9 +430,9 @@ public class ManejarCirculos {
         primercircle = null;
     }
 
-    public void crearChip(){
+    public void crearChip(String tipo){
         Fabrica_Chip fabrica = new Fabrica_Chip();
-        Chip chip=fabrica.crear();
+        Chip chip=fabrica.crear(tipo);
         chip.setProtos(getprotos());
         pane.getChildren().add(chip);
         chips.add(chip);

@@ -4,10 +4,13 @@ import javafx.scene.Group;
 
 import java.awt.*;
 import java.util.ArrayList;
+
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 //Clase chip
 public class Chip extends Group {
     //Atributos utilizados (objetos vinculados al chip, coordenadas, etc.)
+    private String tipo;
     public double initX;
     public double initY;
     private Rectangle base;
@@ -15,11 +18,13 @@ public class Chip extends Group {
     private ArrayList<Pata> patas;
     public int pos_proto;
     public boolean terminado;
+    public boolean agregado=false;
     //Construcción inicial
-    Chip(){
+    Chip(String tipo){
         protos = new ArrayList<>();
         patas = new ArrayList<>();
         terminado = false;
+        this.tipo=tipo;
     }
 
     //Metodos gets y sets
@@ -56,6 +61,10 @@ public class Chip extends Group {
     }
     public Rectangle getBase(){
         return base;
+    }
+
+    public String getTipo(){
+        return tipo;
     }
 
 }
