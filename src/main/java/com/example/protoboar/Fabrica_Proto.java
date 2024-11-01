@@ -252,6 +252,7 @@ public class Fabrica_Proto {
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);
                     image.setLayoutY(image.getLayoutY() + deltaY);
+
                 }
                 if(node instanceof Chip chip){
                     chip.setLayoutX(chip.getLayoutX() + deltaX);
@@ -260,6 +261,10 @@ public class Fabrica_Proto {
                 if(node instanceof Switch3x3 switch3x3){
                     switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
                     switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
+                }
+                if(node instanceof conection cable){
+                    cable.setLayoutX(cable.getLayoutX() + deltaX);
+                    cable.setLayoutY(cable.getLayoutY() + deltaY);
                 }
             }
             int i=0;

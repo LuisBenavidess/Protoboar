@@ -202,6 +202,7 @@ public class ManejarCirculos {
                 led.setConectado();
                 led.setCable_azul(cableAzul);
                 led.setCable_rojo(cable);
+                proto.setLeds(led);
                 leds.add(led);
             } else if (switchClicked) {
                 cable.setFin(c2); //switch

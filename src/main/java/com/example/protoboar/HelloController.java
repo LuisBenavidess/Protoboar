@@ -184,11 +184,13 @@ public class HelloController {
     }
 
     private void crearChip(String tipo){
+        desactivarOpciones();
         clickHandler.CrearChip(tipo);
     }
 
     @FXML
     private void crearSwitch3x3(MouseEvent event) {
+        desactivarOpciones();
         clickHandler.CrearSwitch3x3();
     }
 
@@ -232,6 +234,7 @@ public class HelloController {
         switchClicked = false;
         System.out.println("Switch false");
         basureroActivo = false;
+        clickHandler.setEliminarProximaImagen(false);
         Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
         basurero.setImage(image);
         System.out.println("Basurero false");

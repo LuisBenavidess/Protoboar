@@ -321,9 +321,9 @@ public class ManejarCarga {
                         chip_not(chip);
                     }else{
                         if(chip.getTipo().equals("AND")){
-
+                            chip_and(chip);
                         }else{
-
+                            chip_or(chip);
                         }
                     }
                 }
@@ -332,20 +332,70 @@ public class ManejarCarga {
         }
 
     }
-
+    // Este metodo realiza la simple logica del chip not
     public void chip_not(Chip chip){
 
         int i=1;
+        // Verifica cada pata
         while(i<chip.getPatas().size()){
-           // System.out.println("verifica chip not");
+           // Con esta condicion verifica si la pata esta conectada con carga negativa para saber si pasar carga positiva al otro
             if(chip.getPats(i).getBus_conectado().getCarga().equals("-") && i!=13){
                 chip.getPats(i+1).getBus_conectado().setCarga("+");
-                //System.out.println("true");
+                corriente();
+            }
+            if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && i!=13){
+                chip.getPats(i+1).getBus_conectado().setCarga("-");
                 corriente();
             }
             i=i+2;
         }
 
+    }
+
+    // Este metodo realiza la simple logica del chip and
+    public void chip_and(Chip chip){
+        int i=1;
+        // Verifica cada pata
+        while(i<chip.getPatas().size()){
+            //Condicion para saber si es and quiere decir que ambas patas deben estar en positivo
+            if(i!=13){
+                if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
+                    chip.getPats(i+2).getBus_conectado().setCarga("+");
+                    corriente();
+                }else{
+                    if((!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")) &&
+                            (chip.getPats(i).getBus_conectado().getCarga().equals("-") || chip.getPats(i+1).getBus_conectado().getCarga().equals("-"))){
+                        chip.getPats(i+2).getBus_conectado().setCarga("-");
+                        corriente();
+                    }
+                }
+
+            }
+
+
+            i=i+3;
+        }
+    }
+
+    //Este metodo realiza la simple logica del chip or
+    public void chip_or(Chip chip){
+        int i=1;
+
+        while(i<chip.getPatas().size()){
+            if(i!=13){
+                if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
+
+                    if(chip.getPats(i).getBus_conectado().getCarga().equals("+") || chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
+                        chip.getPats(i+2).getBus_conectado().setCarga("+");
+                    }else{
+                        chip.getPats(i+2).getBus_conectado().setCarga("-");
+                    }
+                    corriente();
+                }
+            }
+
+            i=i+2;
+        }
     }
 
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {

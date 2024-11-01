@@ -94,6 +94,10 @@ public class Click {
         return chips;
     }
 
+    public void setEliminarProximaImagen(boolean eliminar){
+        eliminarProximaImagen=eliminar;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////
 
