@@ -166,7 +166,7 @@ public class ManejarCarga {
     // Metodo que quema una fila completa según la fila del bus
     public void quemarFila(int fila,Protoboard proto) {
         // Verifica si la fila está en el rango que debe ser quemado
-        if (fila == 0 || fila == 1 || fila == 13 || fila == 14) {
+        if (fila == 0 || fila == 1 || fila == 12 || fila == 13) {
             for (int col = 0; col < proto.alimentacion[fila].length; col++) {
                 quemarBus(fila, col,proto);
             }
@@ -409,7 +409,7 @@ public class ManejarCarga {
             i++;
         }
         i = 0;
-        while (i < sw.size()) {
+        while (i < sw.size()) {  // Condicion para que recorra todos los switches
             if (sw.get(i).getencendido()) {
                 int j = 0;
                 while (j < sw.get(i).getPatas().size()) {
@@ -425,7 +425,30 @@ public class ManejarCarga {
                     }
                     j++;
                 }
+            }else{//entra cuando esta apagado el switch
+            int j = 0;
+            while(j < sw.get(i).getPatas().size()){
+                if(sw.get(i).agregado){
+                    bus Bus = sw.get(i).getPats(j).getBus_conectado();
+                    if (!Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
+                        if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
+                            sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                        }
+                        if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
+                            sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                        }
+                        if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
+                            sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                        }
+                        if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
+                            sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                        }
+                        corriente();
+                    }
+                }
+                j++;
             }
+        }
             i++;
         }
     }
