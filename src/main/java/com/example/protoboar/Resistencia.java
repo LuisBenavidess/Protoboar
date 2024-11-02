@@ -18,27 +18,27 @@ public class Resistencia extends Node{
 
         //If para decidir la imagen que corresponde
         if(cables.getInicio().getCenterX() > cables.getFin().getCenterX()){
-            Image image = new Image("/resistencia1.png");
+            Image image = new Image("/resistencia4.png");
             this.imageView = new ImageView(image);
             // Ajustar las dimensiones del ImageView
             imageView.setFitWidth(25);
             imageView.setFitHeight(40);
         }else{
             if(cables.getInicio().getCenterX() < cables.getFin().getCenterX()){
-                Image image = new Image("/resistencia4.png");
+                Image image = new Image("/resistencia1.png");
                 this.imageView = new ImageView(image);
                 // Ajustar las dimensiones del ImageView
                 imageView.setFitWidth(25);
                 imageView.setFitHeight(40);
             }else{
                 if(cables.getInicio().getCenterY() > cables.getFin().getCenterY()){
-                    Image image = new Image("/resistencia2.png");
+                    Image image = new Image("/resistencia3.png");
                     this.imageView = new ImageView(image);
                     // Ajustar las dimensiones del ImageView
                     imageView.setFitWidth(40);
                     imageView.setFitHeight(25);
                 }else{
-                    Image image = new Image("/resistencia3.png");
+                    Image image = new Image("/resistencia2.png");
                     this.imageView = new ImageView(image);
                     // Ajustar las dimensiones del ImageView
                     imageView.setFitWidth(40);

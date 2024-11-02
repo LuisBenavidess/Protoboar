@@ -72,6 +72,11 @@
             <ImageView fitHeight="63.0" fitWidth="67.0" onMousePressed="#crearSwitch3x3" pickOnBounds="true" preserveRatio="true">
                <Image url="@Switch3x3.png" />
             </ImageView>
+            <ImageView fitHeight="70.0" fitWidth="77.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../resistencia2.png" />
+               </image>
+            </ImageView>
          </HBox>
       </VBox>
    </top>
