@@ -275,21 +275,18 @@ public class ManejarCarga {
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
         while (i < resistencias.size()) {
-            conection cable = resistencias.get(i).getCable();
-            String ini = cable.getInicio().getCarga();
-            String fin = cable.getFin().getCarga();
-            if (ini.equals("+")) {
+            conection lin = resistencias.get(i).getCable();
+            String ini = lin.getInicio().getCarga();
+            String fin = lin.getFin().getCarga();
+            if (!ini.equals(" ")) {
                 if (fin.equals(" ")) {
-                    cable.getFin().setCarga(ini);
+                    lin.getFin().setCarga(ini);
                     corriente();
                 }
             } else {
-                if (fin.equals("-")) {
-                    if (ini.equals(" ")) {
-                        cable.getInicio().setCarga(fin);
-                        corriente();
-                    }
-
+                if (!fin.equals(" ")) {
+                    lin.getInicio().setCarga(fin);
+                    corriente();
                 }
             }
             i++;
@@ -335,7 +332,6 @@ public class ManejarCarga {
         }
 
     }
-
     // Este metodo realiza la simple logica del chip not
     public void chip_not(Chip chip){
 
