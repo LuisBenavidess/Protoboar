@@ -90,15 +90,15 @@ public class HelloController {
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
-        if(!ledClicked) {
+        if(ledClicked) {
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setLedClicked(false);
+            ledClicked=false;
+        } else{
             desactivarOpciones();
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(true);
             ledClicked=true;
-        } else{
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setLedClicked(false);
-            ledClicked=false;
         }
     }
 
@@ -153,18 +153,18 @@ public class HelloController {
     @FXML
     // Controla la creacion de la resistencia
     private void crearResistencia() {
-        if(!resistClicked) {
-            desactivarOpciones();
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setResistencias(true);
-            System.out.println("Resitencia true");
-            resistClicked=true;
-        } else{
-            desactivarOpciones();
+        if(resistClicked) {
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(false);
             System.out.println("Resistencia false");
             resistClicked=false;
+        } else{
+            desactivarOpciones();
+
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(true);
+            System.out.println("Resitencia true");
+            resistClicked=true;
         }
     }
 
@@ -222,17 +222,25 @@ public class HelloController {
 
     @FXML
     private void desactivarOpciones() {
+        clickHandler.setResistencias(false);
+        resistClicked = false;
+        System.out.println("Resis false");
+
         clickHandler.setLedClicked(false);
         ledClicked = false;
         System.out.println("Led false");
+
+        clickHandler.setCableClicked(false);
         switchClicked=false;
         System.out.println("Switch false");
-        clickHandler.setCableClicked(false);
+
+        clickHandler.setSwitchClicked(false);
         cableClicked = false;
         System.out.println("Cable false");
-        clickHandler.setSwitchClicked(false);
+
         switchClicked = false;
         System.out.println("Switch false");
+
         basureroActivo = false;
         clickHandler.setEliminarProximaImagen(false);
         Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
