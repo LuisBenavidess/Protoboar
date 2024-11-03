@@ -141,7 +141,6 @@ public class Click {
     public static void verificar_Switch3x3s() {
         manejarCirculos.verificar_sw3x3();
     }
-
     public static void verificar_chips() {
         manejarCirculos.verificar_chip();
     }

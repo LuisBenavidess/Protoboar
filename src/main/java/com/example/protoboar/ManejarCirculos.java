@@ -51,7 +51,6 @@ public class ManejarCirculos {
         resistencias = new ArrayList<>();
         chips=new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
-        this.primercircle = null;
     }
 
     // get y set
@@ -163,10 +162,9 @@ public class ManejarCirculos {
                 System.out.println("Segundo círculo");
                 for (Protoboard proto : protos) {
                     if (proto.getChildren().contains(primercircle)) {
-                        primercircle.crearComponente();
-                        circulo.crearComponente();
                         crearCableEntreCirculos(primercircle, circulo, proto);
-                        // Marca que se ha creado un componente
+                        primercircle.crearComponente();
+                        circulo.crearComponente(); // Marca que se ha creado un componente
                     }
                 }
                 primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
