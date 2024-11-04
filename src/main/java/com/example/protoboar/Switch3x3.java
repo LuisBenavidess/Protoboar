@@ -7,26 +7,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class Switch3x3 extends Group {
-
     private final ArrayList<Pata> Patas;
     private ArrayList<Protoboard> protos;
     private ImageView Imagen;
+    private String tipoCarga;
     public double initX;
     public double initY;
     public int pos_proto;
     public boolean terminado;
     private boolean encendido = false;
-    public boolean agregado=false;
+    public boolean agregado = false;
 
     Switch3x3() {
-        // Creación del switch y donde almacenar las patas a futuro junto con
-        // instanciar la carga que verifica que este prendido o apagado
         Patas = new ArrayList<>();
         protos = new ArrayList<>();
         terminado = false;
+        tipoCarga = null;
     }
 
-    //Seters
+    // Getters y Setters
     public void setPatas(Pata patas) {
         Patas.add(patas);
     }
@@ -39,7 +38,6 @@ public class Switch3x3 extends Group {
         this.protos = protos;
     }
 
-    //Geters
     public ImageView getImageView() {
         return Imagen;
     }
@@ -48,27 +46,42 @@ public class Switch3x3 extends Group {
         return Patas;
     }
 
-    public Pata getPats(int x){
+    public Pata getPats(int x) {
         return Patas.get(x);
     }
 
-    public ArrayList<Protoboard> getProtos(){
+    public ArrayList<Protoboard> getProtos() {
         return protos;
     }
 
-    public boolean getencendido(){
+    public boolean getEncendido() {
         return encendido;
     }
 
-    //Metodo que recibe el evento de apretar el switch y este cambia la carga y la imagen
+    public String getTipoCarga() {
+        return tipoCarga;
+    }
+
+    public void setTipoCarga(String tipoCarga) {
+        if (this.tipoCarga == null) {
+            this.tipoCarga = tipoCarga;
+        }
+    }
+
+    public void quitarPolaridad() {
+        this.tipoCarga = null;  // Reiniciar tipo de carga a neutro
+    }
+
+    // Método que recibe el evento de apretar el switch y cambia la carga y la imagen
     public void cambiarCarga(MouseEvent event) {
         Image image;
-        if(!encendido) {
+        if (!encendido) {
             image = new Image("/Switch3x3.png");
-            encendido=true;
-        }else{
+            encendido = true;
+        } else {
             image = new Image("/Switch3x3On.png");
-            encendido=false;
+            encendido = false;
+            tipoCarga = null;
         }
         Imagen.setImage(image);
         Imagen.toFront();

@@ -11,7 +11,7 @@ public class ManejarCarga {
 
     //Constructor
     public ManejarCarga(ArrayList<Protoboard> protos) {
-       this.protos = protos;
+        this.protos = protos;
     }
 
     // Metodo que se encarga de volver a neutro a todos los buses
@@ -131,11 +131,10 @@ public class ManejarCarga {
         }
     }
 
-    // Metodo que verifica el ArrayList de los cables
+    // Método que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
-        //Viaja atraves del ArrayList
-        while (i < cables.size()) {
+        while (i < cables.size()) { // Viaja a través del ArrayList
             conection lin = cables.get(i);
             lin.toFront();
             String ini = lin.getInicio().getCarga();
@@ -170,31 +169,6 @@ public class ManejarCarga {
             for (int col = 0; col < proto.alimentacion[fila].length; col++) {
                 quemarBus(fila, col,proto);
             }
-        }
-    }
-
-    // Metodo que quema una sección de la columna según la fila del bus
-    public void quemarColumna(bus fin) {
-        int x = 0;
-        while (x < protos.size()) {
-            if (protos.get(x).getChildren().contains(fin)) {
-                int columnaDestino = getColumna(fin, protos.get(x));
-                if (columnaDestino == -1) return; // Si no se encuentra la columna, salir
-                int fila = getFila(fin, protos.get(x));
-                if (fila == -1) return; // Si no se encuentra la fila, salir
-                if (fila >= 2 && fila <= 6) {
-                    for (int f = 2; f <= 6; f++) {
-                        quemarBus(f, columnaDestino, protos.get(x));
-                    }
-                } else if (fila >= 7 && fila <= 11) {
-                    for (int f = 7; f <= 11; f++) {
-                        quemarBus(f, columnaDestino, protos.get(x));
-                    }
-                } else {
-                    quemarFila(fila, protos.get(x)); // Si la fila es 0, 1, 13 o 14, quemar la fila completa
-                }
-            }
-            x++;
         }
     }
 
@@ -341,7 +315,7 @@ public class ManejarCarga {
         int i=1;
         // Verifica cada pata
         while(i<chip.getPatas().size()){
-           // Con esta condicion verifica si la pata esta conectada con carga negativa para saber si pasar carga positiva al otro
+            // Con esta condicion verifica si la pata esta conectada con carga negativa para saber si pasar carga positiva al otro
             if(chip.getPats(i).getBus_conectado().getCarga().equals("-") && i!=13){
                 chip.getPats(i+1).getBus_conectado().setCarga("+");
                 corriente();
@@ -404,55 +378,97 @@ public class ManejarCarga {
     public void verificar_sw3x3(ArrayList<Switch3x3> sw) {
         int i = 0;
         while (i < sw.size()) {
-            if (sw.get(i).terminado) {
-                protos.get(sw.get(i).pos_proto).getChildren().add(sw.get(i));
-                sw.get(i).terminado = false;
-                sw.get(i).agregado = true;
+            Switch3x3 switchActual = sw.get(i);
+            if (switchActual.terminado) {
+                protos.get(switchActual.pos_proto).getChildren().add(switchActual);
+                switchActual.terminado = false;
+                switchActual.agregado = true;
             }
             i++;
         }
         i = 0;
-        while (i < sw.size()) {  // Condicion para que recorra todos los switches
-            if (sw.get(i).getencendido()) {
+        while (i < sw.size()) {  // recorre todos los switches
+            Switch3x3 switchActual = sw.get(i);
+            if (switchActual.getEncendido()) {
                 int j = 0;
-                while (j < sw.get(i).getPatas().size()) {
-                    if (sw.get(i).agregado) {
-                        bus Bus = sw.get(i).getPats(j).getBus_conectado();
-                        if (!Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
-                            sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
-                            sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
-                            sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
-                            sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                while (j < switchActual.getPatas().size()) {
+                    if (switchActual.agregado) {
+                        bus Bus = switchActual.getPats(j).getBus_conectado();
+                        String cargaActual = Bus.getCarga();
+                        if (Bus.getFill() == Color.YELLOW) {
+                            j++; // se salta el bus quemado
+                            continue;
+                        }
+                        if (switchActual.getTipoCarga() == null && !cargaActual.equals(" ") && !cargaActual.equals("X")) {
+                            switchActual.setTipoCarga(cargaActual);  // asignar polaridad
+                        }
+                        if (cargaActual.equals(switchActual.getTipoCarga()) || cargaActual.equals(" ")) {
+                            switchActual.getPats(0).getBus_conectado().setCarga(cargaActual);
+                            switchActual.getPats(1).getBus_conectado().setCarga(cargaActual);
+                            switchActual.getPats(2).getBus_conectado().setCarga(cargaActual);
+                            switchActual.getPats(3).getBus_conectado().setCarga(cargaActual);
+                            corriente();
+                        } else {
+                            quemarColumna(Bus);  // si la carga no coincide se quema la columna
+                        }
+                    }
+                    j++;
+                }
+            } else { // switch está apagado
+                int j = 0;
+                while (j < switchActual.getPatas().size()) {
+                    if (switchActual.agregado) {
+                        bus Bus = switchActual.getPats(j).getBus_conectado();
+                        String cargaActual = Bus.getCarga();
+                        if (Bus.getFill() == Color.YELLOW) {
+                            j++; // se salta el bus quemado
+                            continue;
+                        }
+                        if (cargaActual.equals(switchActual.getTipoCarga()) || !Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
+                            if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
+                                sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
+                                sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
+                                sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                            }
+                            if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
+                                sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                            }
                             corriente();
                         }
                     }
                     j++;
                 }
-            }else{//entra cuando esta apagado el switch
-            int j = 0;
-            while(j < sw.get(i).getPatas().size()){
-                if(sw.get(i).agregado){
-                    bus Bus = sw.get(i).getPats(j).getBus_conectado();
-                    if (!Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
-                        if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
-                            sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
-                        }
-                        if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
-                            sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
-                        }
-                        if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
-                            sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
-                        }
-                        if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
-                            sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
-                        }
-                        corriente();
-                    }
-                }
-                j++;
             }
-        }
             i++;
+        }
+    }
+
+    // Metodo que quema una sección de la columna según la fila del bus
+    public void quemarColumna(bus fin) {
+        int x = 0;
+        while (x < protos.size()) {
+            if (protos.get(x).getChildren().contains(fin)) {
+                int columnaDestino = getColumna(fin, protos.get(x));
+                if (columnaDestino == -1) return; // Si no se encuentra la columna, salir
+                int fila = getFila(fin, protos.get(x));
+                if (fila == -1) return; // Si no se encuentra la fila, salir
+                if (fila >= 2 && fila <= 6) {
+                    for (int f = 2; f <= 6; f++) {
+                        quemarBus(f, columnaDestino, protos.get(x));
+                    }
+                } else if (fila >= 7 && fila <= 11) {
+                    for (int f = 7; f <= 11; f++) {
+                        quemarBus(f, columnaDestino, protos.get(x));
+                    }
+                } else {
+                    quemarFila(fila, protos.get(x)); // Si la fila es 0, 1, 13 o 14, quemar la fila completa
+                }
+            }
+            x++;
         }
     }
 }
