@@ -141,9 +141,11 @@ public class Click {
     public static void verificar_Switch3x3s() {
         manejarCirculos.verificar_sw3x3();
     }
+
     public static void verificar_chips() {
         manejarCirculos.verificar_chip();
     }
+
     @FXML
     //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y swich, esto se genera atravez del evento de presionar el boton
     public static void iniciar() {

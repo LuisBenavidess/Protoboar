@@ -27,6 +27,12 @@ public class HelloController {
     @FXML
     private ImageView basurero;
     @FXML
+    private ImageView cableID;
+    @FXML
+    private ImageView ledID;
+    @FXML
+    private ImageView resistenciaID;
+    @FXML
     private Motor motor;
     @FXML
     private Fabrica_Proto fabrica;
@@ -96,6 +102,9 @@ public class HelloController {
             ledClicked=false;
         } else{
             desactivarOpciones();
+            Image image = new Image("/ledOn.png"); // Imagen del led en estado inactivo
+            ledID.setImage(image);
+
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(true);
             ledClicked=true;
@@ -111,9 +120,32 @@ public class HelloController {
             cableClicked = false;
         } else {
             desactivarOpciones();
+            Image image = new Image("/cableOn.png"); // Imagen del cable en estado inactivo
+            cableID.setImage(image);
+
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(true);
             cableClicked = true;
+        }
+    }
+
+    @FXML
+    // Controla la creacion de la resistencia
+    private void crearResistencia() {
+        if(resistClicked) {
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(false);
+            System.out.println("Resistencia false");
+            resistClicked=false;
+        } else{
+            desactivarOpciones();
+            Image image = new Image("/resistenciaOn.png"); // Imagen del resistencia en estado inactivo
+            resistenciaID.setImage(image);
+
+            //Se cambia el booleano para identificar si este esta prendido o apagado
+            clickHandler.setResistencias(true);
+            System.out.println("Resitencia true");
+            resistClicked=true;
         }
     }
 
@@ -148,23 +180,6 @@ public class HelloController {
             clickHandler.setSwitchClicked(false);
             System.out.println("Switch false");
             switchClicked=false;
-        }
-    }
-    @FXML
-    // Controla la creacion de la resistencia
-    private void crearResistencia() {
-        if(resistClicked) {
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setResistencias(false);
-            System.out.println("Resistencia false");
-            resistClicked=false;
-        } else{
-            desactivarOpciones();
-
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setResistencias(true);
-            System.out.println("Resitencia true");
-            resistClicked=true;
         }
     }
 
@@ -222,16 +237,25 @@ public class HelloController {
 
     @FXML
     private void desactivarOpciones() {
+
+        Image image;
+
         clickHandler.setResistencias(false);
         resistClicked = false;
+        image = new Image("/resistencia2.png"); // Imagen de la resistencia en estado inactivo
+        resistenciaID.setImage(image);
         System.out.println("Resis false");
 
         clickHandler.setLedClicked(false);
         ledClicked = false;
+        image = new Image("/led.png"); // Imagen del led en estado inactivo
+        ledID.setImage(image);
         System.out.println("Led false");
 
         clickHandler.setCableClicked(false);
         switchClicked=false;
+        image = new Image("/cable.png"); // Imagen del cable en estado inactivo
+        cableID.setImage(image);
         System.out.println("Switch false");
 
         clickHandler.setSwitchClicked(false);
@@ -243,7 +267,7 @@ public class HelloController {
 
         basureroActivo = false;
         clickHandler.setEliminarProximaImagen(false);
-        Image image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
+        image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
         basurero.setImage(image);
         System.out.println("Basurero false");
 
