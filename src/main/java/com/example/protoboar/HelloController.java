@@ -139,8 +139,9 @@ public class HelloController {
             resistClicked=false;
         } else{
             desactivarOpciones();
-            Image image = new Image("/resistenciaOn.png"); // Imagen del resistencia en estado inactivo
-            resistenciaID.setImage(image);
+            Image image = new Image(getClass().getResource("/resistenciaOn.png").toExternalForm());
+            resistenciaID.setImage(image); // Imagen del resistencia en estado inactivo
+
 
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(true);
@@ -244,7 +245,7 @@ public class HelloController {
         resistClicked = false;
         image = new Image("/resistencia2.png"); // Imagen de la resistencia en estado inactivo
         resistenciaID.setImage(image);
-        System.out.println("Resis false");
+        System.out.println("Resistencia false");
 
         clickHandler.setLedClicked(false);
         ledClicked = false;
@@ -253,23 +254,20 @@ public class HelloController {
         System.out.println("Led false");
 
         clickHandler.setCableClicked(false);
-        switchClicked=false;
+        cableClicked=false;
         image = new Image("/cable.png"); // Imagen del cable en estado inactivo
         cableID.setImage(image);
-        System.out.println("Switch false");
-
-        clickHandler.setSwitchClicked(false);
-        cableClicked = false;
         System.out.println("Cable false");
 
-        switchClicked = false;
-        System.out.println("Switch false");
-
-        basureroActivo = false;
         clickHandler.setEliminarProximaImagen(false);
+        basureroActivo = false;
         image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
         basurero.setImage(image);
         System.out.println("Basurero false");
+
+        /*clickHandler.setSwitchClicked(false);
+        switchClicked = false;
+        System.out.println("Switch false");*/
 
     }
 }
