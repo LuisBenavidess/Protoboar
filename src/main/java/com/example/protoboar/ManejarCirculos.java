@@ -25,9 +25,9 @@ public class ManejarCirculos {
     private boolean circulo_motor;
     private final ArrayList<conection> cables;
     private final ArrayList<Led> leds;
-    private final ArrayList<Switch> switches;
     private static ArrayList<Resistencia> resistencias;
     private static ArrayList<Switch3x3> switches3x3;
+    private static ArrayList<Switch8x3> switches8x3;
     private final Bateria bateria;
     private final Motor motor;
     private final ManejarCarga manejarCarga;
@@ -46,8 +46,8 @@ public class ManejarCirculos {
         this.resistClicked = false;
         cables = new ArrayList<>();
         switches3x3 = new ArrayList<>();
+        switches8x3 = new ArrayList<>();
         leds = new ArrayList<>();
-        switches = new ArrayList<>();
         resistencias = new ArrayList<>();
         chips=new ArrayList<>();
         this.manejarCarga = new ManejarCarga(protos);
@@ -58,10 +58,6 @@ public class ManejarCirculos {
 
     public ArrayList<conection> getCables() {
         return cables;
-    }
-
-    public ArrayList<Switch> getswitches() {
-        return switches;
     }
 
     public ArrayList<Led> get_leds() {
@@ -206,14 +202,6 @@ public class ManejarCirculos {
                 led.setCable_rojo(cable);
                 proto.setLeds(led);
                 leds.add(led);
-            } else if (switchClicked) {
-                cable.setFin(c2); //switch
-                cable.setStroke(Color.BLUE);
-                cable.setStrokeWidth(5);
-                proto.getChildren().add(cable);
-                double midX = (c1.getCenterX() + c2.getCenterX()) / 2;
-                double midY = (c1.getCenterY() + c2.getCenterY()) / 2;
-                crearSwitch(proto, midX, midY, cable);
             } else if (resistClicked) {
                 cable.setFin(c2);  //resistencia
                 cable.setStroke(Color.GRAY);
@@ -415,15 +403,6 @@ public class ManejarCirculos {
         }
     }
 
-    // Metodo que crea Switch
-    public void crearSwitch(Protoboard proto, double x, double y, conection cables) {
-        // Crear el objeto Switch en la posición calculada
-        Switch SW = new Switch(proto, x, y, cables);
-        setSwitchClicked(true);
-        switches.add(SW);
-        primercircle = null;
-    }
-
     // Metodo que crea Resistencia
     public void crearResistencia(Protoboard proto, double x, double y, conection cables) {
         // Crear el objeto Resitencia en la posición calculada
@@ -450,6 +429,14 @@ public class ManejarCirculos {
         switches3x3.add(switch3x3);
     }
 
+    public void crearSwitch8x3(){
+        Fabrica_Switch8x3 fabrica = new Fabrica_Switch8x3();
+        Switch8x3 switch8x3 = fabrica.crear();
+        switch8x3.setProtos(getprotos());
+        pane.getChildren().add(switch8x3);
+        switches8x3.add(switch8x3);
+    }
+
     //Metodo que llama a la funcion revovinar en la clase manejarCarga
     public  void revovinar() {
         manejarCarga.revovinar();
@@ -463,11 +450,6 @@ public class ManejarCirculos {
     //Metodo que llama a la funcion verificar led en la clase manejarCarga
     public void prender_led() {
         manejarCarga.prenderLed(leds);
-    }
-
-    //Metodo que llama a la funcion verificar switch en la clase manejarCarga
-    public void verificar_switch() {
-        manejarCarga.verificarSwitches(switches);
     }
 
     //Metodo que llama a la funcion verificar switch en la clase manejarCarga

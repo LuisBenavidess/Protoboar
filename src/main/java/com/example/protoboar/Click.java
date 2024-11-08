@@ -13,7 +13,6 @@ public class Click {
     private static Pane pane;
     public static boolean eliminarProximaImagen = false;
     private static ArrayList<conection> cables;
-    private static ArrayList<Switch> switches;
     private static ArrayList<Resistencia> resistencias;
     private static ManejarCirculos manejarCirculos;
     private static ArrayList<Protoboard> protos;
@@ -25,7 +24,6 @@ public class Click {
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
         Click.pane = pane;
         cables = new ArrayList<>();
-        switches = new ArrayList<>();
         resistencias = new ArrayList<>();
         leds = new ArrayList<>();
         manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
@@ -63,10 +61,6 @@ public class Click {
 
     public static void setCables(ArrayList<conection> cable) {
         cables = cable;
-    }
-
-    public static void setSwitches(ArrayList<Switch> switche) {
-        switches = switche;
     }
 
     public static void setResistencias(ArrayList<Resistencia> resistencia) {
@@ -120,11 +114,6 @@ public class Click {
         manejarCirculos.prender_led();
     }
 
-    public static void verificar_switch() { // verifica los switch para el intercambio de cargas
-        setSwitches(manejarCirculos.getswitches());
-        manejarCirculos.verificar_switch();
-    }
-
     // verifica los switch para el intercambio de cargas
     public static void verificar_resistencia() {
         setResistencias(manejarCirculos.getResistencias());
@@ -148,7 +137,6 @@ public class Click {
         setSwitch3x3(manejarCirculos.getswitches3x3());
         while(i<getCables().size()){ // Verifica los cables y switch para trasladar la carga
             verificar_cables();
-            verificar_switch();
             verificar_resistencia();
             int j=0;
             while(j<getSwitch3x3s().size()){
@@ -188,6 +176,10 @@ public class Click {
         manejarCirculos.crearSwitch3x3();
     }
 
+    public void CrearSwitch8x3(){
+        manejarCirculos.crearSwitch8x3();
+    }
+
     //Metodo que llama a eliminar elemento de otra clase
     public static void eliminarElemento(MouseEvent event) {
         if (eliminarProximaImagen) {   //Condcion para saber si se desea eliminar un objeto
@@ -213,20 +205,6 @@ public class Click {
                 i++;
             }
             i=0;
-            switches=manejarCirculos.getswitches(); //bucles switch
-            System.out.println(switches.size());
-            while (i < switches.size()) {
-                if (basura.equals(switches.get(i).getImageView())) {
-                    switches.get(i).getCable().getInicio().componenteCreado = false;
-                    switches.get(i).getCable().getFin().componenteCreado = false;
-                    for (Protoboard proto : getprotos()) {
-                        proto.getChildren().remove(switches.get(i).getImageView()); // Remover el switch de los protoboards
-                        proto.getChildren().remove(switches.get(i).getCable());
-                    }
-                    switches.remove(i); // Remover el switch del array
-                }
-            }
-            i=0;
             leds=manejarCirculos.get_leds();  //bucles Leds
             System.out.println(leds.size());
             while (i < leds.size()) {
@@ -244,7 +222,6 @@ public class Click {
             }
             i=0;
             resistencias=manejarCirculos.getResistencias();    //bucle resistencias
-            System.out.println(switches.size());
             while (i < resistencias.size()) {
                 if (basura.equals(resistencias.get(i).getImageView())) {
                     for (Protoboard proto : getprotos()) {  // Remover resistencias  de los protoboards

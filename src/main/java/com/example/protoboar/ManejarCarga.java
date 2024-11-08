@@ -222,30 +222,6 @@ public class ManejarCarga {
     }
 
     // Metodo para verificar los switches
-    public void verificarSwitches(ArrayList<Switch> switches) {
-        int i = 0;
-        while (i < switches.size()) {
-            if (switches.get(i).getCarga().equals("+")) {
-                conection lin = switches.get(i).getCable();
-                String ini = lin.getInicio().getCarga();
-                String fin = lin.getFin().getCarga();
-                if (!ini.equals(" ")) {
-                    if (fin.equals(" ")) {
-                        lin.getFin().setCarga(ini);
-                        corriente();
-                    }
-                } else {
-                    if (!fin.equals(" ")) {
-                        lin.getInicio().setCarga(fin);
-                        corriente();
-                    }
-                }
-            }
-            i++;
-        }
-    }
-
-    // Metodo para verificar los switches
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
         while (i < resistencias.size() && resistencias.get(i).quemado == false) {

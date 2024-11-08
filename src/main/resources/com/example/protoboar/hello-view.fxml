@@ -14,7 +14,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.protoboar.HelloController">
    <center>
-      <Pane fx:id="pane" prefHeight="516.0" prefWidth="605.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="pane" prefHeight="373.0" prefWidth="726.0" BorderPane.alignment="CENTER">
          <Label fx:id="label" layoutX="283.0" layoutY="30.0" />
       </Pane>
    </center>
@@ -37,7 +37,7 @@
    </bottom>
    <top>
       <VBox>
-         <MenuBar BorderPane.alignment="CENTER">
+         <MenuBar prefHeight="25.0" prefWidth="689.0" BorderPane.alignment="CENTER">
             <menus>
                <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -47,7 +47,7 @@
             </menus>
          </MenuBar>
          <!-- Ajusta el margen del HBox para que esté debajo del menú -->
-         <HBox alignment="TOP_LEFT" spacing="10" style="-fx-background-color: #808080;">
+         <HBox alignment="TOP_LEFT" prefHeight="70.0" prefWidth="673.0" spacing="10" style="-fx-background-color: #808080;">
             <ImageView fx:id="ledID" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
                <Image url="@led.png" />
             </ImageView>
@@ -75,6 +75,11 @@
             <ImageView fx:id="resistenciaID" fitHeight="70.0" fitWidth="77.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../resistencia2.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="74.0" fitWidth="91.0" onMouseClicked="#crearSwitch8x3" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Switch8x3.png" />
                </image>
             </ImageView>
          </HBox>

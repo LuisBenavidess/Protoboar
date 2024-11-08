@@ -1,119 +1,133 @@
 package com.example.protoboar;
 
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-//Clase chip
-public class Fabrica_Chip {
-    //Esta clase solo genera un chip creando las partes visuales y internas de este
-    public Fabrica_Chip() {}
+import javafx.scene.image.Image;
+
+import java.util.ArrayList;
+
+public class Fabrica_Switch8x3 {
+
+    public Fabrica_Switch8x3() {}
 
     //Metodo inicial para crear el chip
-    public Chip crear(String tipo){
+    public Switch8x3 crear(){
 
-        Chip chip = new Chip(tipo);
-        chip=decoracion(chip,tipo);
-        chip.setOnMousePressed(this::iniciar_mov);
-        chip.setOnMouseDragged(this::arrastrar);
-        chip.setOnMouseReleased(this::terminar);
+        Switch8x3 sw = new Switch8x3();
+        sw=decoracion(sw);
+        sw.setOnMousePressed(this::iniciar_mov);
+        sw.setOnMouseDragged(this::arrastrar);
+        sw.setOnMouseReleased(this::terminar);
 
-        chip.setOnMouseClicked(Click::eliminarElemento);
+        sw.setOnMouseClicked(Click::eliminarElemento);
 
-        return chip;
+        return sw;
 
     }
+
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
-    public Chip decoracion(Chip chip,String tipo){
+    public Switch8x3 decoracion(Switch8x3 sw){
 
-        Rectangle base = new Rectangle(700,300,119,38/*40*/);
-        Text letra;
-        if(tipo.equals("OR")){
-            letra = new Text("OR");
-        }else{
-            if(tipo.equals("AND")){
-                letra = new Text("AND");
-            }else{
-                letra = new Text("NOT");
-            }
-        }
-
-        letra.setFill(Color.WHITE);
-        letra.setFont(Font.font("Bodoni", FontWeight.BOLD, 10));
-        letra.setLayoutX(700);
-        letra.setLayoutY(325);
-        chip.getChildren().add(base);
-        chip.getChildren().add(letra);
-        chip.setBase(base);
+        Rectangle base = new Rectangle(700,300,136,38);
+        base.setFill(Color.DIMGRAY);
+        sw.getChildren().add(base);
+        sw.setBase(base);
         int i=0;
         int x=700;
         int y=295;
-        while(i<14){
+        while(i<16){
             Pata pata= new Pata(x,y,10,10);
             pata.setFill(Color.GRAY);
             pata.setArcWidth(5);  // Curvatura horizontal
             pata.setArcHeight(5);
-            chip.addPat(pata);
-            chip.getChildren().add(pata);
+            sw.addPat(pata);
+            sw.getChildren().add(pata);
 
             x=x+18;
-            if(i==6){
+            if(i==7){
                 x=700;
                 y=y+38;
             }
             i++;
         }
 
-        return chip;
+        i = 0;
+        x = 699;
+        y = 307;
+        ArrayList<Pata> patas = sw.getPatas();
+        int j = 8;
+        while (i < 8){
+            Interruptor interruptor = new Interruptor(x, y, patas.get(i).getBus_conectado(), patas.get(j).getBus_conectado());
+
+            sw.addInterruptores(interruptor);
+            sw.getChildren().add(interruptor);
+
+            i++;
+            j++;
+            x = x+18;
+        }
+        return sw;
     }
 
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial
     private void iniciar_mov(MouseEvent event){
-        Chip chip = (Chip) event.getSource();
-        chip.initX= event.getSceneX();
-        chip.initY= event.getSceneY();
+        Switch8x3 sw = (Switch8x3) event.getSource();
+        sw.initX= event.getSceneX();
+        sw.initY= event.getSceneY();
     }
 
     // el metodo arrastre se utiliza cuando se mueve un objeto, actualizando las coordenas
     public void arrastrar(MouseEvent event){
-        Chip chip = (Chip) event.getSource();
-        double deltaX = event.getSceneX() - chip.initX;
-        double deltaY = event.getSceneY() - chip.initY;
+        Switch8x3 sw = (Switch8x3) event.getSource();
+        double deltaX = event.getSceneX() - sw.initX;
+        double deltaY = event.getSceneY() - sw.initY;
 
         // Mover el grupo completo
-        chip.setLayoutX(chip.getLayoutX() + deltaX);
-        chip.setLayoutY(chip.getLayoutY() + deltaY);
+        sw.setLayoutX(sw.getLayoutX() + deltaX);
+        sw.setLayoutY(sw.getLayoutY() + deltaY);
 
 
 
         // Actualizar las coordenadas iniciales para el próximo movimiento
-        chip.initX = event.getSceneX();
-        chip.initY = event.getSceneY();
+        sw.initX = event.getSceneX();
+        sw.initY = event.getSceneY();
     }
 
     // el evento terminar se activa cuando se suelta el obejto y realiza unas verificaciones para saber si esta dentro de los buses
     public void terminar(MouseEvent event){
         detectar(event);
-        Chip chip = (Chip) event.getSource();
-        int x=0;
-        boolean bandera=true;
-        while(x<chip.getPatas().size() && bandera){
-            if(chip.getPats(x).getPata()!=1){
-                bandera=false;
+        Switch8x3 sw = (Switch8x3) event.getSource();
+        int x = 0;
+        boolean bandera = true;
+
+        // Verifica que todas las patas estén conectadas
+        while (x < sw.getPatas().size() && bandera) {
+            if (sw.getPats(x).getPata() != 1) {
+                bandera = false;
             }
             x++;
         }
-        if(bandera){
-            x=0;
-            while(x<chip.getPatas().size()){
-                Pata pata=chip.getPats(x);
-                double bus_x = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getX();
-                double bus_y = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getY();
+
+        if (bandera) {
+            // Ubica cada pata en su posición en el bus correspondiente
+            x = 0;
+            while (x < sw.getPatas().size()) {
+                Pata pata = sw.getPats(x);
+                double bus_x = pata.getBus_conectado().localToScene(
+                        pata.getBus_conectado().getCenterX(),
+                        pata.getBus_conectado().getCenterY()
+                ).getX();
+                double bus_y = pata.getBus_conectado().localToScene(
+                        pata.getBus_conectado().getCenterX(),
+                        pata.getBus_conectado().getCenterY()
+                ).getY();
 
                 double pata_W = pata.getWidth();
                 double pata_H = pata.getHeight();
@@ -124,49 +138,51 @@ public class Fabrica_Chip {
                 pata.setX(newX);
                 pata.setY(newY);
                 x++;
-
             }
-            double centerX = (chip.getPats(0).getX() + chip.getPats(6).getX() + chip.getPats(7).getX() +
-                    chip.getPats(13).getX() + chip.getPats(0).getWidth() + chip.getPats(7).getWidth()) / 4;
-            double centerY = (chip.getPats(0).getY() + chip.getPats(6).getY() + chip.getPats(7).getY() +
-            chip.getPats(13).getY() + chip.getPats(0).getHeight() + chip.getPats(7).getHeight()) / 4;
-            chip.getBase().setX(centerX - chip.getBase().getWidth() / 2);
-            chip.getBase().setY(centerY - chip.getBase().getHeight() / 2);
-            chip.setOnMousePressed(null);
-            chip.setOnMouseDragged(null);
-            chip.setOnMouseReleased(null);
-            chip.terminado=true;
+
+            // Centra la base en función de las patas
+            double centerX = (sw.getPats(0).getX() + sw.getPats(7).getX() + sw.getPats(8).getX() +
+                    sw.getPats(15).getX() + sw.getPats(0).getWidth() + sw.getPats(8).getWidth()) / 4;
+            double centerY = (sw.getPats(0).getY() + sw.getPats(7).getY() + sw.getPats(8).getY() +
+                    sw.getPats(15).getY() + sw.getPats(0).getHeight() + sw.getPats(8).getHeight()) / 4;
+
+            sw.getBase().setX(centerX - sw.getBase().getWidth() / 2);
+            sw.getBase().setY(centerY - sw.getBase().getHeight() / 2);
+
+            // Desactiva eventos de movimiento y marca el Switch como terminado
+            sw.setOnMousePressed(null);
+            sw.setOnMouseDragged(null);
+            sw.setOnMouseReleased(null);
+            sw.terminado = true;
         }
+    }
 
-
-        }
-
-        // este metodo verifica si cada pata se encuentra en un bus
+    // este metodo verifica si cada pata se encuentra en un bus
     public void detectar(MouseEvent event) {
-        Chip chip = (Chip) event.getSource();
+        Switch8x3 sw = (Switch8x3) event.getSource();
         int x = 0;
-        while (x < chip.getProtos().size()) {
-            Protoboard proto = chip.getProtos().get(x);
+        while (x < sw.getProtos().size()) {
+            Protoboard proto = sw.getProtos().get(x);
             //viajara por cada nodo del protoboard correspondiente
             for (Node node : proto.getChildren()) {
                 // si se encuntra un bus este comenzara con las verificacion de las patas
                 if (node instanceof bus bus) {
                     int i = 0;
                     boolean chipEncimaDelBus = false;
-                    while(i<chip.getPatas().size()){
+                    while(i<sw.getPatas().size()){
                         boolean bandera=false;
                         // si los buses son los que estan el los surcos se realizara la verificacion de las patas, ya que el chip solo se puede colocar en los surcos
                         if(6==bus.fila || 7==bus.fila || 1==bus.fila || 2==bus.fila || 11==bus.fila || 12==bus.fila){
                             //pasa 50 verifica si se encuentra ensima del bus y entraga un booleano si es verdad o no
-                            bandera= pasa_50(bus,chip.getPats(i));
+                            bandera= pasa_50(bus,sw.getPats(i));
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos
                         if (bandera) {
                             bus.setFill(Color.RED);
-                            chip.getPats(i).setPata(1); // Marcamos que la pata está conectada
-                            chip.getPats(i).setBus_conectado(bus); // Asignamos el bus a la pata
+                            sw.getPats(i).setPata(1); // Marcamos que la pata está conectada
+                            sw.getPats(i).setBus_conectado(bus); // Asignamos el bus a la pata
                             chipEncimaDelBus = true; // Marcamos que hay al menos una pata encima del bus
-                            chip.pos_proto = x;
+                            sw.pos_proto = x;
                         }
                         i++;
                     }
@@ -201,6 +217,5 @@ public class Fabrica_Chip {
         //Calcular la interseccion entre el bus y la pata
         return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
-
 
 }

@@ -72,7 +72,7 @@ public class Switch3x3 extends Group {
         this.tipoCarga = null;  // Reiniciar tipo de carga a neutro
     }
 
-    // Método que recibe el evento de apretar el switch y cambia la carga y la imagen
+    // Metodo que recibe el evento de apretar el switch y cambia la carga y la imagen
     public void cambiarCarga(MouseEvent event) {
         Image image;
         if (!encendido) {

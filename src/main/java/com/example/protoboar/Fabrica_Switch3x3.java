@@ -28,6 +28,7 @@ public class Fabrica_Switch3x3 {
         int x=702;
         int y=402;
         while(i<4){
+
             Pata pata= new Pata(x,y,13,13);
             pata.setFill(Color.GRAY);
             pata.setArcWidth(5);  // Curvatura horizontal

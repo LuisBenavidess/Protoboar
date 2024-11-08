@@ -168,23 +168,6 @@ public class HelloController {
     }
 
     @FXML
-    // Controla la creacion de switch
-    private void crearSwitch() {
-        if(!switchClicked) {
-            desactivarOpciones();
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setSwitchClicked(true);
-            switchClicked=true;
-        } else{
-            desactivarOpciones();
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setSwitchClicked(false);
-            System.out.println("Switch false");
-            switchClicked=false;
-        }
-    }
-
-    @FXML
     private void crearChip_or(){
         crearChip("OR");
     }
@@ -208,6 +191,12 @@ public class HelloController {
     private void crearSwitch3x3(MouseEvent event) {
         desactivarOpciones();
         clickHandler.CrearSwitch3x3();
+    }
+
+    @FXML
+    private void crearSwitch8x3(MouseEvent event) {
+        desactivarOpciones();
+        clickHandler.CrearSwitch8x3();
     }
 
     @FXML
