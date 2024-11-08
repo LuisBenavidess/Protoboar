@@ -49,13 +49,19 @@ public class ManejarCarga {
                 while (j < 30) {
                     //si se encuentra un bus con una carga este llamara a la funcion para distribuir en el sector correspondiente
                     // Horizontal o Vertical
-                    if (protos.get(x).alimentacion[i][j].getCarga().equals("+")) {
+
+                    String carga = protos.get(x).alimentacion[i][j].getCarga();
+                    if (carga.equals("+") || carga.equals("-")) {
+                        marcar(i, j, carga, protos.get(x));
+                    }
+
+                   /* if (protos.get(x).alimentacion[i][j].getCarga().equals("+")) {
                         marcar(i, j, "+",protos.get(x));
                     } else {
                         if (protos.get(x).alimentacion[i][j].getCarga().equals("-")) {
                             marcar(i, j, "-",protos.get(x));
                         }
-                    }
+                    }*/
                     j++;
                 }
                 i++;
@@ -336,6 +342,7 @@ public class ManejarCarga {
         while(i<chip.getPatas().size()){
             //Condicion para saber si es and quiere decir que ambas patas deben estar en positivo
             if(i!=13){
+
                 if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                     chip.getPats(i+2).getBus_conectado().setCarga("+");
                     corriente();

@@ -1,11 +1,16 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //Clase que maneja lo que sea presionar un elemento
@@ -287,6 +292,27 @@ public class Click {
                 }
                 i++;
             }
+            if((!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3))
+                    || (basura instanceof Text || basura instanceof  Label)){
+                i=0;
+                while(i< protos.size()){
+                    if(protos.get(i).getChildren().contains(basura)){
+
+                        while (!protos.get(i).getConections().isEmpty()) {
+                            System.out.println("entra");
+                            protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
+                            protos.get(i).getConections().get(0).getFin().componenteCreado = false;
+                            pane.getChildren().remove(protos.get(i).getConections().get(0));
+                            protos.get(i).getConections().remove(0);
+                        }
+                        pane.getChildren().remove(protos.get(i));
+                        protos.remove(i);
+                    }
+                    i++;
+                }
+
+            }
+
         }
     }
 }
