@@ -131,7 +131,7 @@ public class ManejarCarga {
         }
     }
 
-    // Método que verifica el ArrayList de los cables
+    // Metodo que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
         while (i < cables.size()) { // Viaja a través del ArrayList
@@ -248,17 +248,27 @@ public class ManejarCarga {
     // Metodo para verificar los switches
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
-        while (i < resistencias.size()) {
+        while (i < resistencias.size() && resistencias.get(i).quemado == false) {
             conection cable = resistencias.get(i).getCable();
             String ini = cable.getInicio().getCarga();
             String fin = cable.getFin().getCarga();
-            if (ini.equals("+")) {
+            if (fin.equals("+")){
+                resistencias.get(i).quemado = true;
+                System.out.println("Se quemó una resistencia");
+            }
+            if (ini.equals("-")){
+                resistencias.get(i).quemado = true;
+                System.out.println("Se quemó una resistencia");
+            }
+
+            if (ini.equals("+") && resistencias.get(i).quemado) {
                 if (fin.equals(" ")) {
                     cable.getFin().setCarga(ini);
                     corriente();
                 }
             } else {
-                if (fin.equals("-")) {
+                if (fin.equals("-") && resistencias.get(i).quemado) {
+
                     if (ini.equals(" ")) {
                         cable.getInicio().setCarga(fin);
                         corriente();

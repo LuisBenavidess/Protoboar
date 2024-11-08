@@ -9,6 +9,8 @@ public class Resistencia extends Node{
     //Atributos
     private String Reduccion;
 
+    public boolean quemado = false;
+
     private final ImageView imageView;
 
     private final conection cables;

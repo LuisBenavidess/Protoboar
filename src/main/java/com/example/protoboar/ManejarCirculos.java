@@ -110,9 +110,9 @@ public class ManejarCirculos {
     public ArrayList<Switch3x3> getswitches3x3() {
         return switches3x3;
     }
-    //////////////////////////////////////////////////
 
-    //Metodos
+    //Metodos//////////////////////////////////////////////////
+
 
     //Metodo que se encarga de el presionado de los circulos
     public void presionarCirculo(MouseEvent event) {
