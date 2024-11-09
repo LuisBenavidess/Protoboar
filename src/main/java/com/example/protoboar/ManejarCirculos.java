@@ -110,6 +110,14 @@ public class ManejarCirculos {
     public ArrayList<Switch3x3> getswitches3x3() {
         return switches3x3;
     }
+
+    public conection getLinea() {
+        return linea;
+    }
+
+   public void eliminar_linea(){
+        eliminar_linea_creando(1);
+   }
     //////////////////////////////////////////////////
 
     //Metodos
@@ -313,6 +321,7 @@ public class ManejarCirculos {
         }
         // si la linea esxiste comprueba si se en el lugar presionado se encuentra un bus
         if (linea != null) {
+
             int x = 0;
             while (x < protos.size()) {
                 // viaja pot el protoboard buscando los buses
@@ -320,11 +329,14 @@ public class ManejarCirculos {
                     for (int j = 0; j < 30; j++) {
                         bus targetCircle = protos.get(x).alimentacion[i][j];
                         if (targetCircle != null) {
+
                             if (targetCircle.puedeCrearComponente()) {
+
                                 double dx = event.getX() - targetCircle.getCenterX();
                                 double dy = event.getY() - targetCircle.getCenterY();
                                 double distance = Math.sqrt(dx * dx + dy * dy);
                                 if (distance <= targetCircle.getRadius()) {
+
                                     linea.setFin(targetCircle);
                                     conection nuevo = linea;
                                     nuevo.setOnMouseClicked(Click::eliminarElemento);
@@ -356,6 +368,12 @@ public class ManejarCirculos {
                                     linea = null;
                                     scene = null;
                                     return; // Salir del método una vez que se haya encontrado un círculo
+                                }else{
+                                    if(i==13 && j==29){
+                                        eliminar_linea_creando(0);
+                                        return;
+                                    }
+
                                 }
                             }
                         }
@@ -380,6 +398,20 @@ public class ManejarCirculos {
         }
     }
 
+    private void eliminar_linea_creando(int entrada){
+
+        System.out.println("entra");
+        if(entrada==1){
+            linea.getParent().setOnMouseClicked(null);
+        }
+        linea.getInicio().componenteCreado=false;
+        pane.getChildren().remove(linea);
+        linea = null;
+        scene = null;
+        circulo_bateria = false;
+        circulo_motor = false;
+
+    }
     //Metodo para verificar los circulos de la bateria
     private void verificarCírculoBateria(MouseEvent event, bus circuloBateria) {
         double dx = event.getX() - circuloBateria.getCenterX();

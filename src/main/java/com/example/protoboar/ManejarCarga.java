@@ -281,7 +281,7 @@ public class ManejarCarga {
         int i=0;
         while (i < chips.size()) {
             if(chips.get(i).terminado){
-                System.out.println("entra");
+                //System.out.println("entra");
                 protos.get(chips.get(i).pos_proto).getChildren().add(chips.get(i));
                 chips.get(i).terminado=false;
                 chips.get(i).agregado=true;

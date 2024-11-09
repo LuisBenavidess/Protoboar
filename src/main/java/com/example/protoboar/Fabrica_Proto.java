@@ -27,7 +27,7 @@ public class Fabrica_Proto {
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
         //proto.setOnMouseClicked(Click::eliminarElemento);
-       // proto.setOnMouseReleased(this::terminar);
+        // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
         return proto;
     }

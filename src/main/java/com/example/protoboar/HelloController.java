@@ -41,8 +41,11 @@ public class HelloController {
     @FXML
     private boolean basureroActivo = false;
 
+    private conection linea;
+
     ///////////////////////////////
     private int cantidad;
+
 
     //Metodos
     @FXML
@@ -223,16 +226,15 @@ public class HelloController {
 
     @FXML
     private void crear_proto(ActionEvent event) {
-        if(cantidad==0){
-            cantidad++;
-        }
-        System.out.println(cantidad);
+        cantidad= clickHandler.getCantidad();
+        cantidad++;
+        System.out.println(cantidad-1);
         System.out.println("creo");
         protos.add(fabrica.protoboard());
-        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(cantidad));
-        accion_presionar((protos.get(cantidad)));
-        cantidad++;
+        protos.get(cantidad-1).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad-1));
+        accion_presionar((protos.get(cantidad-1)));
+        //cantidad++;
 
     }
 
@@ -240,7 +242,10 @@ public class HelloController {
     private void desactivarOpciones() {
 
         Image image;
-
+        linea=clickHandler.getlinea();
+        if(linea!=null){
+            clickHandler.get_manejarciruclo().eliminar_linea();
+        }
         clickHandler.setResistencias(false);
         resistClicked = false;
         image = new Image("/resistencia2.png"); // Imagen de la resistencia en estado inactivo

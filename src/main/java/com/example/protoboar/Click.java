@@ -98,6 +98,17 @@ public class Click {
         return chips;
     }
 
+    public int getCantidad() {
+        return protos.size();
+    }
+
+    public conection getlinea(){
+        return manejarCirculos.getLinea();
+    }
+    public ManejarCirculos get_manejarciruclo(){
+        return manejarCirculos;
+    }
+
     public void setEliminarProximaImagen(boolean eliminar){
         eliminarProximaImagen=eliminar;
     }
@@ -299,7 +310,7 @@ public class Click {
                     if(protos.get(i).getChildren().contains(basura)){
 
                         while (!protos.get(i).getConections().isEmpty()) {
-                            System.out.println("entra");
+                            //System.out.println("entra");
                             protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
                             protos.get(i).getConections().get(0).getFin().componenteCreado = false;
                             pane.getChildren().remove(protos.get(i).getConections().get(0));
@@ -307,6 +318,7 @@ public class Click {
                         }
                         pane.getChildren().remove(protos.get(i));
                         protos.remove(i);
+
                     }
                     i++;
                 }
