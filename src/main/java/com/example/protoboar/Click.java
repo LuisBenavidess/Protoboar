@@ -2,11 +2,15 @@ package com.example.protoboar;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.shape.Circle;
@@ -309,15 +313,21 @@ public class Click {
                 while(i< protos.size()){
                     if(protos.get(i).getChildren().contains(basura)){
 
-                        while (!protos.get(i).getConections().isEmpty()) {
-                            //System.out.println("entra");
-                            protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
-                            protos.get(i).getConections().get(0).getFin().componenteCreado = false;
-                            pane.getChildren().remove(protos.get(i).getConections().get(0));
-                            protos.get(i).getConections().remove(0);
+                        if(alertaeliminar()){
+
+                            while (!protos.get(i).getConections().isEmpty()) {
+                                //System.out.println("entra");
+                                protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
+                                protos.get(i).getConections().get(0).getFin().componenteCreado = false;
+                                pane.getChildren().remove(protos.get(i).getConections().get(0));
+                                protos.get(i).getConections().remove(0);
+                            }
+                            pane.getChildren().remove(protos.get(i));
+                            protos.remove(i);
+
+
                         }
-                        pane.getChildren().remove(protos.get(i));
-                        protos.remove(i);
+
 
                     }
                     i++;
@@ -325,6 +335,27 @@ public class Click {
 
             }
 
+        }
+    }
+
+    private static boolean alertaeliminar(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Desea Eliminar el protoboard?");
+        alert.setContentText("Seleccione una opción:");
+
+        ButtonType botonSi = new ButtonType("Sí");
+        ButtonType botonNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(botonSi, botonNo);
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.isPresent() && resultado.get() == botonSi) {
+            return true;
+            // Coloca aquí el código para continuar
+        } else {
+            return false;
+            // Coloca aquí el código para cancelar
         }
     }
 }
