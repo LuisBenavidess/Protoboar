@@ -1,11 +1,20 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //Clase que maneja lo que sea presionar un elemento
@@ -91,6 +100,17 @@ public class Click {
 
     public static ArrayList<Chip> getChips() {
         return chips;
+    }
+
+    public int getCantidad() {
+        return protos.size();
+    }
+
+    public conection getlinea(){
+        return manejarCirculos.getLinea();
+    }
+    public ManejarCirculos get_manejarciruclo(){
+        return manejarCirculos;
     }
 
     public void setEliminarProximaImagen(boolean eliminar){
@@ -287,6 +307,55 @@ public class Click {
                 }
                 i++;
             }
+            if((!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3))
+                    || (basura instanceof Text || basura instanceof  Label)){
+                i=0;
+                while(i< protos.size()){
+                    if(protos.get(i).getChildren().contains(basura)){
+
+                        if(alertaeliminar()){
+
+                            while (!protos.get(i).getConections().isEmpty()) {
+                                //System.out.println("entra");
+                                protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
+                                protos.get(i).getConections().get(0).getFin().componenteCreado = false;
+                                pane.getChildren().remove(protos.get(i).getConections().get(0));
+                                protos.get(i).getConections().remove(0);
+                            }
+                            pane.getChildren().remove(protos.get(i));
+                            protos.remove(i);
+
+
+                        }
+
+
+                    }
+                    i++;
+                }
+
+            }
+
+        }
+    }
+
+    private static boolean alertaeliminar(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Desea Eliminar el protoboard?");
+        alert.setContentText("Seleccione una opción:");
+
+        ButtonType botonSi = new ButtonType("Sí");
+        ButtonType botonNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(botonSi, botonNo);
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.isPresent() && resultado.get() == botonSi) {
+            return true;
+            // Coloca aquí el código para continuar
+        } else {
+            return false;
+            // Coloca aquí el código para cancelar
         }
     }
 }
