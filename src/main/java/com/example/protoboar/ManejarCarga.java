@@ -2,6 +2,7 @@ package com.example.protoboar;
 
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
+import java.util.Objects;
 
 // Clase que se encarga de manejar las cargas
 public class ManejarCarga {
@@ -248,7 +249,7 @@ public class ManejarCarga {
     // Metodo para verificar los switches
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
-        while (i < resistencias.size() && resistencias.get(i).quemado == false) {
+        while (i < resistencias.size() && !resistencias.get(i).quemado) {
             conection cable = resistencias.get(i).getCable();
             String ini = cable.getInicio().getCarga();
             String fin = cable.getFin().getCarga();
@@ -399,8 +400,27 @@ public class ManejarCarga {
         i = 0;
         while (i < sw.size()) {  // recorre todos los switches
             Switch3x3 switchActual = sw.get(i);
-            if (switchActual.getEncendido()) {
-                int j = 0;
+            if (!switchActual.getEncendido() && switchActual.getPats(0).getBus_conectado()!=null  && switchActual.getPats(1).getBus_conectado()!=null && switchActual.getPats(2).getBus_conectado()!=null && switchActual.getPats(3).getBus_conectado()!=null) {
+                String cargaPata0 = switchActual.getPats(0).getBus_conectado().getCarga();
+                String cargaPata1 = switchActual.getPats(1).getBus_conectado().getCarga();
+                String cargaPata2 = switchActual.getPats(2).getBus_conectado().getCarga();
+                String cargaPata3 = switchActual.getPats(3).getBus_conectado().getCarga();
+                // Verificar si hay cargas opuestas en las patas 0 y 3
+                if ((cargaPata0.equals("+") && cargaPata1.equals("+") && cargaPata2.equals("-")) && cargaPata3.equals("-") || (cargaPata0.equals("-") && cargaPata1.equals("-") && cargaPata2.equals("+")) && cargaPata3.equals("+")) {
+                    // Marcar el switch como inutilizable y quemado
+                    for (Pata pata : switchActual.getPatas()) {
+                        bus Bus = pata.getBus_conectado();
+                        Bus.setCarga("X");  // Indica que está quemado
+                        Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
+                        Bus.setVoltaje(null);  // Remueve cualquier voltaje
+                    }
+                    switchActual.quitarPolaridad();
+                    switchActual.quemarSwitch();
+                    continue;  // salta al siguiente sw3x3
+                }
+            }
+            int j = 0;
+            if (switchActual.getEncendido() && !Objects.equals(switchActual.getTipoCarga(), "X")) {
                 while (j < switchActual.getPatas().size()) {
                     if (switchActual.agregado) {
                         bus Bus = switchActual.getPats(j).getBus_conectado();
@@ -413,10 +433,9 @@ public class ManejarCarga {
                             switchActual.setTipoCarga(cargaActual);  // asignar polaridad
                         }
                         if (cargaActual.equals(switchActual.getTipoCarga()) || cargaActual.equals(" ")) {
-                            switchActual.getPats(0).getBus_conectado().setCarga(cargaActual);
-                            switchActual.getPats(1).getBus_conectado().setCarga(cargaActual);
-                            switchActual.getPats(2).getBus_conectado().setCarga(cargaActual);
-                            switchActual.getPats(3).getBus_conectado().setCarga(cargaActual);
+                            for (int k = 0; k < 4; k++) {
+                                switchActual.getPats(k).getBus_conectado().setCarga(cargaActual);
+                            }
                             corriente();
                         } else {
                             quemarColumna(Bus);  // si la carga no coincide se quema la columna
@@ -425,8 +444,7 @@ public class ManejarCarga {
                     j++;
                 }
             } else { // switch está apagado
-                int j = 0;
-                while (j < switchActual.getPatas().size()) {
+                while (j < switchActual.getPatas().size() && !Objects.equals(switchActual.getTipoCarga(), "X")) {
                     if (switchActual.agregado) {
                         bus Bus = switchActual.getPats(j).getBus_conectado();
                         String cargaActual = Bus.getCarga();
