@@ -1,6 +1,8 @@
 package com.example.protoboar;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,17 +76,27 @@ public class Switch3x3 extends Group {
 
     // Método que recibe el evento de apretar el switch y cambia la carga y la imagen
     public void cambiarCarga(MouseEvent event) {
-        Image image;
-        if (!encendido) {
-            image = new Image("/Switch3x3.png");
-            encendido = true;
-        } else {
-            image = new Image("/Switch3x3On.png");
-            encendido = false;
-            tipoCarga = null;
+        if (!Objects.equals(tipoCarga, "X")) {
+            Image image;
+            if (!encendido) {
+                image = new Image("/Switch3x3.png");
+                encendido = true;
+            } else {
+                image = new Image("/Switch3x3On.png");
+                encendido = false;
+                tipoCarga = null;
+            }
+            Imagen.setImage(image);
+            Imagen.toFront();
+            Click.iniciar();
         }
+    }
+
+    public void quemarSwitch() {
+        Image image = new Image("/Switch3x3On(Quemado).png"); // imagen del switch quemado
         Imagen.setImage(image);
         Imagen.toFront();
-        Click.iniciar();
+        encendido = false;
+        tipoCarga = "X"; // Marca el switch como quemado
     }
 }
