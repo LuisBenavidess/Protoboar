@@ -29,7 +29,7 @@ public class Fabrica_Chip {
 
     }
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
-    public Chip decoracion(Chip chip,String tipo){
+    private Chip decoracion(Chip chip,String tipo){
 
         Rectangle base = new Rectangle(700,300,119,38/*40*/);
         Text letra;
@@ -80,7 +80,7 @@ public class Fabrica_Chip {
     }
 
     // el metodo arrastre se utiliza cuando se mueve un objeto, actualizando las coordenas
-    public void arrastrar(MouseEvent event){
+    private void arrastrar(MouseEvent event){
         Chip chip = (Chip) event.getSource();
         double deltaX = event.getSceneX() - chip.initX;
         double deltaY = event.getSceneY() - chip.initY;
@@ -97,7 +97,7 @@ public class Fabrica_Chip {
     }
 
     // el evento terminar se activa cuando se suelta el obejto y realiza unas verificaciones para saber si esta dentro de los buses
-    public void terminar(MouseEvent event){
+    private void terminar(MouseEvent event){
         detectar(event);
         Chip chip = (Chip) event.getSource();
         int x=0;
@@ -142,7 +142,7 @@ public class Fabrica_Chip {
         }
 
         // este metodo verifica si cada pata se encuentra en un bus
-    public void detectar(MouseEvent event) {
+    private void detectar(MouseEvent event) {
         Chip chip = (Chip) event.getSource();
         int x = 0;
         while (x < chip.getProtos().size()) {
@@ -182,7 +182,7 @@ public class Fabrica_Chip {
         }
     }
 
-    public boolean pasa_50(bus bus, Pata pata){
+    private boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
             //System.out.println("pasa");

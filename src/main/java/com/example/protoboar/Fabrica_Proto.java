@@ -27,7 +27,7 @@ public class Fabrica_Proto {
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
         //proto.setOnMouseClicked(Click::eliminarElemento);
-       // proto.setOnMouseReleased(this::terminar);
+        // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
         return proto;
     }
@@ -37,15 +37,22 @@ public class Fabrica_Proto {
         //Decoracion
 
         Rectangle base = new Rectangle(5,26,582,413/*435*/);
+        base.setOnMouseClicked(Click::eliminarElemento);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal
         base.setArcHeight(15); // Curvatura vertical
         proto.setBase(base);
+
+
         Text menos_superior = new Text("-");
+        menos_superior.setOnMouseClicked(Click::eliminarElemento);
         menos_superior.setLayoutX(12);
         menos_superior.setLayoutY(45);
         menos_superior.setRotate(-90);
+
+
         Rectangle negativo_superior = new Rectangle(25,36,544,6);
+        negativo_superior.setOnMouseClicked(Click::eliminarElemento);
         negativo_superior.setFill(Color.web("#0ea4e0"));
         negativo_superior.setArcWidth(5);  // Curvatura horizontal
         negativo_superior.setArcHeight(5); // Curvatura vertical
@@ -54,28 +61,37 @@ public class Fabrica_Proto {
         menos_inferior.setLayoutX(12);
         menos_inferior.setLayoutY(380);
         menos_inferior.setRotate(-90);
+        menos_inferior.setOnMouseClicked(Click::eliminarElemento);
+
         Rectangle negativo_inferior = new Rectangle(25,372/*394*/,544,6);
         negativo_inferior.setFill(Color.web("#0ea4e0"));
         negativo_inferior.setArcWidth(5);  // Curvatura horizontal
         negativo_inferior.setArcHeight(5); // Curvatura vertical
+        negativo_inferior.setOnMouseClicked(Click::eliminarElemento);
 
         Text mas_superior = new Text("+");
         mas_superior.setLayoutX(10);
         mas_superior.setLayoutY(97);
         mas_superior.setRotate(-90);
+        mas_superior.setOnMouseClicked(Click::eliminarElemento);
+
         Rectangle positivo_superior = new Rectangle(24,89,544,6);
         positivo_superior.setFill(Color.web("#c43238"));
         positivo_superior.setArcWidth(5);  // Curvatura horizontal
         positivo_superior.setArcHeight(5); // Curvatura vertical
+        positivo_superior.setOnMouseClicked(Click::eliminarElemento);
 
         Text mas_inferior = new Text("+");
         mas_inferior.setLayoutX(10);
         mas_inferior.setLayoutY(431);
         mas_inferior.setRotate(-90);
+        mas_inferior.setOnMouseClicked(Click::eliminarElemento);
+
         Rectangle positivo_inferior = new Rectangle(25,423,544,6);
         positivo_inferior.setFill(Color.web("#c43238"));
         positivo_inferior.setArcWidth(5);  // Curvatura horizontal
         positivo_inferior.setArcHeight(5); // Curvatura vertical
+        positivo_inferior.setOnMouseClicked(Click::eliminarElemento);
 
         proto.getChildren().add(base);
 
@@ -109,6 +125,7 @@ public class Fabrica_Proto {
         //A travez de rangos definidos se generan los numeros;
         while (i < 30) {
             Label label = new Label(String.valueOf(i + 1));
+            label.setOnMouseClicked(Click::eliminarElemento);
             label.setLayoutY(Y);
             label.setLayoutX(X);
             label.setRotate(-90);
@@ -127,6 +144,7 @@ public class Fabrica_Proto {
             Character letra=(char) num;
             String nuevaLetra=String.valueOf(letra);
             Text text = new Text(nuevaLetra);
+            text.setOnMouseClicked(Click::eliminarElemento);
             text.setLayoutX(X);
             text.setLayoutY(alto);
             text.setRotate(-90);
@@ -164,6 +182,7 @@ public class Fabrica_Proto {
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
                 circulo.setOnMouseDragged(this::arrastrar);
+                circulo.setOnMouseClicked(Click::eliminarElemento);
                 //Guardar el circulo dentro de la matriz
                 proto.alimentacion[proto.filas][proto.columnas] = circulo;
                 proto.alimentacion[proto.filas][proto.columnas].setFila(proto.filas);
