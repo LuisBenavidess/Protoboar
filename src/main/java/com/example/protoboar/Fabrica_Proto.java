@@ -262,6 +262,10 @@ public class Fabrica_Proto {
                     switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
                     switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
                 }
+                if(node instanceof Switch8x3 switch8x3){
+                    switch8x3.setLayoutX(switch8x3.getLayoutX() + deltaX);
+                    switch8x3.setLayoutY(switch8x3.getLayoutY() + deltaY);
+                }
                 if(node instanceof conection cable){
                     cable.setLayoutX(cable.getLayoutX() + deltaX);
                     cable.setLayoutY(cable.getLayoutY() + deltaY);

@@ -36,7 +36,7 @@ public class Fabrica_Switch8x3 {
     public Switch8x3 decoracion(Switch8x3 sw){
 
         Rectangle base = new Rectangle(700,300,136,38);
-        base.setFill(Color.DIMGRAY);
+        base.setFill(Color.RED);
         sw.getChildren().add(base);
         sw.setBase(base);
         int i=0;
@@ -64,7 +64,14 @@ public class Fabrica_Switch8x3 {
         ArrayList<Pata> patas = sw.getPatas();
         int j = 8;
         while (i < 8){
-            Interruptor interruptor = new Interruptor(x, y, patas.get(i).getBus_conectado(), patas.get(j).getBus_conectado());
+            Interruptor interruptor = new Interruptor();
+
+            interruptor.setFitHeight(25);
+            interruptor.setFitWidth(12);
+            interruptor.setX(x);
+            interruptor.setY(y);
+
+            interruptor.setOnMouseClicked(this::cambiarCarga);
 
             sw.addInterruptores(interruptor);
             sw.getChildren().add(interruptor);
@@ -149,6 +156,17 @@ public class Fabrica_Switch8x3 {
             sw.getBase().setX(centerX - sw.getBase().getWidth() / 2);
             sw.getBase().setY(centerY - sw.getBase().getHeight() / 2);
 
+            ArrayList<Interruptor> interruptores = sw.getInterruptores();
+            ArrayList<Pata> patas = sw.getPatas();
+            for (int i = 0; i < interruptores.size(); i++) {
+                Interruptor interruptor = interruptores.get(i);
+
+                // Calculamos la posición en la escena para obtener las coordenadas globales de la pata
+                double Xpata = patas.get(i).getBus_conectado().getLayoutX();
+
+                // Actualizamos solo la posición X del interruptor
+                interruptor.setLayoutX(Xpata);
+            }
             // Desactiva eventos de movimiento y marca el Switch como terminado
             sw.setOnMousePressed(null);
             sw.setOnMouseDragged(null);
@@ -184,6 +202,7 @@ public class Fabrica_Switch8x3 {
                             chipEncimaDelBus = true; // Marcamos que hay al menos una pata encima del bus
                             sw.pos_proto = x;
                         }
+
                         i++;
                     }
                     // Si hay una pata encima del bus, marcamos el bus como ocupado por un componente
@@ -218,4 +237,22 @@ public class Fabrica_Switch8x3 {
         return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
 
+    public void cambiarCarga(MouseEvent event) {
+        Image image;
+        Interruptor interruptor = (Interruptor) event.getSource();
+        // Verificación de que los buses no sean nulos
+        if (!interruptor.getEncendido()) {
+            image = new Image("/Interruptor1.png");
+            interruptor.setEncendido(true);
+
+
+        } else {
+            image = new Image("/Interruptor2.png");
+            interruptor.setEncendido(false);
+
+        }
+        interruptor.setImage(image);
+        interruptor.toFront();
+        Click.iniciar();
+    }
 }

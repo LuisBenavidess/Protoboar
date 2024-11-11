@@ -16,9 +16,10 @@ public class Switch8x3 extends Group {
     private Rectangle base;
     private ArrayList<Protoboard> protos;
     private ArrayList<Pata> patas;
-    private ArrayList<Interruptor> interruptores;
+    private final ArrayList<Interruptor> interruptores;
     public int pos_proto;
     public boolean terminado;
+    public boolean agregado;
 
     //Construcción inicial
     Switch8x3(){

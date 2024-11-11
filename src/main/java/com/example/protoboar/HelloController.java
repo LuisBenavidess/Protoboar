@@ -21,8 +21,6 @@ public class HelloController {
     @FXML
     private boolean cableClicked=false;
     @FXML
-    private boolean switchClicked;
-    @FXML
     private boolean resistClicked;
     @FXML
     private ImageView basurero;
@@ -97,6 +95,9 @@ public class HelloController {
     // Metodo que crea la imagen led y controla si esta activa o no
     private void crearLed() {
         if(ledClicked) {
+            Image image = new Image("/led.png"); // Imagen del led en estado activo
+            ledID.setImage(image);
+
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setLedClicked(false);
             ledClicked=false;
@@ -115,12 +116,15 @@ public class HelloController {
     // Metodo que crea la imagen del cable y controla si esta activa o no
     private void crearCable() {
         if (cableClicked) {
+            Image image = new Image("/cable.png"); // Imagen del cable en estado inactivo
+            cableID.setImage(image);
+
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(false);
             cableClicked = false;
         } else {
             desactivarOpciones();
-            Image image = new Image("/cableOn.png"); // Imagen del cable en estado inactivo
+            Image image = new Image("/cableOn.png"); // Imagen del cable en estado activo
             cableID.setImage(image);
 
             //Se cambia el booleano para identificar si este esta prendido o apagado
@@ -133,6 +137,9 @@ public class HelloController {
     // Controla la creacion de la resistencia
     private void crearResistencia() {
         if(resistClicked) {
+            Image image = new Image(getClass().getResource("/resistencia2.png").toExternalForm());
+            resistenciaID.setImage(image); // Imagen del resistencia en estado activo
+
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(false);
             System.out.println("Resistencia false");
@@ -140,7 +147,7 @@ public class HelloController {
         } else{
             desactivarOpciones();
             Image image = new Image(getClass().getResource("/resistenciaOn.png").toExternalForm());
-            resistenciaID.setImage(image); // Imagen del resistencia en estado inactivo
+            resistenciaID.setImage(image); // Imagen del resistencia en estado activo
 
 
             //Se cambia el booleano para identificar si este esta prendido o apagado

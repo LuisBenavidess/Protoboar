@@ -19,7 +19,7 @@ public class Cable {
         imageView.toFront();
     }
 
-    // Método para actualizar la posición de la imagen del cable
+    // Metodo para actualizar la posición de la imagen del cable
     public void actualizarImagen(conection cable) {
         double startX = cable.getStartX();
         double startY = cable.getStartY();

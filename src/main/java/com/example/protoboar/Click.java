@@ -19,6 +19,7 @@ public class Click {
     private static ArrayList<Led> leds;
     private static ArrayList<Chip> chips;
     private static ArrayList<Switch3x3> switch3x3;
+    private static ArrayList<Switch8x3> switch8x3;
 
     //Construcctor
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -51,10 +52,6 @@ public class Click {
         manejarCirculos.setCableClicked(cableClicked);
     }
 
-    public void setSwitchClicked(boolean switchClicked){
-        manejarCirculos.setSwitchClicked(switchClicked);
-    }
-
     public void setResistencias(boolean resistClicked){
         manejarCirculos.setResistClicked(resistClicked);
     }
@@ -75,8 +72,16 @@ public class Click {
         switch3x3 = switch3x3s;
     }
 
-    public static ArrayList<Switch3x3> getSwitch3x3s() {
+    public static void  setSwitch8x3(ArrayList<Switch8x3> switch8x3s) {
+        switch8x3 = switch8x3s;
+    }
+
+    public static ArrayList<Switch3x3> getSwitch3x3() {
         return switch3x3;
+    }
+
+    public static ArrayList<Switch8x3> getSwitch8x3() {
+        return switch8x3;
     }
 
     public static void  setChips(ArrayList<Chip> chip) {
@@ -121,8 +126,12 @@ public class Click {
     }
 
     // verifica los switch3x3 para el intercambio de carga
-    public static void verificar_Switch3x3s() {
+    public static void verificar_Switch3x3() {
         manejarCirculos.verificar_sw3x3();
+    }
+
+    public static void verificar_Switch8x3() {
+        manejarCirculos.verificar_sw8x3();
     }
 
     public static void verificar_chips() {
@@ -135,12 +144,18 @@ public class Click {
         int i=0;
         setChips(manejarCirculos.getChips());
         setSwitch3x3(manejarCirculos.getswitches3x3());
+        setSwitch8x3(manejarCirculos.getswitches8x3());
         while(i<getCables().size()){ // Verifica los cables y switch para trasladar la carga
             verificar_cables();
             verificar_resistencia();
             int j=0;
-            while(j<getSwitch3x3s().size()){
-                verificar_Switch3x3s();
+            while(j<getSwitch3x3().size()){
+                verificar_Switch3x3();
+                j++;
+            }
+            j=0;
+            while(j<getSwitch8x3().size()){
+                verificar_Switch8x3();
                 j++;
             }
             j=0;
@@ -157,6 +172,9 @@ public class Click {
         }
         if(switch3x3!=null){
             manejarCirculos.verificar_sw3x3();
+        }
+        if(switch8x3!=null){
+            manejarCirculos.verificar_sw8x3();
         }
         if(chips!=null){
             manejarCirculos.verificar_chip();
@@ -261,6 +279,22 @@ public class Click {
                         proto.getChildren().remove(switch3x3.get(i)); // Remover el chip de los protoboards
                     }
                     switch3x3.remove(i);
+                }
+                i++;
+            }
+            i=0;
+            switch8x3=manejarCirculos.getswitches8x3();
+            while(i < switch8x3.size()){  //bucle Switch8x3
+                if (basura.equals(switch8x3.get(i))) {
+                    for (Pata pata : switch8x3.get(i).getPatas()) {
+                        if (pata.getBus_conectado() != null) {
+                            pata.getBus_conectado().componenteCreado = false; // Actualiza el bus
+                        }
+                    }
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(switch8x3.get(i)); // Remover el chip de los protoboards
+                    }
+                    switch8x3.remove(i);
                 }
                 i++;
             }

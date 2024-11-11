@@ -18,7 +18,6 @@ public class ManejarCirculos {
     private conection linea;
     private boolean ledClicked;
     private boolean cableClicked;
-    private boolean switchClicked;
     private boolean resistClicked;
     private bus primercircle;
     private boolean circulo_bateria;
@@ -42,7 +41,6 @@ public class ManejarCirculos {
         this.cableClicked = cableClicked;
         this.bateria = bateria;
         this.motor = motor;
-        this.switchClicked = false;
         this.resistClicked = false;
         cables = new ArrayList<>();
         switches3x3 = new ArrayList<>();
@@ -76,13 +74,6 @@ public class ManejarCirculos {
         this.cableClicked = cableClicked;
     }
 
-    public void setSwitchClicked(boolean switchClicked){
-        this.switchClicked = switchClicked;
-        if(!switchClicked){
-            primercircle=null;
-        }
-    }
-
     public void setResistClicked(boolean resistClicked){
         this.resistClicked = resistClicked;
         if(!resistClicked){
@@ -105,6 +96,10 @@ public class ManejarCirculos {
 
     public ArrayList<Switch3x3> getswitches3x3() {
         return switches3x3;
+    }
+
+    public ArrayList<Switch8x3> getswitches8x3() {
+        return switches8x3;
     }
 
     //Metodos//////////////////////////////////////////////////
@@ -131,22 +126,6 @@ public class ManejarCirculos {
                         crearCableEntreCirculos(primercircle, circulo, proto);
                         primercircle.crearComponente();
                         circulo.crearComponente(); // Marca que se ha creado un componente
-                    }
-                }
-                primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
-            }
-        } else if (primercircle == null && switchClicked) {
-            primercircle = circulo; // Asignación del primer círculo
-            System.out.println("Primer círculo asignado");
-        } else if (primercircle != null && switchClicked) {
-            if (circulo.puedeCrearComponente() && primercircle.puedeCrearComponente()) {
-                System.out.println("Segundo círculo");
-                for (Protoboard proto : protos) {
-                    if (proto.getChildren().contains(primercircle)) {
-                        primercircle.crearComponente();
-                        circulo.crearComponente();
-                        crearCableEntreCirculos(primercircle, circulo, proto);
-                         // Marca que se ha creado un componente
                     }
                 }
                 primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
@@ -463,5 +442,9 @@ public class ManejarCirculos {
 
     public void verificar_sw3x3(){
         manejarCarga.verificar_sw3x3(switches3x3);
+    }
+
+    public void verificar_sw8x3(){
+        manejarCarga.verificar_sw8x3(switches8x3);
     }
 }

@@ -224,7 +224,7 @@ public class ManejarCarga {
     // Metodo para verificar los switches
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
-        while (i < resistencias.size() && resistencias.get(i).quemado == false) {
+        while (i < resistencias.size() && !resistencias.get(i).quemado) {
             conection cable = resistencias.get(i).getCable();
             String ini = cable.getInicio().getCarga();
             String fin = cable.getFin().getCarga();
@@ -295,6 +295,7 @@ public class ManejarCarga {
         }
 
     }
+
     // Este metodo realiza la simple logica del chip not
     public void chip_not(Chip chip){
 
@@ -430,6 +431,56 @@ public class ManejarCarga {
                 }
             }
             i++;
+        }
+    }
+
+    public void verificar_sw8x3(ArrayList<Switch8x3> sw) {
+        int i = 0;
+        while (i < sw.size()) {
+            Switch8x3 switchActual = sw.get(i);
+            if (switchActual.terminado) {
+                protos.get(switchActual.pos_proto).getChildren().add(switchActual);
+                switchActual.terminado = false;
+                switchActual.agregado = true;
+            }
+            i++;
+        }
+        //Verifica los interruptores y actualiza cargas
+        for(i = 0; i < sw.size(); i++) {
+            Switch8x3 switchActual = sw.get(i);
+            int j = 0;
+            int j2 = 8;
+
+            while (j < switchActual.getInterruptores().size()) {
+                Interruptor interruptor = switchActual.getInterruptores().get(j);
+
+                if (interruptor.getEncendido() && interruptor.getQuemado()==false ) {
+                    if (switchActual.agregado) {
+                        bus Bus = switchActual.getPats(j).getBus_conectado();
+                        bus Bus2 = switchActual.getPats(j2).getBus_conectado();
+
+                        String cargaActual = Bus.getCarga();
+                        String cargaActual2 = Bus2.getCarga();
+
+                        if (Bus.getFill() == Color.YELLOW) {
+                            j++; // se salta el bus quemado
+                            continue;
+                        }
+
+                        if (!cargaActual.equals(" ") && cargaActual2.equals(" ")) {
+                            sw.get(i).getPats(j2).getBus_conectado().setCarga(cargaActual);
+                            corriente();
+                        } else if (!cargaActual2.equals(" ") && cargaActual.equals(" ")) {
+                            sw.get(i).getPats(j).getBus_conectado().setCarga(cargaActual2);
+                            corriente();
+                        }
+                    }
+
+                }
+                j++;
+                j2++;
+
+            }
         }
     }
 
