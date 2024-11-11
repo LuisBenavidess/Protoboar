@@ -369,12 +369,6 @@ public class ManejarCirculos {
                                     linea = null;
                                     scene = null;
                                     return; // Salir del método una vez que se haya encontrado un círculo
-                                }else{
-                                    if(i==13 && j==29){
-                                        eliminar_linea_creando(0);
-                                        return;
-                                    }
-
                                 }
                             }
                         }
@@ -391,6 +385,8 @@ public class ManejarCirculos {
                 verificarCírculoMotor(event, motor.getPositivo());
                 verificarCírculoMotor(event, motor.getNegativo());
             }
+            eliminar_linea_creando(0);
+            return;
         }
         // Reactivar eventos si no se completó la operación
         if (event.getSource() instanceof Parent parent) {
