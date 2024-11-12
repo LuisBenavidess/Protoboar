@@ -27,6 +27,7 @@ public class Click {
     private static ArrayList<Chip> chips;
     private static ArrayList<Switch3x3> switch3x3;
     private static ArrayList<Switch8x3> switch8x3;
+    private static ArrayList<Display> displays;
 
     //Construcctor
     public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
@@ -95,6 +96,14 @@ public class Click {
         chips=chip;
     }
 
+    public static void  setDisplays(ArrayList<Display> display) {
+        displays=display;
+    }
+
+    public static ArrayList<Display> getDisplays() {
+        return displays;
+    }
+
     public static ArrayList<Chip> getChips() {
         return chips;
     }
@@ -156,6 +165,10 @@ public class Click {
         manejarCirculos.verificar_chip();
     }
 
+    public static void verificar_displays() {
+        manejarCirculos.verificar_display();
+    }
+
     @FXML
     public static void iniciar() { //Metodo que inicia el proceso de verificar cargas atravez de los buses, cables y switch
         revovinar(); //Revovina todos los circulos a neutro
@@ -163,6 +176,7 @@ public class Click {
         setChips(manejarCirculos.getChips());
         setSwitch3x3(manejarCirculos.getswitches3x3());
         setSwitch8x3(manejarCirculos.getswitches8x3());
+        setDisplays(manejarCirculos.getdisplays());
         while(i<getCables().size()){ // Verifica los cables y switch para trasladar la carga
             verificar_cables();
             verificar_resistencia();
@@ -197,6 +211,13 @@ public class Click {
         if(chips!=null){
             manejarCirculos.verificar_chip();
         }
+        i=0;
+        while(i<getDisplays().size()){
+
+            verificar_displays();
+
+            i++;
+        }
         verificar_cables();
     }
 
@@ -206,6 +227,10 @@ public class Click {
 
     public void CrearChip(String tipo){
         manejarCirculos.crearChip(tipo);
+    }
+
+    public void creardisplay(){
+        manejarCirculos.creardisplay();
     }
 
     public void CrearSwitch3x3(){

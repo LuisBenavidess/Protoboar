@@ -31,6 +31,7 @@ public class ManejarCirculos {
     private final Motor motor;
     private final ManejarCarga manejarCarga;
     private final ArrayList<Chip> chips;
+    private final ArrayList<Display> displays;
     private Scene scene;
 
     //Constructor
@@ -45,6 +46,7 @@ public class ManejarCirculos {
         cables = new ArrayList<>();
         switches3x3 = new ArrayList<>();
         switches8x3 = new ArrayList<>();
+        displays = new ArrayList<>();
         leds = new ArrayList<>();
         resistencias = new ArrayList<>();
         chips=new ArrayList<>();
@@ -92,6 +94,10 @@ public class ManejarCirculos {
 
     public ArrayList<Chip> getChips() {
         return chips;
+    }
+
+    public ArrayList<Display> getdisplays() {
+        return displays;
     }
 
     public ArrayList<Switch3x3> getswitches3x3() {
@@ -428,6 +434,14 @@ public class ManejarCirculos {
         chips.add(chip);
     }
 
+    public void creardisplay(){
+        Fabrica_display fabrica = new Fabrica_display();
+        Display display=fabrica.display();
+        display.setProtos(getprotos());
+        displays.add(display);
+        pane.getChildren().add(display);
+    }
+
     public void crearSwitch3x3(){
         Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
         Switch3x3 switch3x3 = fabrica.crear();
@@ -467,6 +481,25 @@ public class ManejarCirculos {
 
     public void verificar_chip(){
         manejarCarga.verificar_chips(chips);
+    }
+
+    public void verificar_display(){
+        revovinar_displays();
+        manejarCarga.verificar_display(displays);
+    }
+
+    public void revovinar_displays(){
+        int i=0;
+        while(i<displays.size()){
+            int j=0;
+            Display disp=displays.get(i);
+            while(j<disp.getLeds().size()){
+                disp.getLeds(j).setFill(Color.GRAY);
+                j++;
+            }
+            disp.getPunto().setFill(Color.GRAY);
+            i++;
+        }
     }
 
     public void verificar_sw3x3(){
