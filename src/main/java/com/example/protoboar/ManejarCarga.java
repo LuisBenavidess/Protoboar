@@ -1,8 +1,10 @@
 package com.example.protoboar;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.scene.image.Image;
 
 // Clase que se encarga de manejar las cargas
 public class ManejarCarga {
@@ -237,10 +239,34 @@ public class ManejarCarga {
             String fin = cable.getFin().getCarga();
             if (fin.equals("+")){
                 resistencias.get(i).quemado = true;
+
+                String imagen = resistencias.get(i).getImagen();
+                Image image;
+                if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
+                    System.out.println("entra1");
+                    image = new Image("resistenciaQuemada1.png");
+                }else{
+                    System.out.println("entra2");
+                    image = new Image("resistenciaQuemada2.png");
+                }
+
+                resistencias.get(i).getImageView().setImage(image);
                 System.out.println("Se quemó una resistencia");
             }
             if (ini.equals("-")){
                 resistencias.get(i).quemado = true;
+
+                String imagen = resistencias.get(i).getImagen();
+                Image image;
+                if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
+                    System.out.println("entra3");
+                    image = new Image("resistenciaQuemada1.png");
+                }else{
+                    System.out.println("entra4");
+                    image = new Image("resistenciaQuemada2.png");
+                }
+
+                resistencias.get(i).getImageView().setImage(image);
                 System.out.println("Se quemó una resistencia");
             }
 

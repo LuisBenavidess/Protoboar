@@ -8,10 +8,11 @@ import javafx.scene.image.ImageView;
 public class Resistencia extends Node{
     //Atributos
     private String Reduccion;
+    private String imagen;
 
     public boolean quemado = false;
 
-    private final ImageView imageView;
+    private ImageView imageView;
 
     private final conection cables;
 
@@ -22,6 +23,7 @@ public class Resistencia extends Node{
         if(cables.getInicio().getCenterX() > cables.getFin().getCenterX()){
             Image image = new Image("/resistencia4.png");
             this.imageView = new ImageView(image);
+            imagen = "resistencia4.png";
             // Ajustar las dimensiones del ImageView
             imageView.setFitWidth(25);
             imageView.setFitHeight(40);
@@ -29,6 +31,7 @@ public class Resistencia extends Node{
             if(cables.getInicio().getCenterX() < cables.getFin().getCenterX()){
                 Image image = new Image("/resistencia1.png");
                 this.imageView = new ImageView(image);
+                imagen = "resistencia1.png";
                 // Ajustar las dimensiones del ImageView
                 imageView.setFitWidth(25);
                 imageView.setFitHeight(40);
@@ -36,12 +39,14 @@ public class Resistencia extends Node{
                 if(cables.getInicio().getCenterY() > cables.getFin().getCenterY()){
                     Image image = new Image("/resistencia3.png");
                     this.imageView = new ImageView(image);
+                    imagen = "resistencia3.png";
                     // Ajustar las dimensiones del ImageView
                     imageView.setFitWidth(40);
                     imageView.setFitHeight(25);
                 }else{
                     Image image = new Image("/resistencia2.png");
                     this.imageView = new ImageView(image);
+                    imagen = "resistencia2.png";
                     // Ajustar las dimensiones del ImageView
                     imageView.setFitWidth(40);
                     imageView.setFitHeight(25);
@@ -50,8 +55,6 @@ public class Resistencia extends Node{
         }
 
         this.Reduccion = "10";
-
-
 
         // Posicionar el ImageView en las coordenadas dadas
         imageView.setX(x - imageView.getFitWidth() / 2);
@@ -74,6 +77,10 @@ public class Resistencia extends Node{
 
     public ImageView getImageView(){
         return imageView;
+    }
+
+    public String getImagen() {
+        return imagen;
     }
 
 }
