@@ -1,12 +1,9 @@
 package com.example.protoboar;
 
 import javafx.scene.Group;
-
-import java.awt.*;
 import java.util.ArrayList;
-
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+
 //Clase chip
 public class Chip extends Group {
     //Atributos utilizados (objetos vinculados al chip, coordenadas, etc.)
