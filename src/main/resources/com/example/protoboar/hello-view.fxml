@@ -48,7 +48,7 @@
          </MenuBar>
          <!-- Ajusta el margen del HBox para que esté debajo del menú -->
          <HBox alignment="TOP_LEFT" prefHeight="70.0" prefWidth="673.0" spacing="10" style="-fx-background-color: #808080;">
-            <ImageView fx:id="ledID" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearLed" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ledID" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#mostrarMenuLed" pickOnBounds="true" preserveRatio="true">
                <Image url="@led.png" />
             </ImageView>
             <ImageView fx:id="cableID" fitHeight="70.0" fitWidth="90.0" onMouseClicked="#crearCable" pickOnBounds="true" preserveRatio="true">

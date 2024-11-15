@@ -1,13 +1,16 @@
 package com.example.protoboar;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
 import java.util.ArrayList;
+import java.util.Objects;
+import javafx.scene.control.MenuItem;
+import javafx.scene.paint.Color;
 
 //Controlador
 public class HelloController {
@@ -18,6 +21,7 @@ public class HelloController {
     private Click clickHandler;
     @FXML
     private boolean ledClicked=false;
+    private String ledColor = "";
     @FXML
     private boolean cableClicked=false;
     @FXML
@@ -38,17 +42,39 @@ public class HelloController {
     private ArrayList<Protoboard> protos;
     @FXML
     private boolean basureroActivo = false;
-
-    private conection linea;
-
-    ///////////////////////////////
-    private int cantidad;
-
+    private ContextMenu ledMenu;
 
     //Metodos
     @FXML
     private void initialize() {
+        ledMenu = new ContextMenu();
+        // Crear círculos de color para los leds
+        Circle greenCircle = new Circle(10, Color.GREEN);
+        MenuItem greenItem = new MenuItem();
+        greenItem.setGraphic(greenCircle);
+        greenItem.setOnAction(_ -> crearLed("green"));
 
+        Circle pinkCircle = new Circle(10, Color.PINK);
+        MenuItem pinkItem = new MenuItem();
+        pinkItem.setGraphic(pinkCircle);
+        pinkItem.setOnAction(_ -> crearLed("pink"));
+
+        Circle redCircle = new Circle(10, Color.RED);
+        MenuItem redItem = new MenuItem();
+        redItem.setGraphic(redCircle);
+        redItem.setOnAction(_ -> crearLed("red"));
+
+        Circle blueCircle = new Circle(10, Color.BLUE);
+        MenuItem blueItem = new MenuItem();
+        blueItem.setGraphic(blueCircle);
+        blueItem.setOnAction(_ -> crearLed("blue"));
+
+        Circle purpleCircle = new Circle(10, Color.PURPLE);
+        MenuItem purpleItem = new MenuItem();
+        purpleItem.setGraphic(purpleCircle);
+        purpleItem.setOnAction(_ -> crearLed("purple"));
+
+        ledMenu.getItems().addAll(greenItem, pinkItem, redItem, blueItem, purpleItem);
 
         int cantidad = 0;
         protos = new ArrayList<>();
@@ -56,25 +82,24 @@ public class HelloController {
         protos.add(fabrica.protoboard());
         protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
-        //pane.getChildren().add(grupo_principal);
         // Configurar el clic en el basurero
         if (basurero != null) {
             basurero.setOnMouseClicked(this::activarBasurero);
         }
-
         //Genera la matriz con los buses
         Bateria bateria = new Bateria(pane);
         Motor motor = new Motor(pane);
-        clickHandler = new Click(pane, protos, ledClicked, cableClicked,bateria, motor);
-
+        clickHandler = new Click(pane, protos, ledClicked, cableClicked,bateria, motor, ledColor);
         bateria.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         bateria.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getPositivo().setOnMouseClicked(clickHandler::presionarCirculo);
         motor.getNegativo().setOnMouseClicked(clickHandler::presionarCirculo);
-
         accion_presionar((protos.get(cantidad)));
-        cantidad= cantidad+1;
+    }
 
+    @FXML
+    private void mostrarMenuLed(MouseEvent event) {
+        ledMenu.show(ledID, event.getScreenX(), event.getScreenY());
     }
 
     @FXML
@@ -96,22 +121,20 @@ public class HelloController {
 
     @FXML
     // Metodo que crea la imagen led y controla si esta activa o no
-    private void crearLed() {
+    private void crearLed(String color) {
+        ledColor = color;
+        desactivarOpciones();
         if(ledClicked) {
             Image image = new Image("/led.png"); // Imagen del led en estado activo
             ledID.setImage(image);
-
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setLedClicked(false);
+            clickHandler.setLedClicked(false);  //Se cambia el booleano para identificar si este esta prendido o apagado
             ledClicked=false;
-        } else{
-            desactivarOpciones();
+        }else{
             Image image = new Image("/ledOn.png"); // Imagen del led en estado inactivo
             ledID.setImage(image);
-
-            //Se cambia el booleano para identificar si este esta prendido o apagado
-            clickHandler.setLedClicked(true);
+            clickHandler.setLedClicked(true); //Se cambia el booleano para identificar si este esta prendido o apagado
             ledClicked=true;
+            clickHandler.setLedColor(ledColor);
         }
     }
 
@@ -129,7 +152,6 @@ public class HelloController {
             desactivarOpciones();
             Image image = new Image("/cableOn.png"); // Imagen del cable en estado activo
             cableID.setImage(image);
-
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(true);
             cableClicked = true;
@@ -140,22 +162,17 @@ public class HelloController {
     // Controla la creacion de la resistencia
     private void crearResistencia() {
         if(resistClicked) {
-            Image image = new Image(getClass().getResource("/resistencia2.png").toExternalForm());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/resistencia2.png")).toExternalForm());
             resistenciaID.setImage(image); // Imagen del resistencia en estado activo
-
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(false);
-            System.out.println("Resistencia false");
             resistClicked=false;
         } else{
             desactivarOpciones();
-            Image image = new Image(getClass().getResource("/resistenciaOn.png").toExternalForm());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/resistenciaOn.png")).toExternalForm());
             resistenciaID.setImage(image); // Imagen del resistencia en estado activo
-
-
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(true);
-            System.out.println("Resitencia true");
             resistClicked=true;
         }
     }
@@ -198,77 +215,49 @@ public class HelloController {
     }
 
     @FXML
-    private void crearSwitch3x3(MouseEvent event) {
+    private void crearSwitch3x3() {
         desactivarOpciones();
         clickHandler.CrearSwitch3x3();
     }
 
     @FXML
-    private void crearSwitch8x3(MouseEvent event) {
+    private void crearSwitch8x3() {
         desactivarOpciones();
         clickHandler.CrearSwitch8x3();
     }
 
     @FXML
-    private void toggleMotor() {
-        if (motor.isEncendido()) {
-            motor.apagarMotor(); // Apagar el motor si está encendido
-            System.out.println("Motor apagado");
-        } else {
-            motor.encenderMotor(); // Encender el motor si está apagado
-            System.out.println("Motor encendido");
-        }
-    }
-
-    @FXML
-    private void crear_proto(ActionEvent event) {
-        cantidad= clickHandler.getCantidad();
+    private void crear_proto() {
+        int cantidad = clickHandler.getCantidad();
         cantidad++;
-        System.out.println(cantidad-1);
-        System.out.println("creo");
         protos.add(fabrica.protoboard());
-        protos.get(cantidad-1).getBase().setOnMouseEntered(Click::presiona);
-        pane.getChildren().add(protos.get(cantidad-1));
-        accion_presionar((protos.get(cantidad-1)));
-        //cantidad++;
-
+        protos.get(cantidad -1).getBase().setOnMouseEntered(Click::presiona);
+        pane.getChildren().add(protos.get(cantidad -1));
+        accion_presionar((protos.get(cantidad -1)));
     }
 
     @FXML
     private void desactivarOpciones() {
-
         Image image;
-        linea=clickHandler.getlinea();
-        if(linea!=null){
+        conection linea = clickHandler.getlinea();
+        if(linea !=null){
             clickHandler.get_manejarciruclo().eliminar_linea();
         }
         clickHandler.setResistencias(false);
         resistClicked = false;
         image = new Image("/resistencia2.png"); // Imagen de la resistencia en estado inactivo
         resistenciaID.setImage(image);
-        System.out.println("Resistencia false");
-
         clickHandler.setLedClicked(false);
         ledClicked = false;
         image = new Image("/led.png"); // Imagen del led en estado inactivo
         ledID.setImage(image);
-        System.out.println("Led false");
-
         clickHandler.setCableClicked(false);
         cableClicked=false;
         image = new Image("/cable.png"); // Imagen del cable en estado inactivo
         cableID.setImage(image);
-        System.out.println("Cable false");
-
         clickHandler.setEliminarProximaImagen(false);
         basureroActivo = false;
         image = new Image("/basurero.png"); // Imagen del basurero en estado inactivo
         basurero.setImage(image);
-        System.out.println("Basurero false");
-
-        /*clickHandler.setSwitchClicked(false);
-        switchClicked = false;
-        System.out.println("Switch false");*/
-
     }
 }
