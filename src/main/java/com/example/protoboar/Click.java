@@ -5,14 +5,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //Clase que maneja lo que sea presionar un elemento
@@ -29,17 +26,17 @@ public class Click {
     private static ArrayList<Switch8x3> switch8x3;
 
     //Construcctor
-    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor) {
+    public Click(Pane pane, ArrayList<Protoboard> protos, boolean ledClicked, boolean cableClicked, Bateria bateria, Motor motor, String ledColor) {
         Click.pane = pane;
         cables = new ArrayList<>();
         resistencias = new ArrayList<>();
         leds = new ArrayList<>();
-        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor);
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor, ledColor);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), _ -> iniciar())); // ejecuta iniciar() cada segundo
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         Click.protos = protos;
-        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria,motor);
+        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor, ledColor);
     }
 
     //Funciones get y set
@@ -53,6 +50,10 @@ public class Click {
 
     public void setLedClicked(boolean ledClicked) {
         manejarCirculos.setLedClicked(ledClicked);
+    }
+
+    public void setLedColor(String ledColor) {
+        manejarCirculos.setLedColor(ledColor);
     }
 
     public void setCableClicked(boolean cableClicked) {
@@ -106,6 +107,7 @@ public class Click {
     public conection getlinea(){
         return manejarCirculos.getLinea();
     }
+
     public ManejarCirculos get_manejarciruclo(){
         return manejarCirculos;
     }
@@ -113,7 +115,6 @@ public class Click {
     public void setEliminarProximaImagen(boolean eliminar){
         eliminarProximaImagen=eliminar;
     }
-
 
     ////////////////////////////////////////////////////////////////////////
     public void presionarCirculo(MouseEvent event) { //Metodo para cuando se preciona algun circlu(bus)
@@ -231,9 +232,7 @@ public class Click {
                     int x=0;
                     while(x<getprotos().size()){
                         protos.get(x).getChildren().remove(cables.get(i));
-                        if(protos.get(x).getChildren().contains(cables.get(i))){
-                            protos.get(x).getChildren().remove(cables.get(i));
-                        }
+                        protos.get(x).getChildren().remove(cables.get(i));
                         x++;
                     }
                     cables.remove(i);
@@ -242,7 +241,6 @@ public class Click {
             }
             i=0;
             leds=manejarCirculos.get_leds();  //bucles Leds
-            System.out.println(leds.size());
             while (i < leds.size()) {
                 if (basura.equals(leds.get(i).getImageView())) {
                     leds.get(i).getCable_rojo().getInicio().componenteCreado = false;
@@ -316,34 +314,24 @@ public class Click {
                 }
                 i++;
             }
-            if((!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3))
-                    || (basura instanceof Text || basura instanceof  Label)){
+            if(!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3)){
                 i=0;
                 while(i< protos.size()){
                     if(protos.get(i).getChildren().contains(basura)){
-
                         if(alertaeliminar()){
-
                             while (!protos.get(i).getConections().isEmpty()) {
-                                //System.out.println("entra");
-                                protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
-                                protos.get(i).getConections().get(0).getFin().componenteCreado = false;
+                                protos.get(i).getConections().getFirst().getInicio().componenteCreado = false;
+                                protos.get(i).getConections().getFirst().getFin().componenteCreado = false;
                                 pane.getChildren().remove(protos.get(i).getConections().get(0));
-                                protos.get(i).getConections().remove(0);
+                                protos.get(i).getConections().removeFirst();
                             }
                             pane.getChildren().remove(protos.get(i));
                             protos.remove(i);
-
-
                         }
-
-
                     }
                     i++;
                 }
-
             }
-
         }
     }
 
@@ -361,10 +349,8 @@ public class Click {
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.isPresent() && resultado.get() == botonSi) {
             return true;
-            // Coloca aquí el código para continuar
         } else {
             return false;
-            // Coloca aquí el código para cancelar
         }
     }
 }

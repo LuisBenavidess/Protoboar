@@ -52,19 +52,10 @@ public class ManejarCarga {
                 while (j < 30) {
                     //si se encuentra un bus con una carga este llamara a la funcion para distribuir en el sector correspondiente
                     // Horizontal o Vertical
-
                     String carga = protos.get(x).alimentacion[i][j].getCarga();
                     if (carga.equals("+") || carga.equals("-")) {
                         marcar(i, j, carga, protos.get(x));
                     }
-
-                   /* if (protos.get(x).alimentacion[i][j].getCarga().equals("+")) {
-                        marcar(i, j, "+",protos.get(x));
-                    } else {
-                        if (protos.get(x).alimentacion[i][j].getCarga().equals("-")) {
-                            marcar(i, j, "-",protos.get(x));
-                        }
-                    }*/
                     j++;
                 }
                 i++;
@@ -216,9 +207,13 @@ public class ManejarCarga {
     }
 
     // Metodo para prender el led
-    public void prenderLed(ArrayList<Led> Leds) {
+    public void prenderLed(ArrayList<Led> Leds, String ledColor) {
         int i = 0;
         while (i < Leds.size()) {
+            if (!Leds.get(i).getTerminado()){
+                Leds.get(i).setColor(ledColor);
+                Leds.get(i).setTerminado(true);
+            }
             if (Leds.get(i).getCable_rojo().getInicio().getCarga().equals("+") && Leds.get(i).getCable_azul().getFin().getCarga().equals("-")) {
                 Leds.get(i).prender();
             } else if (Leds.get(i).getCable_azul().getFin().getCarga().equals("+") || Leds.get(i).getCable_rojo().getInicio().getCarga().equals("-")) {
@@ -269,7 +264,6 @@ public class ManejarCarga {
                 resistencias.get(i).getImageView().setImage(image);
                 System.out.println("Se quemó una resistencia");
             }
-
             if (ini.equals("+") && resistencias.get(i).quemado) {
                 if (fin.equals(" ")) {
                     cable.getFin().setCarga(ini);
@@ -294,26 +288,19 @@ public class ManejarCarga {
         int i=0;
         while (i < chips.size()) {
             if(chips.get(i).terminado){
-                //System.out.println("entra");
                 protos.get(chips.get(i).pos_proto).getChildren().add(chips.get(i));
                 chips.get(i).terminado=false;
                 chips.get(i).agregado=true;
             }
             i++;
         }
-
         // Iniciar procedimiento
-
         i=0;
         while (i < chips.size()) {
             if(chips.get(i).agregado){
-                //System.out.println("cual es el chip");
                 Chip chip = chips.get(i);
-                //System.out.println(chip.getPats(0).getBus_conectado().getCarga());
                 if(chip.getPats(0).getBus_conectado().getCarga().equals("+") && chip.getPats(13).getBus_conectado().getCarga().equals("-")){
-                    //System.out.println("entra");
                     if(chip.getTipo().equals("NOT")){
-
                         chip_not(chip);
                     }else{
                         if(chip.getTipo().equals("AND")){
@@ -326,12 +313,10 @@ public class ManejarCarga {
             }
             i++;
         }
-
     }
 
     // Este metodo realiza la simple logica del chip not
     public void chip_not(Chip chip){
-
         int i=1;
         // Verifica cada pata
         while(i<chip.getPatas().size()){
@@ -346,7 +331,6 @@ public class ManejarCarga {
             }
             i=i+2;
         }
-
     }
 
     // Este metodo realiza la simple logica del chip and
@@ -356,7 +340,6 @@ public class ManejarCarga {
         while(i<chip.getPatas().size()){
             //Condicion para saber si es and quiere decir que ambas patas deben estar en positivo
             if(i!=13){
-
                 if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                     chip.getPats(i+2).getBus_conectado().setCarga("+");
                     corriente();
@@ -367,10 +350,7 @@ public class ManejarCarga {
                         corriente();
                     }
                 }
-
             }
-
-
             i=i+3;
         }
     }
@@ -378,11 +358,9 @@ public class ManejarCarga {
     //Este metodo realiza la simple logica del chip or
     public void chip_or(Chip chip){
         int i=1;
-
         while(i<chip.getPatas().size()){
             if(i!=13){
                 if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
-
                     if(chip.getPats(i).getBus_conectado().getCarga().equals("+") || chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                         chip.getPats(i+2).getBus_conectado().setCarga("+");
                     }else{
@@ -391,7 +369,6 @@ public class ManejarCarga {
                     corriente();
                 }
             }
-
             i=i+2;
         }
     }
@@ -501,23 +478,18 @@ public class ManejarCarga {
             Switch8x3 switchActual = sw.get(i);
             int j = 0;
             int j2 = 8;
-
             while (j < switchActual.getInterruptores().size()) {
                 Interruptor interruptor = switchActual.getInterruptores().get(j);
-
-                if (interruptor.getEncendido() && interruptor.getQuemado()==false ) {
+                if (interruptor.getEncendido() && !interruptor.getQuemado()) {
                     if (switchActual.agregado) {
                         bus Bus = switchActual.getPats(j).getBus_conectado();
                         bus Bus2 = switchActual.getPats(j2).getBus_conectado();
-
                         String cargaActual = Bus.getCarga();
                         String cargaActual2 = Bus2.getCarga();
-
                         if (Bus.getFill() == Color.YELLOW) {
                             j++; // se salta el bus quemado
                             continue;
                         }
-
                         if (!cargaActual.equals(" ") && cargaActual2.equals(" ")) {
                             sw.get(i).getPats(j2).getBus_conectado().setCarga(cargaActual);
                             corriente();
@@ -526,11 +498,9 @@ public class ManejarCarga {
                             corriente();
                         }
                     }
-
                 }
                 j++;
                 j2++;
-
             }
         }
     }
