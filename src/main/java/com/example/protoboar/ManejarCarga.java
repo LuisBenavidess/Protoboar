@@ -387,7 +387,7 @@ public class ManejarCarga {
         i = 0;
         while (i < sw.size()) {  // recorre todos los switches
             Switch3x3 switchActual = sw.get(i);
-            if (!switchActual.getEncendido() && switchActual.getPats(0).getBus_conectado()!=null  && switchActual.getPats(1).getBus_conectado()!=null && switchActual.getPats(2).getBus_conectado()!=null && switchActual.getPats(3).getBus_conectado()!=null) {
+            if (switchActual.getPats(0).getBus_conectado()!=null  && switchActual.getPats(1).getBus_conectado()!=null && switchActual.getPats(2).getBus_conectado()!=null && switchActual.getPats(3).getBus_conectado()!=null) {
                 String cargaPata0 = switchActual.getPats(0).getBus_conectado().getCarga();
                 String cargaPata1 = switchActual.getPats(1).getBus_conectado().getCarga();
                 String cargaPata2 = switchActual.getPats(2).getBus_conectado().getCarga();
@@ -395,21 +395,26 @@ public class ManejarCarga {
                 // Verificar si hay cargas opuestas en las patas 0 y 3
                 if ((cargaPata0.equals("+") && cargaPata1.equals("+") && cargaPata2.equals("-")) && cargaPata3.equals("-") || (cargaPata0.equals("-") && cargaPata1.equals("-") && cargaPata2.equals("+")) && cargaPata3.equals("+")) {
                     // Marcar el switch como inutilizable y quemado
-                    for (Pata pata : switchActual.getPatas()) {
-                        bus Bus = pata.getBus_conectado();
-                        Bus.setCarga("X");  // Indica que está quemado
-                        Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
-                        Bus.setVoltaje(null);  // Remueve cualquier voltaje
-                    }
+                    switchActual.setQuemado(true);
+                }
+                if (Objects.equals(switchActual.getPats(0).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(1).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(2).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(3).getBus_conectado().getCarga(), " ")) {
                     switchActual.quitarPolaridad();
-                    switchActual.quemarSwitch();
-                    continue;  // salta al siguiente sw3x3
                 }
             }
             int j = 0;
-            if (switchActual.getEncendido() && !Objects.equals(switchActual.getTipoCarga(), "X")) {
+            if (switchActual.getEncendido()) {
                 while (j < switchActual.getPatas().size()) {
-                    if (switchActual.agregado) {
+                    if (switchActual.getQuemado()) {
+                        for (Pata pata : switchActual.getPatas()) {
+                            bus Bus = pata.getBus_conectado();
+                            Bus.setCarga("X");  // Indica que está quemado
+                            Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
+                            Bus.setVoltaje(null);  // Remueve cualquier voltaje
+                        }
+                        switchActual.quitarPolaridad();
+                        switchActual.quemarSwitch();
+                    }
+                    if (switchActual.agregado && !Objects.equals(switchActual.getTipoCarga(), "X") ) {
                         bus Bus = switchActual.getPats(j).getBus_conectado();
                         String cargaActual = Bus.getCarga();
                         if (Bus.getFill() == Color.YELLOW) {

@@ -2,7 +2,6 @@ package com.example.protoboar;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +18,7 @@ public class Switch3x3 extends Group {
     public boolean terminado;
     private boolean encendido = false;
     public boolean agregado = false;
+    public boolean quemado = false;
 
     Switch3x3() {
         Patas = new ArrayList<>();
@@ -68,6 +68,14 @@ public class Switch3x3 extends Group {
         if (this.tipoCarga == null) {
             this.tipoCarga = tipoCarga;
         }
+    }
+
+    public void setQuemado(boolean quemado) {
+        this.quemado = quemado;
+    }
+
+    public boolean getQuemado() {
+        return quemado;
     }
 
     public void quitarPolaridad() {
