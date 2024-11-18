@@ -74,7 +74,7 @@
             </ImageView>
             <ImageView fx:id="resistenciaID" fitHeight="70.0" fitWidth="77.0" onMouseClicked="#crearResistencia" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../resistencia2.png" />
+                  <Image url="@../../../resistencia.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="74.0" fitWidth="91.0" onMouseClicked="#crearSwitch8x3" pickOnBounds="true" preserveRatio="true">

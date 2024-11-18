@@ -42,6 +42,7 @@ public class HelloController {
     private ArrayList<Protoboard> protos;
     @FXML
     private boolean basureroActivo = false;
+    @FXML
     private ContextMenu ledMenu;
 
     //Metodos
@@ -162,7 +163,7 @@ public class HelloController {
     // Controla la creacion de la resistencia
     private void crearResistencia() {
         if(resistClicked) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/resistencia2.png")).toExternalForm());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/resistencia.png")).toExternalForm());
             resistenciaID.setImage(image); // Imagen del resistencia en estado activo
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setResistencias(false);
@@ -245,7 +246,7 @@ public class HelloController {
         }
         clickHandler.setResistencias(false);
         resistClicked = false;
-        image = new Image("/resistencia2.png"); // Imagen de la resistencia en estado inactivo
+        image = new Image("/resistencia.png"); // Imagen de la resistencia en estado inactivo
         resistenciaID.setImage(image);
         clickHandler.setLedClicked(false);
         ledClicked = false;

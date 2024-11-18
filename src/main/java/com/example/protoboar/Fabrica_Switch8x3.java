@@ -123,6 +123,16 @@ public class Fabrica_Switch8x3 {
         }
 
         if (bandera) {
+            x=0;
+            while(x<8){
+                bus bus1 = sw.getPats(x).getBus_conectado();
+                sw.getInterruptores().get(x).setBus1(bus1);
+
+                bus bus2 = sw.getPats(x+8).getBus_conectado();
+                sw.getInterruptores().get(x).setBus2(bus2);
+                x++;
+            }
+
             // Ubica cada pata en su posición en el bus correspondiente
             x = 0;
             while (x < sw.getPatas().size()) {
@@ -241,17 +251,27 @@ public class Fabrica_Switch8x3 {
         Image image;
         Interruptor interruptor = (Interruptor) event.getSource();
         // Verificación de que los buses no sean nulos
-        if (!interruptor.getEncendido()) {
-            image = new Image("/Interruptor1.png");
-            interruptor.setEncendido(true);
+        if(!interruptor.getQuemado()){
+            if (!interruptor.getEncendido()) {
+                image = new Image("/Interruptor1.png");
+                interruptor.setEncendido(true);
 
+                String bus1 = interruptor.getBus1().carga;
+                String bus2 = interruptor.getBus2().carga;
+                if(bus1.equals("-") && bus2.equals("+") || bus1.equals("+") && bus2.equals("-")){
+                    System.out.println("se quemó un interruptor");
+                    image = new Image("/Interruptor1Quemado.png");
+                    interruptor.setQuemado(true);
+                }
+            } else {
+                image = new Image("/Interruptor2.png");
+                interruptor.setEncendido(false);
 
-        } else {
-            image = new Image("/Interruptor2.png");
-            interruptor.setEncendido(false);
-
+            }
+            interruptor.setImage(image);
         }
-        interruptor.setImage(image);
+
+
         interruptor.toFront();
         Click.iniciar();
     }

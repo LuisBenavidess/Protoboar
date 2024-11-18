@@ -228,57 +228,61 @@ public class ManejarCarga {
     // Metodo para verificar los switches
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
-        while (i < resistencias.size() && !resistencias.get(i).quemado) {
-            conection cable = resistencias.get(i).getCable();
-            String ini = cable.getInicio().getCarga();
-            String fin = cable.getFin().getCarga();
-            if (fin.equals("+")){
-                resistencias.get(i).quemado = true;
+        while (i < resistencias.size()) {
 
-                String imagen = resistencias.get(i).getImagen();
-                Image image;
-                if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                    System.out.println("entra1");
-                    image = new Image("resistenciaQuemada1.png");
-                }else{
-                    System.out.println("entra2");
-                    image = new Image("resistenciaQuemada2.png");
-                }
+            if(!resistencias.get(i).quemado){
+                conection cable = resistencias.get(i).getCable();
+                String ini = cable.getInicio().getCarga();
+                String fin = cable.getFin().getCarga();
+                if (fin.equals("+")){
+                    resistencias.get(i).quemado = true;
 
-                resistencias.get(i).getImageView().setImage(image);
-                System.out.println("Se quemó una resistencia");
-            }
-            if (ini.equals("-")){
-                resistencias.get(i).quemado = true;
-
-                String imagen = resistencias.get(i).getImagen();
-                Image image;
-                if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                    System.out.println("entra3");
-                    image = new Image("resistenciaQuemada1.png");
-                }else{
-                    System.out.println("entra4");
-                    image = new Image("resistenciaQuemada2.png");
-                }
-
-                resistencias.get(i).getImageView().setImage(image);
-                System.out.println("Se quemó una resistencia");
-            }
-            if (ini.equals("+") && resistencias.get(i).quemado) {
-                if (fin.equals(" ")) {
-                    cable.getFin().setCarga(ini);
-                    corriente();
-                }
-            } else {
-                if (fin.equals("-") && resistencias.get(i).quemado) {
-
-                    if (ini.equals(" ")) {
-                        cable.getInicio().setCarga(fin);
-                        corriente();
+                    String imagen = resistencias.get(i).getImagen();
+                    Image image;
+                    if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
+                        System.out.println("entra1");
+                        image = new Image("resistenciaQuemada1.png");
+                    }else{
+                        System.out.println("entra2");
+                        image = new Image("resistenciaQuemada2.png");
                     }
 
+                    resistencias.get(i).getImageView().setImage(image);
+                    System.out.println("Se quemó una resistencia");
+                }
+                if (ini.equals("-")){
+                    resistencias.get(i).quemado = true;
+
+                    String imagen = resistencias.get(i).getImagen();
+                    Image image;
+                    if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
+                        System.out.println("entra3");
+                        image = new Image("resistenciaQuemada1.png");
+                    }else{
+                        System.out.println("entra4");
+                        image = new Image("resistenciaQuemada2.png");
+                    }
+
+                    resistencias.get(i).getImageView().setImage(image);
+                    System.out.println("Se quemó una resistencia");
+                }
+                if (ini.equals("+") && resistencias.get(i).quemado) {
+                    if (fin.equals(" ")) {
+                        cable.getFin().setCarga(ini);
+                        corriente();
+                    }
+                } else {
+                    if (fin.equals("-") && resistencias.get(i).quemado) {
+
+                        if (ini.equals(" ")) {
+                            cable.getInicio().setCarga(fin);
+                            corriente();
+                        }
+
+                    }
                 }
             }
+
             i++;
         }
     }
@@ -485,12 +489,20 @@ public class ManejarCarga {
             int j2 = 8;
             while (j < switchActual.getInterruptores().size()) {
                 Interruptor interruptor = switchActual.getInterruptores().get(j);
+                bus Bus = switchActual.getPats(j).getBus_conectado();
+                bus Bus2 = switchActual.getPats(j2).getBus_conectado();
+
+                if (Bus == null || Bus2 == null) {
+                    j++;
+                    j2++;
+                    continue;
+                }
+                String cargaActual = Bus.getCarga();
+                String cargaActual2 = Bus2.getCarga();
+
                 if (interruptor.getEncendido() && !interruptor.getQuemado()) {
                     if (switchActual.agregado) {
-                        bus Bus = switchActual.getPats(j).getBus_conectado();
-                        bus Bus2 = switchActual.getPats(j2).getBus_conectado();
-                        String cargaActual = Bus.getCarga();
-                        String cargaActual2 = Bus2.getCarga();
+
                         if (Bus.getFill() == Color.YELLOW) {
                             j++; // se salta el bus quemado
                             continue;
