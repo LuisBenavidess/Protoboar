@@ -82,6 +82,11 @@
                   <Image url="@Switch8x3.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="89.0" fitWidth="54.0" onMouseClicked="#crear_display" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Display.png" />
+               </image>
+            </ImageView>
          </HBox>
       </VBox>
    </top>

@@ -216,6 +216,12 @@ public class HelloController {
     }
 
     @FXML
+    private void crear_display(){
+        desactivarOpciones();
+        clickHandler.creardisplay();
+    }
+
+    @FXML
     private void crearSwitch3x3() {
         desactivarOpciones();
         clickHandler.CrearSwitch3x3();
