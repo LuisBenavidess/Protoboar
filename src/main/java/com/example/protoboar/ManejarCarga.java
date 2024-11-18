@@ -134,7 +134,6 @@ public class ManejarCarga {
     // Metodo que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
-        System.out.println(cables.size());
         while (i < cables.size()) { // Viaja a través del ArrayList
             conection lin = cables.get(i);
             lin.toFront();
