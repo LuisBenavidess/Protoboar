@@ -341,6 +341,21 @@ public class Click {
                 }
                 i++;
             }
+            i=0;
+            while(i< displays.size()){
+                if(basura.equals(displays.get(i))){
+                    for (Pata pata : displays.get(i).getPatas()) {  // Actualiza buses conectados al chip eliminado
+                        if (pata.getBus_conectado() != null) {
+                            pata.getBus_conectado().componenteCreado = false; // Actualiza el bus
+                        }
+                    }
+                    for (Protoboard proto : getprotos()) {
+                        proto.getChildren().remove(displays.get(i));   // Remover el chip de los protoboards
+                    }
+                    displays.remove(i);
+                }
+                i++;
+            }
             if((!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3))
                     || (basura instanceof Text || basura instanceof  Label)){
                 i=0;
@@ -354,6 +369,32 @@ public class Click {
                                 protos.get(i).getConections().get(0).getInicio().componenteCreado = false;
                                 protos.get(i).getConections().get(0).getFin().componenteCreado = false;
                                 pane.getChildren().remove(protos.get(i).getConections().get(0));
+                               int j=0;
+                                while(j<protos.size()){
+                                    if(j!=i){
+                                        if(protos.get(j).getConections().contains(protos.get(i).getConections().get(j))){
+                                            int x=0;
+                                            while(x<protos.get(j).getConections().size()){
+                                                if(protos.get(j).getConections().get(x).equals(protos.get(i).getConections().get(j))){
+                                                    System.out.println("entraaaaaa");
+                                                    cables.remove(j);
+                                                }
+
+                                                x++;
+                                            }
+                                        }
+                                    }
+
+                                    j++;
+                                }
+                                j=0;
+                                while(i<cables.size()){
+                                    if(protos.get(i).getConections().get(0).equals(cables.get(j))){
+                                        cables.remove(j);
+                                    }
+                                    j++;
+                                }
+
                                 protos.get(i).getConections().remove(0);
                             }
                             pane.getChildren().remove(protos.get(i));
