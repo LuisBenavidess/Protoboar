@@ -134,6 +134,7 @@ public class ManejarCarga {
     // Metodo que verifica el ArrayList de los cables
     public void verificarCables(ArrayList<conection> cables) {
         int i = 0;
+        System.out.println(cables.size());
         while (i < cables.size()) { // Viaja a través del ArrayList
             conection lin = cables.get(i);
             lin.toFront();
@@ -314,6 +315,55 @@ public class ManejarCarga {
             i++;
         }
     }
+    public void verificar_display(ArrayList<Display> displays){
+        //Agregar al protoboard
+        int i=0;
+        while (i < displays.size()) {
+            if(displays.get(i).terminado){
+                //System.out.println("entra");
+                protos.get(displays.get(i).pos_proto).getChildren().add(displays.get(i));
+                displays.get(i).terminado=false;
+                displays.get(i).agregado=true;
+            }
+            i++;
+        }
+
+        i=0;
+        while(i<displays.size()){
+            if(displays.get(i).agregado){
+                Display disp = displays.get(i);
+                if(disp.getPats(2).getBus_conectado().getCarga().equals("-") || disp.getPats(7).getBus_conectado().getCarga().equals("-")){
+                    if(disp.getPats(0).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(3).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(1).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(1).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(3).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(0).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(4).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(2).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(5).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(4).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(6).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(6).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(8).getBus_conectado().getCarga().equals("+")){
+                        disp.getLeds(5).setFill(Color.WHITE);
+                    }
+                    if(disp.getPats(9).getBus_conectado().getCarga().equals("+")){
+                        disp.getPunto().setFill(Color.WHITE);
+                    }
+
+                }
+
+            }
+            i++;
+        }
+    }
 
     // Este metodo realiza la simple logica del chip not
     public void chip_not(Chip chip){
@@ -344,11 +394,22 @@ public class ManejarCarga {
                     chip.getPats(i+2).getBus_conectado().setCarga("+");
                     corriente();
                 }else{
-                    if((!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")) &&
+
+                    if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
+
+                        if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
+                            chip.getPats(i+2).getBus_conectado().setCarga("+");
+                        }else{
+                            chip.getPats(i+2).getBus_conectado().setCarga("-");
+                        }
+                        corriente();
+                    }
+
+                    /*if((!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")) &&
                             (chip.getPats(i).getBus_conectado().getCarga().equals("-") || chip.getPats(i+1).getBus_conectado().getCarga().equals("-"))){
                         chip.getPats(i+2).getBus_conectado().setCarga("-");
                         corriente();
-                    }
+                    }*/
                 }
             }
             i=i+3;
