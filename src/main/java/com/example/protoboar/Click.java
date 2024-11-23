@@ -265,6 +265,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             leds=manejarCirculos.get_leds();  //bucles Leds
             while (i < leds.size()) {
@@ -280,6 +281,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             resistencias=manejarCirculos.getResistencias();    //bucle resistencias
             while (i < resistencias.size()) {
@@ -292,6 +294,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             chips=manejarCirculos.getChips();  //bucle chips
             while (i < chips.size()) {
@@ -308,6 +311,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             switch3x3=manejarCirculos.getswitches3x3();
             while(i < switch3x3.size()){  //bucle Switch3x3
@@ -324,6 +328,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             switch8x3=manejarCirculos.getswitches8x3();
             while(i < switch8x3.size()){  //bucle Switch8x3
@@ -340,6 +345,7 @@ public class Click {
                 }
                 i++;
             }
+
             i=0;
             while(i< displays.size()){
                 if(basura.equals(displays.get(i))){
@@ -355,14 +361,18 @@ public class Click {
                 }
                 i++;
             }
+
+
             if(!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3)){
                 i=0;
                 while(i< protos.size()){
                     if(protos.get(i).getChildren().contains(basura)){
                         if(alertaeliminar()){
+
                             while (!protos.get(i).getConections().isEmpty()) {
                                 protos.get(i).getConections().getFirst().getInicio().componenteCreado = false;
                                 protos.get(i).getConections().getFirst().getFin().componenteCreado = false;
+                                elim(protos.get(i).getConections().getFirst());
                                 pane.getChildren().remove(protos.get(i).getConections().get(0));
                                 protos.get(i).getConections().removeFirst();
                             }
@@ -371,11 +381,20 @@ public class Click {
                         }
                     }
                     i++;
+
                 }
             }
         }
     }
-
+    private static void elim(conection cable){
+        int i=0;
+        while(i< cables.size()){
+            if(cable==cables.get(i)){
+                cables.remove(i);
+            }
+            i++;
+        }
+    }
     private static boolean alertaeliminar(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
