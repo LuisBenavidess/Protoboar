@@ -476,10 +476,16 @@ public class ManejarCirculos {
             int j=0;
             Display disp=displays.get(i);
             while(j<disp.getLeds().size()){
-                disp.getLeds(j).setFill(Color.GRAY);
+                if(!(disp.getLeds(j).getFill().equals(Color.YELLOW))){
+                    disp.getLeds(j).setFill(Color.GRAY);
+                }
+
                 j++;
             }
-            disp.getPunto().setFill(Color.GRAY);
+            if(!(disp.getPunto().getFill().equals(Color.YELLOW))){
+                disp.getPunto().setFill(Color.GRAY);
+            }
+
             i++;
         }
     }

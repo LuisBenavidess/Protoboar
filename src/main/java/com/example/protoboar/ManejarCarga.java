@@ -318,6 +318,7 @@ public class ManejarCarga {
             i++;
         }
     }
+
     public void verificar_display(ArrayList<Display> displays){
         //Agregar al protoboard
         int i=0;
@@ -336,29 +337,61 @@ public class ManejarCarga {
             if(displays.get(i).agregado){
                 Display disp = displays.get(i);
                 if(disp.getPats(2).getBus_conectado().getCarga().equals("-") || disp.getPats(7).getBus_conectado().getCarga().equals("-")){
-                    if(disp.getPats(0).getBus_conectado().getCarga().equals("+")){
+
+                    if(disp.getPats(0).getBus_conectado().getCarga().equals("+") && disp.getLeds(3).getFill().equals(Color.GRAY)){
                         disp.getLeds(3).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(1).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(0).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(3).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(1).getBus_conectado().getCarga().equals("+") && disp.getLeds(1).getFill().equals(Color.GRAY)){
                         disp.getLeds(1).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(3).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(1).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(1).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(3).getBus_conectado().getCarga().equals("+") && disp.getLeds(0).getFill().equals(Color.GRAY)){
                         disp.getLeds(0).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(4).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(3).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(0).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(4).getBus_conectado().getCarga().equals("+") && disp.getLeds(2).getFill().equals(Color.GRAY)){
                         disp.getLeds(2).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(5).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(4).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(2).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(5).getBus_conectado().getCarga().equals("+") && disp.getLeds(4).getFill().equals(Color.GRAY)){
                         disp.getLeds(4).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(6).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(5).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(4).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(6).getBus_conectado().getCarga().equals("+") && disp.getLeds(6).getFill().equals(Color.GRAY)){
                         disp.getLeds(6).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(8).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(6).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(6).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(8).getBus_conectado().getCarga().equals("+") && disp.getLeds(5).getFill().equals(Color.GRAY)){
                         disp.getLeds(5).setFill(Color.WHITE);
                     }
-                    if(disp.getPats(9).getBus_conectado().getCarga().equals("+")){
+                    else if(disp.getPats(8).getBus_conectado().getCarga().equals("-")){
+                        disp.getLeds(5).setFill(Color.YELLOW);
+                    }
+
+                    if(disp.getPats(9).getBus_conectado().getCarga().equals("+") && disp.getPunto().getFill().equals(Color.GRAY)){
                         disp.getPunto().setFill(Color.WHITE);
+                    }
+                    else if(disp.getPats(9).getBus_conectado().getCarga().equals("-")){
+                        disp.getPunto().setFill(Color.YELLOW);
                     }
 
                 }
