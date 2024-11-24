@@ -577,41 +577,44 @@ public class ManejarCarga {
         }
         //Verifica los interruptores y actualiza cargas
         for(i = 0; i < sw.size(); i++) {
-            Switch8x3 switchActual = sw.get(i);
-            int j = 0;
-            int j2 = 8;
-            while (j < switchActual.getInterruptores().size()) {
-                Interruptor interruptor = switchActual.getInterruptores().get(j);
-                bus Bus = switchActual.getPats(j).getBus_conectado();
-                bus Bus2 = switchActual.getPats(j2).getBus_conectado();
+            if(sw.get(i).agregado){
+                Switch8x3 switchActual = sw.get(i);
+                int j = 0;
+                int j2 = 8;
+                while (j < switchActual.getInterruptores().size()) {
+                    Interruptor interruptor = switchActual.getInterruptores().get(j);
+                    bus Bus = switchActual.getPats(j).getBus_conectado();
+                    bus Bus2 = switchActual.getPats(j2).getBus_conectado();
 
-                if (Bus == null || Bus2 == null) {
-                    j++;
-                    j2++;
-                    continue;
-                }
-                String cargaActual = Bus.getCarga();
-                String cargaActual2 = Bus2.getCarga();
+                    if (Bus == null || Bus2 == null) {
+                        j++;
+                        j2++;
+                        continue;
+                    }
+                    String cargaActual = Bus.getCarga();
+                    String cargaActual2 = Bus2.getCarga();
 
-                if (interruptor.getEncendido() && !interruptor.getQuemado()) {
-                    if (switchActual.agregado) {
+                    if (interruptor.getEncendido() && !interruptor.getQuemado()) {
+                        if (switchActual.agregado) {
 
-                        if (Bus.getFill() == Color.YELLOW) {
-                            j++; // se salta el bus quemado
-                            continue;
-                        }
-                        if (!cargaActual.equals(" ") && cargaActual2.equals(" ")) {
-                            sw.get(i).getPats(j2).getBus_conectado().setCarga(cargaActual);
-                            corriente();
-                        } else if (!cargaActual2.equals(" ") && cargaActual.equals(" ")) {
-                            sw.get(i).getPats(j).getBus_conectado().setCarga(cargaActual2);
-                            corriente();
+                            if (Bus.getFill() == Color.YELLOW) {
+                                j++; // se salta el bus quemado
+                                continue;
+                            }
+                            if (!cargaActual.equals(" ") && cargaActual2.equals(" ")) {
+                                sw.get(i).getPats(j2).getBus_conectado().setCarga(cargaActual);
+                                corriente();
+                            } else if (!cargaActual2.equals(" ") && cargaActual.equals(" ")) {
+                                sw.get(i).getPats(j).getBus_conectado().setCarga(cargaActual2);
+                                corriente();
+                            }
                         }
                     }
+                    j++;
+                    j2++;
                 }
-                j++;
-                j2++;
             }
+
         }
     }
 

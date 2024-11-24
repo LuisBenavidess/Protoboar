@@ -250,19 +250,23 @@ public class Fabrica_Switch8x3 {
     public void cambiarCarga(MouseEvent event) {
         Image image;
         Interruptor interruptor = (Interruptor) event.getSource();
+
         // Verificación de que los buses no sean nulos
         if(!interruptor.getQuemado()){
             if (!interruptor.getEncendido()) {
                 image = new Image("/Interruptor1.png");
                 interruptor.setEncendido(true);
-
-                String bus1 = interruptor.getBus1().carga;
-                String bus2 = interruptor.getBus2().carga;
-                if(bus1.equals("-") && bus2.equals("+") || bus1.equals("+") && bus2.equals("-")){
-                    System.out.println("se quemó un interruptor");
-                    image = new Image("/Interruptor1Quemado.png");
-                    interruptor.setQuemado(true);
+                if(interruptor.getBus1()!= null && interruptor.getBus2()!= null){
+                    String bus1 = interruptor.getBus1().carga;
+                    String bus2 = interruptor.getBus2().carga;
+                    if(bus1.equals("-") && bus2.equals("+") || bus1.equals("+") && bus2.equals("-")){
+                        System.out.println("se quemó un interruptor");
+                        image = new Image("/Interruptor1Quemado.png");
+                        interruptor.setQuemado(true);
+                    }
                 }
+
+
             } else {
                 image = new Image("/Interruptor2.png");
                 interruptor.setEncendido(false);
