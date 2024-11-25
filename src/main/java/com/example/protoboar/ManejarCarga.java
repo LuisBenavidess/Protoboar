@@ -209,17 +209,20 @@ public class ManejarCarga {
     public void prenderLed(ArrayList<Led> Leds, String ledColor) {
         int i = 0;
         while (i < Leds.size()) {
-            if (!Leds.get(i).getTerminado()){
-                Leds.get(i).setColor(ledColor);
-                Leds.get(i).setTerminado(true);
+            if(!Leds.get(i).getCable_rojo().getInicio().getCarga().equals(" ") && !Leds.get(i).getCable_azul().getInicio().getCarga().equals(" ")){
+                if (!Leds.get(i).getTerminado()){
+                    Leds.get(i).setColor(ledColor);
+                    Leds.get(i).setTerminado(true);
+                }
+                if (Leds.get(i).getCable_rojo().getInicio().getCarga().equals("+") && Leds.get(i).getCable_azul().getFin().getCarga().equals("-")) {
+                    Leds.get(i).prender();
+                } else if (Leds.get(i).getCable_azul().getFin().getCarga().equals("+") || Leds.get(i).getCable_rojo().getInicio().getCarga().equals("-")) {
+                    Leds.get(i).setQuemado(true);
+                } else {
+                    Leds.get(i).apagar();
+                }
             }
-            if (Leds.get(i).getCable_rojo().getInicio().getCarga().equals("+") && Leds.get(i).getCable_azul().getFin().getCarga().equals("-")) {
-                Leds.get(i).prender();
-            } else if (Leds.get(i).getCable_azul().getFin().getCarga().equals("+") || Leds.get(i).getCable_rojo().getInicio().getCarga().equals("-")) {
-                Leds.get(i).setQuemado(true);
-            } else {
-                Leds.get(i).apagar();
-            }
+
             i++;
         }
     }
