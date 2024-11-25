@@ -286,6 +286,8 @@ public class Click {
             resistencias=manejarCirculos.getResistencias();    //bucle resistencias
             while (i < resistencias.size()) {
                 if (basura.equals(resistencias.get(i).getImageView())) {
+                    resistencias.get(i).getCable().getInicio().componenteCreado = false;
+                    resistencias.get(i).getCable().getFin().componenteCreado = false;
                     for (Protoboard proto : getprotos()) {  // Remover resistencias  de los protoboards
                         proto.getChildren().remove(resistencias.get(i).getImageView());
                         proto.getChildren().remove(resistencias.get(i).getCable());

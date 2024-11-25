@@ -141,8 +141,15 @@ public class Fabrica_display {
 
     // el evento terminar se activa cuando se suelta el obejto y realiza unas verificaciones para saber si esta dentro de los buses
     private void terminar(MouseEvent event){
-        detectar(event);
         Display display = (Display) event.getSource();
+        int con=0;
+        while(con<display.getPatas().size()){
+            display.getPats(con).setPata(0);
+            con++;
+        }
+
+        detectar(event);
+
         int x=0;
         boolean bandera=true;
         while(x<display.getPatas().size() && bandera){
@@ -206,7 +213,10 @@ public class Fabrica_display {
                         // si los buses son los que estan el los surcos se realizara la verificacion de las patas, ya que el chip solo se puede colocar en los surcos
                         if(4==bus.fila || 5==bus.fila||6==bus.fila || 7==bus.fila || 8==bus.fila || 9==bus.fila){
                             //pasa 50 verifica si se encuentra ensima del bus y entraga un booleano si es verdad o no
-                            bandera= pasa_50(bus,display.getPats(i));
+                            if(bus.puedeCrearComponente()){
+                                bandera= pasa_50(bus,display.getPats(i));
+                            }
+
 
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos

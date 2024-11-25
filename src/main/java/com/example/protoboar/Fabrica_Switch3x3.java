@@ -85,8 +85,15 @@ public class Fabrica_Switch3x3 {
 
     //Metodo que poisiciona el switch
     public void terminar(MouseEvent event){
-        detectar(event);
         Switch3x3 sw = (Switch3x3) event.getSource();
+        int con=0;
+        while(con<sw.getPatas().size()){
+            sw.getPats(con).setPata(0);
+            con++;
+        }
+
+        detectar(event);
+
         int x=0;
         boolean bandera=true;
         while(x<sw.getPatas().size() && bandera){
@@ -141,7 +148,10 @@ public class Fabrica_Switch3x3 {
                     boolean SwitchEncimaDelBus = false;
                     while(i<sw.getPatas().size()){
                         Pata pata = sw.getPats(i);
-                        boolean bandera= pasa_50(bus,sw.getPats(i));
+                        boolean bandera= false;
+                        if(bus.puedeCrearComponente()){
+                            bandera= pasa_50(bus,sw.getPats(i));
+                        }
                         //System.out.println(bandera);
                         if (bandera) {
                             bus.setFill(Color.RED);

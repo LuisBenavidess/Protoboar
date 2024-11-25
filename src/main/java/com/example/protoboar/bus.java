@@ -57,7 +57,7 @@ public class bus extends Circle {
 
     // Metodo para comprobar si se puede crear un componente
     public boolean puedeCrearComponente() {
-        return !componenteCreado;
+        return !(componenteCreado);
     }
 
     // Metodo para actualizar la visualización del voltaje

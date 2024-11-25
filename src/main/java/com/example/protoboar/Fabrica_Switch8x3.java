@@ -109,8 +109,14 @@ public class Fabrica_Switch8x3 {
 
     // el evento terminar se activa cuando se suelta el obejto y realiza unas verificaciones para saber si esta dentro de los buses
     public void terminar(MouseEvent event){
-        detectar(event);
+        int i=0;
         Switch8x3 sw = (Switch8x3) event.getSource();
+        while(i<sw.getPatas().size()){
+            sw.getPats(i).setPata(0);
+            i++;
+        }
+        detectar(event);
+
         int x = 0;
         boolean bandera = true;
 
@@ -168,7 +174,7 @@ public class Fabrica_Switch8x3 {
 
             ArrayList<Interruptor> interruptores = sw.getInterruptores();
             ArrayList<Pata> patas = sw.getPatas();
-            for (int i = 0; i < interruptores.size(); i++) {
+            for ( i = 0; i < interruptores.size(); i++) {
                 Interruptor interruptor = interruptores.get(i);
 
                 // Calculamos la posición en la escena para obtener las coordenadas globales de la pata
@@ -202,10 +208,17 @@ public class Fabrica_Switch8x3 {
                         // si los buses son los que estan el los surcos se realizara la verificacion de las patas, ya que el chip solo se puede colocar en los surcos
                         if(6==bus.fila || 7==bus.fila || 1==bus.fila || 2==bus.fila || 11==bus.fila || 12==bus.fila){
                             //pasa 50 verifica si se encuentra ensima del bus y entraga un booleano si es verdad o no
-                            bandera= pasa_50(bus,sw.getPats(i));
+                            if(bus.puedeCrearComponente()){
+
+                                bandera= pasa_50(bus,sw.getPats(i));
+                            }
+
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos
                         if (bandera) {
+                            System.out.println(i);
+                            //System.out.println("entra "+i);
+                            //System.out.println(bus.puedeCrearComponente());
                             bus.setFill(Color.RED);
                             sw.getPats(i).setPata(1); // Marcamos que la pata está conectada
                             sw.getPats(i).setBus_conectado(bus); // Asignamos el bus a la pata
@@ -219,12 +232,14 @@ public class Fabrica_Switch8x3 {
                     if (chipEncimaDelBus) {
                         bus.crearComponente(); // Cambiamos a true
                     } else {
+                        //System.out.println("entra ");
                         bus.componenteCreado = false; // Cambiamos a false si no hay patas encima
                     }
                 }
             }
             x++;
         }
+        System.out.println("termino");
     }
 
     public boolean pasa_50(bus bus, Pata pata){
