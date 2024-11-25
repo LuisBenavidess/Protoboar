@@ -1,6 +1,5 @@
 package com.example.protoboar;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -430,9 +429,7 @@ public class ManejarCarga {
                     chip.getPats(i+2).getBus_conectado().setCarga("+");
                     corriente();
                 }else{
-
                     if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
-
                         if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                             chip.getPats(i+2).getBus_conectado().setCarga("+");
                         }else{
@@ -440,12 +437,6 @@ public class ManejarCarga {
                         }
                         corriente();
                     }
-
-                    /*if((!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")) &&
-                            (chip.getPats(i).getBus_conectado().getCarga().equals("-") || chip.getPats(i+1).getBus_conectado().getCarga().equals("-"))){
-                        chip.getPats(i+2).getBus_conectado().setCarga("-");
-                        corriente();
-                    }*/
                 }
             }
             i=i+3;
@@ -593,7 +584,7 @@ public class ManejarCarga {
                 String cargaActual = Bus.getCarga();
                 String cargaActual2 = Bus2.getCarga();
 
-                if (interruptor.getEncendido() && !interruptor.getQuemado()) {
+                if (interruptor.getEncendido() && interruptor.getQuemado()) {
                     if (switchActual.agregado) {
 
                         if (Bus.getFill() == Color.YELLOW) {

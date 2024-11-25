@@ -5,7 +5,6 @@ import java.util.Objects;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class Switch3x3 extends Group {
     private final ArrayList<Pata> Patas;
@@ -83,7 +82,7 @@ public class Switch3x3 extends Group {
     }
 
     // Metodo que recibe el evento de apretar el switch y cambia la carga y la imagen
-    public void cambiarCarga(MouseEvent event) {
+    public void cambiarCarga() {
         if (!Objects.equals(tipoCarga, "X")) {
             Image image;
             if (!encendido) {

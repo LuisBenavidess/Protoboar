@@ -1,24 +1,16 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 // Clase que se encargara de generar los protoboards
 public class Fabrica_Proto {
-
-    //Constructor
-    public Fabrica_Proto(){
-    }
 
     //Metodo que genera un grupo y lo devuelve, que seria el protoboard
     public Protoboard protoboard(){
@@ -26,8 +18,6 @@ public class Fabrica_Proto {
         proto=decoracion(proto);
         proto.setOnMousePressed(this::iniciar_Arrastre);
         proto.setOnMouseDragged(this::arrastrar);
-        //proto.setOnMouseClicked(Click::eliminarElemento);
-        // proto.setOnMouseReleased(this::terminar);
         // Generar los circulos
         return proto;
     }
@@ -35,21 +25,17 @@ public class Fabrica_Proto {
     // Metodo que generar de decoracion, base, numeros, letras, simbolos etc
     public Protoboard decoracion(Protoboard proto){
         //Decoracion
-
         Rectangle base = new Rectangle(5,26,582,413/*435*/);
         base.setOnMouseClicked(Click::eliminarElemento);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal
         base.setArcHeight(15); // Curvatura vertical
-        proto.setBase(base);
-
 
         Text menos_superior = new Text("-");
         menos_superior.setOnMouseClicked(Click::eliminarElemento);
         menos_superior.setLayoutX(12);
         menos_superior.setLayoutY(45);
         menos_superior.setRotate(-90);
-
 
         Rectangle negativo_superior = new Rectangle(25,36,544,6);
         negativo_superior.setOnMouseClicked(Click::eliminarElemento);
@@ -92,20 +78,19 @@ public class Fabrica_Proto {
         positivo_inferior.setArcWidth(5);  // Curvatura horizontal
         positivo_inferior.setArcHeight(5); // Curvatura vertical
         positivo_inferior.setOnMouseClicked(Click::eliminarElemento);
-
         proto.getChildren().add(base);
 
         //Genera numeros
-        numeros(33, 352/*376*/,proto);
-        numeros(33, 95,proto);
+        numeros(352,proto);
+        numeros(95,proto);
 
         //Generar letras
-        letras(9,348,proto);
+        letras(proto);
 
         //Generar buses
         crear_buses(proto.x, proto.y, 2,proto);
         crear_buses(proto.x, proto.y+70, 5,proto);
-        crear_buses(proto.x, proto.y+200/*224*/, 5,proto);
+        crear_buses(proto.x, proto.y+200, 5,proto);
         crear_buses(proto.x, proto.y+337, 2,proto);
 
         proto.getChildren().add(menos_superior);
@@ -120,8 +105,9 @@ public class Fabrica_Proto {
     }
 
     //Funcion que crea los numeros
-    private void numeros(int X, int Y, Protoboard proto) {
+    private void numeros(int Y, Protoboard proto) {
         int i = 0;
+        int X= 33;
         //A travez de rangos definidos se generan los numeros;
         while (i < 30) {
             Label label = new Label(String.valueOf(i + 1));
@@ -136,16 +122,16 @@ public class Fabrica_Proto {
     }
 
     //Funcion que crea letra
-    private void letras(int X, int Y, Protoboard proto) {
+    private void letras(Protoboard proto) {
         int num=65;
-        int alto=Y;
+        int alto=348;
         int i=0;
         while (i < 10) {
             Character letra=(char) num;
             String nuevaLetra=String.valueOf(letra);
             Text text = new Text(nuevaLetra);
             text.setOnMouseClicked(Click::eliminarElemento);
-            text.setLayoutX(X);
+            text.setLayoutX(9);
             text.setLayoutY(alto);
             text.setRotate(-90);
             if(alto==260){
@@ -167,8 +153,6 @@ public class Fabrica_Proto {
         int col = 0;
         int fil = 0;
         double x = X;
-        double y = Y;
-
         int mas_x=0;
         int mas_y=0;
         //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
@@ -177,7 +161,7 @@ public class Fabrica_Proto {
                 //circulo
                 bus circulo = new bus();
                 circulo.setCenterX(x+mas_x);
-                circulo.setCenterY(y+mas_y);
+                circulo.setCenterY(Y +mas_y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
@@ -237,8 +221,6 @@ public class Fabrica_Proto {
                     // si es un bus es diferente porque tambien se mueven los cables ya que estos cambiaron y no se encuentran dentro del grupo protoboard
                     circle.setCenterX(circle.getCenterX() + deltaX);
                     circle.setCenterY(circle.getCenterY() + deltaY);
-                    circle.getVoltajeDisplay().setX(circle.getCenterX()-7);
-                    circle.getVoltajeDisplay().setY(circle.getCenterY()+17);
                     int i=0;
                     while(i<proto.getConections().size()){
                         if(proto.getConections().get(i).getFin()==circle){
@@ -271,23 +253,6 @@ public class Fabrica_Proto {
                 if(node instanceof ImageView image){
                     image.setLayoutX(image.getLayoutX() + deltaX);
                     image.setLayoutY(image.getLayoutY() + deltaY);
-
-                }
-                if(node instanceof Chip chip){
-                    chip.setLayoutX(chip.getLayoutX() + deltaX);
-                    chip.setLayoutY(chip.getLayoutY() + deltaY);
-                }
-                if(node instanceof Switch3x3 switch3x3){
-                    switch3x3.setLayoutX(switch3x3.getLayoutX() + deltaX);
-                    switch3x3.setLayoutY(switch3x3.getLayoutY() + deltaY);
-                }
-                if(node instanceof Switch8x3 switch8x3){
-                    switch8x3.setLayoutX(switch8x3.getLayoutX() + deltaX);
-                    switch8x3.setLayoutY(switch8x3.getLayoutY() + deltaY);
-                }
-                if(node instanceof Display display){
-                    display.setLayoutX(display.getLayoutX() + deltaX);
-                    display.setLayoutY(display.getLayoutY() + deltaY);
                 }
                 if(node instanceof conection cable){
                     cable.setLayoutX(cable.getLayoutX() + deltaX);
@@ -296,7 +261,6 @@ public class Fabrica_Proto {
             }
             int i=0;
             while(i<proto.getConections().size()){
-                proto.getConections().get(i).setMovimiento(false);
                 i++;
             }
             // Actualizar la posición inicial

@@ -7,12 +7,12 @@ import javafx.scene.shape.Rectangle;
 //Clase chip
 public class Chip extends Group {
     //Atributos utilizados (objetos vinculados al chip, coordenadas, etc.)
-    private String tipo;
+    private final String tipo;
     public double initX;
     public double initY;
     private Rectangle base;
     private ArrayList<Protoboard> protos;
-    private ArrayList<Pata> patas;
+    private final ArrayList<Pata> patas;
     public int pos_proto;
     public boolean terminado;
     public boolean agregado=false;
@@ -24,25 +24,14 @@ public class Chip extends Group {
         this.tipo=tipo;
     }
 
-    //Metodos gets y sets
-    public void addProto(Protoboard proto){
-        protos.add(proto);
-    }
     public void addPat(Pata pat){
         patas.add(pat);
     }
+
     public void setProtos(ArrayList<Protoboard> protos){
         this.protos = protos;
     }
-    public void setPats(ArrayList<Pata> pats){
-        this.patas = pats;
-    }
-    public void removeProto(Protoboard proto){
-        protos.remove(proto);
-    }
-    public void removePat(Rectangle pat){
-        patas.remove(pat);
-    }
+
     public ArrayList<Protoboard> getProtos(){
         return protos;
     }
@@ -50,12 +39,15 @@ public class Chip extends Group {
     public ArrayList<Pata> getPatas(){
         return patas;
     }
+
     public Pata getPats(int x){
         return patas.get(x);
     }
+
     public void setBase(Rectangle base){
         this.base = base;
     }
+
     public Rectangle getBase(){
         return base;
     }
@@ -63,5 +55,4 @@ public class Chip extends Group {
     public String getTipo(){
         return tipo;
     }
-
 }

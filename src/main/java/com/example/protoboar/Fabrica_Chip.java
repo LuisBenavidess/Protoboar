@@ -18,7 +18,7 @@ public class Fabrica_Chip {
     public Chip crear(String tipo){
 
         Chip chip = new Chip(tipo);
-        chip=decoracion(chip,tipo);
+        decoracion(chip, tipo);
         chip.setOnMousePressed(this::iniciar_mov);
         chip.setOnMouseDragged(this::arrastrar);
         chip.setOnMouseReleased(this::terminar);
@@ -29,7 +29,7 @@ public class Fabrica_Chip {
 
     }
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
-    private Chip decoracion(Chip chip,String tipo){
+    private void decoracion(Chip chip, String tipo){
 
         Rectangle base = new Rectangle(700,300,119,38/*40*/);
         Text letra;
@@ -69,7 +69,6 @@ public class Fabrica_Chip {
             i++;
         }
 
-        return chip;
     }
 
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial

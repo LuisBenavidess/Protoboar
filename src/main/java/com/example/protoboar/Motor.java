@@ -152,8 +152,4 @@ public class Motor {
     public bus getNegativo() {
         return this.negativo;
     }
-
-    public boolean isEncendido() {
-        return encendido;
-    }
 }

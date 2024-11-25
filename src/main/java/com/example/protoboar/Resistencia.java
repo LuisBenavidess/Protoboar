@@ -6,14 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Resistencia extends Node{
-    //Atributos
-    private String Reduccion;
-    private String imagen;
-
+    private final String imagen;
     public boolean quemado = false;
-
-    private ImageView imageView;
-
+    private final ImageView imageView;
     private final conection cables;
 
     public Resistencia(Group group, double x, double y, conection cables) {
@@ -54,8 +49,6 @@ public class Resistencia extends Node{
             }
         }
 
-        this.Reduccion = "10";
-
         // Posicionar el ImageView en las coordenadas dadas
         imageView.setX(x - imageView.getFitWidth() / 2);
         imageView.setY(y - imageView.getFitHeight() / 2);
@@ -65,10 +58,6 @@ public class Resistencia extends Node{
 
         group.getChildren().add(imageView);
         imageView.toFront();
-    }
-
-    public String getReduccion() {
-        return Reduccion;
     }
 
     public conection getCable() {
@@ -82,5 +71,4 @@ public class Resistencia extends Node{
     public String getImagen() {
         return imagen;
     }
-
 }

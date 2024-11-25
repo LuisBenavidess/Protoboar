@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //Clase que maneja lo que sea presionar un elemento
@@ -33,7 +32,6 @@ public class Click {
         cables = new ArrayList<>();
         resistencias = new ArrayList<>();
         leds = new ArrayList<>();
-        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor, ledColor);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), _ -> iniciar())); // ejecuta iniciar() cada segundo
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -126,12 +124,10 @@ public class Click {
         eliminarProximaImagen=eliminar;
     }
 
-    ////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////
+
     public void presionarCirculo(MouseEvent event) { //Metodo para cuando se preciona algun circlu(bus)
         manejarCirculos.presionarCirculo(event);
-    }
-
-    public static void presiona(MouseEvent event) {
     }
 
     public static void revovinar() {  //Vuelve a neutro cada bus
@@ -142,7 +138,6 @@ public class Click {
         setCables(manejarCirculos.getCables());
         manejarCirculos.verificar_cables();
     }
-
 
     public static void prender_led() { // prender led atravez de las cargas
         manejarCirculos.prender_led();
@@ -215,9 +210,7 @@ public class Click {
         }
         i=0;
         while(i<getDisplays().size()){
-
             verificar_displays();
-
             i++;
         }
         verificar_cables();
@@ -248,8 +241,7 @@ public class Click {
         if (eliminarProximaImagen) {   //Condcion para saber si se desea eliminar un objeto
             Object basura = event.getSource(); //Obtiene el objeto presionado y lo borra
             pane.getChildren().remove(basura);
-            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
-            // verificar si el objeto obtenido es el mismo que alguno de los array
+            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0; //bucle cables
             while (i < cables.size()) {
                 if (basura.equals(cables.get(i))) {
@@ -265,7 +257,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             leds=manejarCirculos.get_leds();  //bucles Leds
             while (i < leds.size()) {
@@ -281,9 +272,8 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
-            resistencias=manejarCirculos.getResistencias();    //bucle resistencias
+            resistencias=manejarCirculos.getResistencias();//bucle resistencias
             while (i < resistencias.size()) {
                 if (basura.equals(resistencias.get(i).getImageView())) {
                     for (Protoboard proto : getprotos()) {  // Remover resistencias  de los protoboards
@@ -294,7 +284,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             chips=manejarCirculos.getChips();  //bucle chips
             while (i < chips.size()) {
@@ -311,7 +300,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             switch3x3=manejarCirculos.getswitches3x3();
             while(i < switch3x3.size()){  //bucle Switch3x3
@@ -328,10 +316,9 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             switch8x3=manejarCirculos.getswitches8x3();
-            while(i < switch8x3.size()){  //bucle Switch8x3
+            while(i < switch8x3.size()){ //bucle Switch8x3
                 if (basura.equals(switch8x3.get(i))) {
                     for (Pata pata : switch8x3.get(i).getPatas()) {
                         if (pata.getBus_conectado() != null) {
@@ -345,7 +332,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             while(i< displays.size()){
                 if(basura.equals(displays.get(i))){
@@ -361,19 +347,16 @@ public class Click {
                 }
                 i++;
             }
-
-
             if(!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3)){
                 i=0;
                 while(i< protos.size()){
                     if(protos.get(i).getChildren().contains(basura)){
                         if(alertaeliminar()){
-
                             while (!protos.get(i).getConections().isEmpty()) {
                                 protos.get(i).getConections().getFirst().getInicio().componenteCreado = false;
                                 protos.get(i).getConections().getFirst().getFin().componenteCreado = false;
                                 elim(protos.get(i).getConections().getFirst());
-                                pane.getChildren().remove(protos.get(i).getConections().get(0));
+                                pane.getChildren().remove(protos.get(i).getConections().getFirst());
                                 protos.get(i).getConections().removeFirst();
                             }
                             pane.getChildren().remove(protos.get(i));
@@ -386,6 +369,7 @@ public class Click {
             }
         }
     }
+
     private static void elim(conection cable){
         int i=0;
         while(i< cables.size()){
@@ -395,6 +379,7 @@ public class Click {
             i++;
         }
     }
+
     private static boolean alertaeliminar(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
@@ -407,10 +392,6 @@ public class Click {
         alert.getButtonTypes().setAll(botonSi, botonNo);
 
         Optional<ButtonType> resultado = alert.showAndWait();
-        if (resultado.isPresent() && resultado.get() == botonSi) {
-            return true;
-        } else {
-            return false;
-        }
+        return resultado.isPresent() && resultado.get() == botonSi;
     }
 }

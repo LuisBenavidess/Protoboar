@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.Objects;
 
 public class Cable {
-    private ImageView imageView;
+    private final ImageView imageView;
 
     // Constructor
     public Cable(Pane pane, conection cable) {
@@ -25,11 +25,9 @@ public class Cable {
         double startY = cable.getStartY();
         double endX = cable.getEndX();
         double endY = cable.getEndY();
-
         // Calcular el ángulo y la longitud para rotar la imagen si es necesario
         double angle = Math.toDegrees(Math.atan2(endY - startY, endX - startX));
         imageView.setRotate(angle);
-
         // Actualizar la posición del ImageView
         double centerX = (startX + endX) / 2;
         double centerY = (startY + endY) / 2;
