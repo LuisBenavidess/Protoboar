@@ -418,7 +418,7 @@ public class ManejarCarga {
                     corriente();
                 }else{
 
-                    if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
+                    if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
 
                         if(chip.getPats(i).getBus_conectado().getCarga().equals("+") && chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                             chip.getPats(i+2).getBus_conectado().setCarga("+");
@@ -438,7 +438,7 @@ public class ManejarCarga {
         int i=1;
         while(i<chip.getPatas().size()){
             if(i!=13){
-                if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") && !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
+                if(!chip.getPats(i).getBus_conectado().getCarga().equals(" ") || !chip.getPats(i+1).getBus_conectado().getCarga().equals(" ")){
                     if(chip.getPats(i).getBus_conectado().getCarga().equals("+") || chip.getPats(i+1).getBus_conectado().getCarga().equals("+")){
                         chip.getPats(i+2).getBus_conectado().setCarga("+");
                     }else{
@@ -447,7 +447,7 @@ public class ManejarCarga {
                     corriente();
                 }
             }
-            i=i+2;
+            i=i+3;
         }
     }
 
