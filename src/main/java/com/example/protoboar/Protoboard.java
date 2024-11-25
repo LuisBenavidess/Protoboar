@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 //Clase que genera el protoboard
 public class Protoboard extends Group {
-
     //Atributos
     public bus[][] alimentacion;
     public int columnas;

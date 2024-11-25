@@ -5,8 +5,7 @@ import javafx.scene.shape.Rectangle;
 public class Pata extends Rectangle {
     // atributos
     private int pata;
-    // a que pata este se conectó
-    private bus bus_conectado;
+    private bus bus_conectado; // a que pata este se conectó
 
     public Pata(double x, double y, int width, int height ) {
         super(x, y, width, height);
@@ -16,6 +15,7 @@ public class Pata extends Rectangle {
     public void setPata(int pata) {
         this.pata = pata;
     }
+
     public void setBus_conectado(bus bus_conectado) {
         this.bus_conectado = bus_conectado;
     }
@@ -23,8 +23,8 @@ public class Pata extends Rectangle {
     public int getPata() {
         return pata;
     }
+
     public bus getBus_conectado() {
         return bus_conectado;
     }
-
 }

@@ -48,14 +48,11 @@ public class Resistencia extends Node{
                 }
             }
         }
-
         // Posicionar el ImageView en las coordenadas dadas
         imageView.setX(x - imageView.getFitWidth() / 2);
         imageView.setY(y - imageView.getFitHeight() / 2);
-
         // Configurar el evento del basurero
         imageView.setOnMousePressed(Click::eliminarElemento);
-
         group.getChildren().add(imageView);
         imageView.toFront();
     }

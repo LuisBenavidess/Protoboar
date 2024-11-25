@@ -10,27 +10,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 //Clase chip
-public class Fabrica_Chip {
-    //Esta clase solo genera un chip creando las partes visuales y internas de este
-    public Fabrica_Chip() {}
+public class Fabrica_Chip {  //Esta clase solo genera un chip creando las partes visuales y internas de este
 
     //Metodo inicial para crear el chip
     public Chip crear(String tipo){
-
         Chip chip = new Chip(tipo);
         decoracion(chip, tipo);
         chip.setOnMousePressed(this::iniciar_mov);
         chip.setOnMouseDragged(this::arrastrar);
         chip.setOnMouseReleased(this::terminar);
-
         chip.setOnMouseClicked(Click::eliminarElemento);
-
         return chip;
-
     }
+
     //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
     private void decoracion(Chip chip, String tipo){
-
         Rectangle base = new Rectangle(700,300,119,38/*40*/);
         Text letra;
         if(tipo.equals("OR")){
@@ -42,7 +36,6 @@ public class Fabrica_Chip {
                 letra = new Text("NOT");
             }
         }
-
         letra.setFill(Color.WHITE);
         letra.setFont(Font.font("Bodoni", FontWeight.BOLD, 10));
         letra.setLayoutX(700);
@@ -60,7 +53,6 @@ public class Fabrica_Chip {
             pata.setArcHeight(5);
             chip.addPat(pata);
             chip.getChildren().add(pata);
-
             x=x+18;
             if(i==6){
                 x=700;
@@ -68,7 +60,6 @@ public class Fabrica_Chip {
             }
             i++;
         }
-
     }
 
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial
@@ -83,13 +74,9 @@ public class Fabrica_Chip {
         Chip chip = (Chip) event.getSource();
         double deltaX = event.getSceneX() - chip.initX;
         double deltaY = event.getSceneY() - chip.initY;
-
         // Mover el grupo completo
         chip.setLayoutX(chip.getLayoutX() + deltaX);
         chip.setLayoutY(chip.getLayoutY() + deltaY);
-
-
-
         // Actualizar las coordenadas iniciales para el próximo movimiento
         chip.initX = event.getSceneX();
         chip.initY = event.getSceneY();
@@ -113,17 +100,13 @@ public class Fabrica_Chip {
                 Pata pata=chip.getPats(x);
                 double bus_x = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getX();
                 double bus_y = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getY();
-
                 double pata_W = pata.getWidth();
                 double pata_H = pata.getHeight();
-
                 double newX = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getX();
                 double newY = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getY();
-
                 pata.setX(newX);
                 pata.setY(newY);
                 x++;
-
             }
             double centerX = (chip.getPats(0).getX() + chip.getPats(6).getX() + chip.getPats(7).getX() +
                     chip.getPats(13).getX() + chip.getPats(0).getWidth() + chip.getPats(7).getWidth()) / 4;
@@ -136,11 +119,9 @@ public class Fabrica_Chip {
             chip.setOnMouseReleased(null);
             chip.terminado=true;
         }
+    }
 
-
-        }
-
-        // este metodo verifica si cada pata se encuentra en un bus
+    // este metodo verifica si cada pata se encuentra en un bus
     private void detectar(MouseEvent event) {
         Chip chip = (Chip) event.getSource();
         int x = 0;
@@ -184,11 +165,9 @@ public class Fabrica_Chip {
     private boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);
-
             // Verificar si más del 50% del círculo está cubierto
             return Area >= (0.1 * circleArea);
         }
@@ -200,6 +179,4 @@ public class Fabrica_Chip {
         //Calcular la interseccion entre el bus y la pata
         return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
-
-
 }

@@ -43,5 +43,4 @@ public class Interruptor extends ImageView {
     public bus getBus2() {
         return bus2;
     }
-
 }

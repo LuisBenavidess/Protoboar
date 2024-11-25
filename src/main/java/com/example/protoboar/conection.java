@@ -32,12 +32,4 @@ public class conection extends Line {
     public bus getFin() {
         return fin;
     }
-
-    public void actualizarPosicion(double deltaX, double deltaY) {
-        // Actualiza las posiciones de los puntos de inicio y fin del cable
-        inicio.setCenterX(inicio.getCenterX() + deltaX);
-        inicio.setCenterY(inicio.getCenterY() + deltaY);
-        fin.setCenterX(fin.getCenterX() + deltaX);
-        fin.setCenterY(fin.getCenterY() + deltaY);
-    }
 }

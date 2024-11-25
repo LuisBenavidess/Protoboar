@@ -12,33 +12,27 @@ import java.util.Objects;
 public class Fabrica_Switch3x3 {
 
     public Switch3x3 crear(){
-
         Switch3x3 sw = new Switch3x3();
         sw = decoracion(sw);
         sw.setOnMousePressed(this::iniciar_mov);
         sw.setOnMouseDragged(this::arrastrar);
         sw.setOnMouseReleased(this::terminar);
-
         Switch3x3 finalSw = sw;
         sw.setOnMouseClicked(_ -> finalSw.cambiarCarga());
-
         return sw;
     }
 
     public Switch3x3 decoracion(Switch3x3 sw){
-
         int i=0;
         int x=702;
         int y=402;
         while(i<4){
-
             Pata pata= new Pata(x,y,13,13);
             pata.setFill(Color.GRAY);
             pata.setArcWidth(5);  // Curvatura horizontal
             pata.setArcHeight(5);
             sw.setPatas(pata);
             sw.getChildren().add(pata);
-
             x=x+35;
             if(i==1){
                 x=702;
@@ -46,19 +40,14 @@ public class Fabrica_Switch3x3 {
             }
             i++;
         }
-
         Image image = new Image(Objects.requireNonNull(Switch3x3.class.getResourceAsStream("/Switch3x3.png")));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(60);
         imageView.setFitWidth(52);
         imageView.setX(700);
         imageView.setY(400);
-
         sw.setImageView(imageView);
         sw.getChildren().add(imageView);
-
-
-
         return sw;
     }
 
@@ -74,13 +63,9 @@ public class Fabrica_Switch3x3 {
         Switch3x3 sw = (Switch3x3) event.getSource();
         double deltaX = event.getSceneX() - sw.initX;
         double deltaY = event.getSceneY() - sw.initY;
-
         // Mover el grupo completo
         sw.setLayoutX(sw.getLayoutX() + deltaX);
         sw.setLayoutY(sw.getLayoutY() + deltaY);
-
-
-
         // Actualizar las coordenadas iniciales para el próximo movimiento
         sw.initX = event.getSceneX();
         sw.initY = event.getSceneY();
@@ -104,17 +89,13 @@ public class Fabrica_Switch3x3 {
                 Pata pata=sw.getPats(x);
                 double bus_x = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getX();
                 double bus_y = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getY();
-
                 double pata_W = pata.getWidth();
                 double pata_H = pata.getHeight();
-
                 double newX = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getX();
                 double newY = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getY();
-
                 pata.setX(newX);
                 pata.setY(newY);
                 x++;
-
             }
             double centerX = (sw.getPats(0).getX() + sw.getPats(1).getX() + sw.getPats(2).getX() +
                     sw.getPats(3).getX() + sw.getPats(0).getWidth() + sw.getPats(2).getWidth()) / 4;
@@ -128,8 +109,6 @@ public class Fabrica_Switch3x3 {
             sw.setOnMousePressed(Click::eliminarElemento);
             sw.terminado=true;
         }
-
-
     }
 
     //Metodo que detecta si las patas estan sobre un bus usando el metodo "pasa_50"
@@ -164,7 +143,6 @@ public class Fabrica_Switch3x3 {
             }
             x++;
         }
-
     }
 
     //Metodo que evita errores al posicionar el switch usando el metodo "Area"
@@ -172,11 +150,9 @@ public class Fabrica_Switch3x3 {
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal())
                 .intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);
-
             // Verificar si más del 50% del círculo está cubierto
             return Area >= (0.5 * circleArea);
         }
@@ -189,5 +165,4 @@ public class Fabrica_Switch3x3 {
         //Calcular la interseccion entre el bus y la pata
         return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
-
 }

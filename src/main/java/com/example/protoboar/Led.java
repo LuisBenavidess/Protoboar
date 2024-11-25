@@ -30,9 +30,6 @@ public class Led extends Node{
     }
 
     // set
-    public void setConectado() {
-    }
-
     public void setColor(String color) {
         this.color = color;
     }

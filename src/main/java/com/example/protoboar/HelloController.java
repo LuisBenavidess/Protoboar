@@ -52,29 +52,24 @@ public class HelloController {
         MenuItem greenItem = new MenuItem();
         greenItem.setGraphic(greenCircle);
         greenItem.setOnAction(_ -> crearLed("green"));
-
         Circle pinkCircle = new Circle(10, Color.PINK);
         MenuItem pinkItem = new MenuItem();
         pinkItem.setGraphic(pinkCircle);
         pinkItem.setOnAction(_ -> crearLed("pink"));
-
         Circle redCircle = new Circle(10, Color.RED);
         MenuItem redItem = new MenuItem();
         redItem.setGraphic(redCircle);
         redItem.setOnAction(_ -> crearLed("red"));
-
         Circle blueCircle = new Circle(10, Color.BLUE);
         MenuItem blueItem = new MenuItem();
         blueItem.setGraphic(blueCircle);
         blueItem.setOnAction(_ -> crearLed("blue"));
-
         Circle purpleCircle = new Circle(10, Color.PURPLE);
         MenuItem purpleItem = new MenuItem();
         purpleItem.setGraphic(purpleCircle);
         purpleItem.setOnAction(_ -> crearLed("purple"));
-
         ledMenu.getItems().addAll(greenItem, pinkItem, redItem, blueItem, purpleItem);
-
+        //Crea el protoboard inicial
         int cantidad = 0;
         protos = new ArrayList<>();
         fabrica = new Fabrica_Proto();
@@ -142,7 +137,6 @@ public class HelloController {
         if (cableClicked) {
             Image image = new Image("/cable.png"); // Imagen del cable en estado inactivo
             cableID.setImage(image);
-
             //Se cambia el booleano para identificar si este esta prendido o apagado
             clickHandler.setCableClicked(false);
             cableClicked = false;

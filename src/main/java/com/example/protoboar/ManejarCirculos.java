@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 //Clase se encarga de los circulos
 public class ManejarCirculos {
-
     //Atributos
     private final Pane pane;
     private final ArrayList<Protoboard> protos;
@@ -115,7 +114,7 @@ public class ManejarCirculos {
         eliminar_linea_creando(1);
    }
 
-    //Metodos//////////////////////////////////////////////////
+    //Metodos//////
     //Metodo que se encarga de el presionado de los circulos
     public void presionarCirculo(MouseEvent event) {
         bus circulo = (bus) event.getSource();
@@ -147,7 +146,6 @@ public class ManejarCirculos {
                         primercircle.crearComponente();
                         circulo.crearComponente();
                         crearCableEntreCirculos(primercircle, circulo, proto);
-                        // Marca que se ha creado un componente
                     }
                 }
                 primercircle = null; // Reiniciar para permitir la selección de nuevos círculos
@@ -181,7 +179,6 @@ public class ManejarCirculos {
                 cableAzul.setFin(c2); // Negativo
                 proto.getChildren().add(cableAzul);
                 Led led = new Led(proto, midX, midY);
-                led.setConectado();
                 led.setCable_azul(cableAzul);
                 led.setCable_rojo(cable);
                 proto.setLeds(led);
@@ -486,13 +483,11 @@ public class ManejarCirculos {
                 if(!(disp.getLeds(j).getFill().equals(Color.YELLOW))){
                     disp.getLeds(j).setFill(Color.GRAY);
                 }
-
                 j++;
             }
             if(!(disp.getPunto().getFill().equals(Color.YELLOW))){
                 disp.getPunto().setFill(Color.GRAY);
             }
-
             i++;
         }
     }

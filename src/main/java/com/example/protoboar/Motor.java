@@ -31,31 +31,26 @@ public class Motor {
         this.motorImagen.setLayoutX(668.0);
         this.motorImagen.setLayoutY(268.0);
         pane.getChildren().add(this.motorImagen);
-
         // Inicialización del botón
         this.encenderButton = new Button("Encender");
         this.encenderButton.setLayoutX(688.0);
         this.encenderButton.setLayoutY(350.0);
         this.encenderButton.setOnAction(_ -> toggleMotor()); // clic
         pane.getChildren().add(this.encenderButton);
-
         // Círculo positivo
         this.positivo.setCenterX(690.0);
         this.positivo.setCenterY(308.0);
         this.positivo.setRadius(8.0);
         this.positivo.setFill(Color.BLACK);
         this.positivo.setCarga(" "); // Sin carga
-
         // Círculo negativo
         this.negativo.setCenterX(690.0);
         this.negativo.setCenterY(338.0);
         this.negativo.setRadius(8.0);
         this.negativo.setFill(Color.BLACK);
         this.negativo.setCarga(" "); // Sin carga
-
         pane.getChildren().add(this.positivo);
         pane.getChildren().add(this.negativo);
-
         this.motorImagen.setOnMousePressed(this::handleMousePressed);
         this.motorImagen.setOnMouseDragged(this::handleMouseDragged);
     }
@@ -82,7 +77,6 @@ public class Motor {
         positivo.setCenterY(newY + 40);
         negativo.setCenterX(newX + 15);
         negativo.setCenterY(newY + 70);
-
         // Actualizar posiciones de los cables conectados
         for (conection cable : cablesConectados) {
             if (cable.getInicio() == positivo) {

@@ -9,78 +9,62 @@ import javafx.scene.shape.Shape;
 
 public class Fabrica_display {
 
-    Fabrica_display(){
-
-    }
-
     public Display display(){
-
         Display display = new Display();
         decoracion(display);
         display.setOnMousePressed(this::iniciar_mov);
         display.setOnMouseDragged(this::arrastrar);
         display.setOnMouseReleased(this::terminar);
-
         display.setOnMouseClicked(Click::eliminarElemento);
         return display;
     }
 
     private void decoracion(Display display){
-
         Rectangle base = new Rectangle(700,104,85,90);
         base.setArcWidth(15);  // Curvatura horizontal
         base.setArcHeight(15); // Curvatura vertical
         base.setFill(Color.web("#3c4344"));
         display.setBase(base);
-
         Rectangle luz1 = new Rectangle(720,110,30,5);
         luz1.setFill(Color.GRAY);
         luz1.setArcWidth(15);  // Curvatura horizontal
         luz1.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz1);
-
         Rectangle luz2 = new Rectangle(715,115,5,30);
         luz2.setFill(Color.GRAY);
         luz2.setArcWidth(15);  // Curvatura horizontal
         luz2.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz2);
-
         Rectangle luz3 = new Rectangle(750,115,5,30);
         luz3.setFill(Color.GRAY);
         luz3.setArcWidth(15);  // Curvatura horizontal
         luz3.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz3);
-
         Rectangle luz4 = new Rectangle(720,145,30,5);
         luz4.setFill(Color.GRAY);
         luz4.setArcWidth(15);  // Curvatura horizontal
         luz4.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz4);
-
         Rectangle luz5 = new Rectangle(715,150,5,30);
         luz5.setFill(Color.GRAY);
         luz5.setArcWidth(15);  // Curvatura horizontal
         luz5.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz5);
-
         Rectangle luz6 = new Rectangle(750,150,5,30);
         luz6.setFill(Color.GRAY);
         luz6.setArcWidth(15);  // Curvatura horizontal
         luz6.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz6);
-
         Rectangle luz7 = new Rectangle(720,180,30,5);
         luz7.setFill(Color.GRAY);
         luz7.setArcWidth(15);  // Curvatura horizontal
         luz7.setArcHeight(15); // Curvatura vertical
         display.setLeds(luz7);
-
         Circle punto= new Circle(3);
         punto.setFill(Color.GRAY);
         punto.setCenterX(765);
         punto.setCenterY(180);
         display.setPunto(punto);
-
         int i=0;
         int x=700;
         int y=100;
@@ -91,7 +75,6 @@ public class Fabrica_display {
             pata.setArcHeight(5);
             display.addPat(pata);
             display.getChildren().add(pata);
-
             x=x+18;
             if(i==4){
                 x=700;
@@ -99,10 +82,8 @@ public class Fabrica_display {
             }
             i++;
         }
-
         display.getChildren().add(base);
-
-       display.getChildren().add(luz1);
+        display.getChildren().add(luz1);
         display.getChildren().add(luz2);
         display.getChildren().add(luz3);
         display.getChildren().add(luz4);
@@ -110,10 +91,7 @@ public class Fabrica_display {
         display.getChildren().add(luz6);
         display.getChildren().add(luz7);
         display.getChildren().add(punto);
-
     }
-
-
 
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial
     private void iniciar_mov(MouseEvent event){
@@ -127,13 +105,9 @@ public class Fabrica_display {
         Display display = (Display) event.getSource();
         double deltaX = event.getSceneX() - display.initX;
         double deltaY = event.getSceneY() - display.initY;
-
         // Mover el grupo completo
         display.setLayoutX(display.getLayoutX() + deltaX);
         display.setLayoutY(display.getLayoutY() + deltaY);
-
-
-
         // Actualizar las coordenadas iniciales para el próximo movimiento
         display.initX = event.getSceneX();
         display.initY = event.getSceneY();
@@ -147,30 +121,23 @@ public class Fabrica_display {
         boolean bandera=true;
         while(x<display.getPatas().size() && bandera){
             if(display.getPats(x).getPata()!=1){
-                System.out.println("entra");
                 bandera=false;
             }
             x++;
         }
-        //System.out.println("entra");
         if(bandera){
-            System.out.println("pasoooo");
             x=0;
             while(x<display.getPatas().size()){
                 Pata pata=display.getPats(x);
                 double bus_x = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getX();
                 double bus_y = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getY();
-
                 double pata_W = pata.getWidth();
                 double pata_H = pata.getHeight();
-
                 double newX = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getX();
                 double newY = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getY();
-
                 pata.setX(newX);
                 pata.setY(newY);
                 x++;
-
             }
             double centerX = (display.getPats(0).getX() + display.getPats(4).getX() + display.getPats(5).getX() +
                     display.getPats(9).getX() + display.getPats(0).getWidth() + display.getPats(5).getWidth()) / 4;
@@ -183,17 +150,13 @@ public class Fabrica_display {
             display.setOnMouseReleased(null);
             display.terminado=true;
         }
-
-
     }
 
     // este metodo verifica si cada pata se encuentra en un bus
     private void detectar(MouseEvent event) {
-        System.out.println("terminar");
         Display display = (Display) event.getSource();
         int x = 0;
         while (x < display.getProtos().size()) {
-            System.out.println("while protos");
             Protoboard proto = display.getProtos().get(x);
             //viajara por cada nodo del protoboard correspondiente
             for (Node node : proto.getChildren()) {
@@ -207,7 +170,6 @@ public class Fabrica_display {
                         if(4==bus.fila || 5==bus.fila||6==bus.fila || 7==bus.fila || 8==bus.fila || 9==bus.fila){
                             //pasa 50 verifica si se encuentra ensima del bus y entraga un booleano si es verdad o no
                             bandera= pasa_50(bus,display.getPats(i));
-
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos
                         if (bandera) {
@@ -234,11 +196,9 @@ public class Fabrica_display {
     private boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);
-
             // Verificar si más del 50% del círculo está cubierto
             return Area >= (0.1 * circleArea);
         }
@@ -250,6 +210,4 @@ public class Fabrica_display {
         //Calcular la interseccion entre el bus y la pata
         return inter.getBoundsInLocal().getWidth() * inter.getBoundsInLocal().getHeight();
     }
-
-
 }

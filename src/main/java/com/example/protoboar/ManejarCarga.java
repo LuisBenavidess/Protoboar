@@ -235,35 +235,25 @@ public class ManejarCarga {
                 String fin = cable.getFin().getCarga();
                 if (fin.equals("+")){
                     resistencias.get(i).quemado = true;
-
                     String imagen = resistencias.get(i).getImagen();
                     Image image;
                     if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                        System.out.println("entra1");
                         image = new Image("resistenciaQuemada1.png");
                     }else{
-                        System.out.println("entra2");
                         image = new Image("resistenciaQuemada2.png");
                     }
-
                     resistencias.get(i).getImageView().setImage(image);
-                    System.out.println("Se quemó una resistencia");
                 }
                 if (ini.equals("-")){
                     resistencias.get(i).quemado = true;
-
                     String imagen = resistencias.get(i).getImagen();
                     Image image;
                     if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                        System.out.println("entra3");
                         image = new Image("resistenciaQuemada1.png");
                     }else{
-                        System.out.println("entra4");
                         image = new Image("resistenciaQuemada2.png");
                     }
-
                     resistencias.get(i).getImageView().setImage(image);
-                    System.out.println("Se quemó una resistencia");
                 }
                 if (ini.equals("+") && resistencias.get(i).quemado) {
                     if (fin.equals(" ")) {
@@ -272,16 +262,13 @@ public class ManejarCarga {
                     }
                 } else {
                     if (fin.equals("-") && resistencias.get(i).quemado) {
-
                         if (ini.equals(" ")) {
                             cable.getInicio().setCarga(fin);
                             corriente();
                         }
-
                     }
                 }
             }
-
             i++;
         }
     }
@@ -323,78 +310,66 @@ public class ManejarCarga {
         int i=0;
         while (i < displays.size()) {
             if(displays.get(i).terminado){
-                //System.out.println("entra");
                 protos.get(displays.get(i).pos_proto).getChildren().add(displays.get(i));
                 displays.get(i).terminado=false;
                 displays.get(i).agregado=true;
             }
             i++;
         }
-
         i=0;
         while(i<displays.size()){
             if(displays.get(i).agregado){
                 Display disp = displays.get(i);
                 if(disp.getPats(2).getBus_conectado().getCarga().equals("-") || disp.getPats(7).getBus_conectado().getCarga().equals("-")){
-
                     if(disp.getPats(0).getBus_conectado().getCarga().equals("+") && disp.getLeds(3).getFill().equals(Color.GRAY)){
                         disp.getLeds(3).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(0).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(3).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(1).getBus_conectado().getCarga().equals("+") && disp.getLeds(1).getFill().equals(Color.GRAY)){
                         disp.getLeds(1).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(1).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(1).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(3).getBus_conectado().getCarga().equals("+") && disp.getLeds(0).getFill().equals(Color.GRAY)){
                         disp.getLeds(0).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(3).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(0).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(4).getBus_conectado().getCarga().equals("+") && disp.getLeds(2).getFill().equals(Color.GRAY)){
                         disp.getLeds(2).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(4).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(2).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(5).getBus_conectado().getCarga().equals("+") && disp.getLeds(4).getFill().equals(Color.GRAY)){
                         disp.getLeds(4).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(5).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(4).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(6).getBus_conectado().getCarga().equals("+") && disp.getLeds(6).getFill().equals(Color.GRAY)){
                         disp.getLeds(6).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(6).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(6).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(8).getBus_conectado().getCarga().equals("+") && disp.getLeds(5).getFill().equals(Color.GRAY)){
                         disp.getLeds(5).setFill(Color.WHITE);
                     }
                     else if(disp.getPats(8).getBus_conectado().getCarga().equals("-")){
                         disp.getLeds(5).setFill(Color.YELLOW);
                     }
-
                     if(disp.getPats(9).getBus_conectado().getCarga().equals("+") && disp.getPunto().getFill().equals(Color.GRAY)){
                         disp.getPunto().setFill(Color.WHITE);
                     }
                     else if(disp.getPats(9).getBus_conectado().getCarga().equals("-")){
                         disp.getPunto().setFill(Color.YELLOW);
                     }
-
                 }
-
             }
             i++;
         }
@@ -575,7 +550,6 @@ public class ManejarCarga {
                 Interruptor interruptor = switchActual.getInterruptores().get(j);
                 bus Bus = switchActual.getPats(j).getBus_conectado();
                 bus Bus2 = switchActual.getPats(j2).getBus_conectado();
-
                 if (Bus == null || Bus2 == null) {
                     j++;
                     j2++;
@@ -583,10 +557,8 @@ public class ManejarCarga {
                 }
                 String cargaActual = Bus.getCarga();
                 String cargaActual2 = Bus2.getCarga();
-
                 if (interruptor.getEncendido() && interruptor.getQuemado()) {
                     if (switchActual.agregado) {
-
                         if (Bus.getFill() == Color.YELLOW) {
                             j++; // se salta el bus quemado
                             continue;
