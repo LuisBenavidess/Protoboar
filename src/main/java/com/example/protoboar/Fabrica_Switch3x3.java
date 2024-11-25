@@ -7,18 +7,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
+import java.util.Objects;
+
 public class Fabrica_Switch3x3 {
 
     public Switch3x3 crear(){
-
         Switch3x3 sw = new Switch3x3();
         sw = decoracion(sw);
         sw.setOnMousePressed(this::iniciar_mov);
         sw.setOnMouseDragged(this::arrastrar);
         sw.setOnMouseReleased(this::terminar);
-
-        sw.setOnMouseClicked(sw::cambiarCarga);
-
         return sw;
     }
 
@@ -43,19 +41,14 @@ public class Fabrica_Switch3x3 {
             }
             i++;
         }
-
-        Image image = new Image(Switch3x3.class.getResourceAsStream("/Switch3x3.png"));
+        Image image = new Image(Objects.requireNonNull(Switch3x3.class.getResourceAsStream("/Switch3x3.png")));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(60);
         imageView.setFitWidth(52);
         imageView.setX(700);
         imageView.setY(400);
-
         sw.setImageView(imageView);
         sw.getChildren().add(imageView);
-
-
-
         return sw;
     }
 
@@ -147,12 +140,11 @@ public class Fabrica_Switch3x3 {
                     int i=0;
                     boolean SwitchEncimaDelBus = false;
                     while(i<sw.getPatas().size()){
-                        Pata pata = sw.getPats(i);
+                        sw.getPats(i);
                         boolean bandera= false;
                         if(bus.puedeCrearComponente()){
                             bandera= pasa_50(bus,sw.getPats(i));
                         }
-                        //System.out.println(bandera);
                         if (bandera) {
                             bus.setFill(Color.RED);
                             sw.getPats(i).setPata(1);

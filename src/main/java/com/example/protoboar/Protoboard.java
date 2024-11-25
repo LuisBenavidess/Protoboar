@@ -1,7 +1,6 @@
 package com.example.protoboar;
 
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,6 @@ public class Protoboard extends Group {
 
     //Atributos
     public bus[][] alimentacion;
-    private Rectangle base;
     public int columnas;
     public int filas;
     public double x;
@@ -20,7 +18,7 @@ public class Protoboard extends Group {
     public double movimientoX;
     public double movimientoY;
     private final ArrayList<conection> conections;
-    private ArrayList<Led> leds;
+    private final ArrayList<Led> leds;
 
     //Constructor
     public Protoboard() {
@@ -31,28 +29,15 @@ public class Protoboard extends Group {
         y=52;
     }
 
-    public void setBase(Rectangle base) {
-        this.base = base;
-    }
-
-    public Rectangle getBase() {
-        return base;
-    }
-
     public void setConections(conection conection) {
         conections.add(conection);
     }
+
     public ArrayList<conection> getConections() {
         return conections;
     }
 
     public void setLeds(Led led){
         leds.add(led);
-    }
-    public ArrayList<Led> getLeds(){
-        return leds;
-    }
-    public Led get_led_exacto(int x){
-        return leds.get(x);
     }
 }

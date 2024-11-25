@@ -35,8 +35,6 @@ public class HelloController {
     @FXML
     private ImageView resistenciaID;
     @FXML
-    private Motor motor;
-    @FXML
     private Fabrica_Proto fabrica;
     @FXML
     private ArrayList<Protoboard> protos;
@@ -76,12 +74,10 @@ public class HelloController {
         purpleItem.setOnAction(_ -> crearLed("purple"));
 
         ledMenu.getItems().addAll(greenItem, pinkItem, redItem, blueItem, purpleItem);
-
         int cantidad = 0;
         protos = new ArrayList<>();
         fabrica = new Fabrica_Proto();
         protos.add(fabrica.protoboard());
-        protos.get(cantidad).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad));
         // Configurar el clic en el basurero
         if (basurero != null) {
@@ -238,7 +234,6 @@ public class HelloController {
         int cantidad = clickHandler.getCantidad();
         cantidad++;
         protos.add(fabrica.protoboard());
-        protos.get(cantidad -1).getBase().setOnMouseEntered(Click::presiona);
         pane.getChildren().add(protos.get(cantidad -1));
         accion_presionar((protos.get(cantidad -1)));
     }

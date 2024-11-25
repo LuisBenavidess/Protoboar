@@ -33,7 +33,7 @@ public class Interruptor extends ImageView {
     }
 
     public boolean getQuemado() {
-        return quemado;
+        return !quemado;
     }
 
     public bus getBus1() {

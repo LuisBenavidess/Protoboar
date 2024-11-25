@@ -352,16 +352,25 @@ public class ManejarCirculos {
         }
     }
 
-    private void eliminar_linea_creando(int entrada){
-        if(entrada==1){
-            linea.getParent().setOnMouseClicked(null);
+    private void eliminar_linea_creando(int entrada) {
+        if (linea != null) {
+            if (entrada == 1) {
+                if (linea.getParent() != null) {
+                    linea.getParent().setOnMouseClicked(null);
+                }
+            }
+            if (linea.getInicio() != null) {
+                linea.getInicio().componenteCreado = false;
+            }
+            // Eliminar la línea de la vista solo si no es nula
+            if (pane != null) {
+                pane.getChildren().remove(linea);
+            }
+            linea = null;
+            scene = null;
+            circulo_bateria = false;
+            circulo_motor = false;
         }
-        linea.getInicio().componenteCreado=false;
-        pane.getChildren().remove(linea);
-        linea = null;
-        scene = null;
-        circulo_bateria = false;
-        circulo_motor = false;
     }
 
     //Metodo para verificar los circulos de la bateria
@@ -427,7 +436,7 @@ public class ManejarCirculos {
     public void crearSwitch3x3(){
         Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
         Switch3x3 switch3x3 = fabrica.crear();
-        switch3x3.setOnMouseClicked(switch3x3::cambiarCarga);
+        switch3x3.setOnMouseClicked(event -> switch3x3.cambiarCarga());
         switch3x3.setProtos(getprotos());
         pane.getChildren().add(switch3x3);
         switches3x3.add(switch3x3);

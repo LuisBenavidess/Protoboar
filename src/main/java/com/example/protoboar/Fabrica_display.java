@@ -9,18 +9,12 @@ import javafx.scene.shape.Shape;
 
 public class Fabrica_display {
 
-    Fabrica_display(){
-
-    }
-
     public Display display(){
-
         Display display = new Display();
         decoracion(display);
         display.setOnMousePressed(this::iniciar_mov);
         display.setOnMouseDragged(this::arrastrar);
         display.setOnMouseReleased(this::terminar);
-
         display.setOnMouseClicked(Click::eliminarElemento);
         return display;
     }

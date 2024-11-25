@@ -1,14 +1,10 @@
 package com.example.protoboar;
 
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -61,23 +57,16 @@ public class Fabrica_Switch8x3 {
         i = 0;
         x = 699;
         y = 307;
-        ArrayList<Pata> patas = sw.getPatas();
-        int j = 8;
         while (i < 8){
             Interruptor interruptor = new Interruptor();
-
             interruptor.setFitHeight(25);
             interruptor.setFitWidth(12);
             interruptor.setX(x);
             interruptor.setY(y);
-
             interruptor.setOnMouseClicked(this::cambiarCarga);
-
             sw.addInterruptores(interruptor);
             sw.getChildren().add(interruptor);
-
             i++;
-            j++;
             x = x+18;
         }
         return sw;
@@ -267,7 +256,7 @@ public class Fabrica_Switch8x3 {
         Interruptor interruptor = (Interruptor) event.getSource();
 
         // Verificación de que los buses no sean nulos
-        if(!interruptor.getQuemado()){
+        if(interruptor.getQuemado()){
             if (!interruptor.getEncendido()) {
                 image = new Image("/Interruptor1.png");
                 interruptor.setEncendido(true);

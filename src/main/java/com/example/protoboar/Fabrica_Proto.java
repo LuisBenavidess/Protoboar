@@ -1,15 +1,11 @@
 package com.example.protoboar;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -35,34 +31,26 @@ public class Fabrica_Proto {
     // Metodo que generar de decoracion, base, numeros, letras, simbolos etc
     public Protoboard decoracion(Protoboard proto){
         //Decoracion
-
         Rectangle base = new Rectangle(5,26,582,413/*435*/);
         base.setOnMouseClicked(Click::eliminarElemento);
         base.setFill(Color.web("#dad8d9"));
         base.setArcWidth(15);  // Curvatura horizontal
         base.setArcHeight(15); // Curvatura vertical
-        proto.setBase(base);
-
-
         Text menos_superior = new Text("-");
         menos_superior.setOnMouseClicked(Click::eliminarElemento);
         menos_superior.setLayoutX(12);
         menos_superior.setLayoutY(45);
         menos_superior.setRotate(-90);
-
-
         Rectangle negativo_superior = new Rectangle(25,36,544,6);
         negativo_superior.setOnMouseClicked(Click::eliminarElemento);
         negativo_superior.setFill(Color.web("#0ea4e0"));
         negativo_superior.setArcWidth(5);  // Curvatura horizontal
         negativo_superior.setArcHeight(5); // Curvatura vertical
-
         Text menos_inferior = new Text("-");
         menos_inferior.setLayoutX(12);
         menos_inferior.setLayoutY(380);
         menos_inferior.setRotate(-90);
         menos_inferior.setOnMouseClicked(Click::eliminarElemento);
-
         Rectangle negativo_inferior = new Rectangle(25,372/*394*/,544,6);
         negativo_inferior.setFill(Color.web("#0ea4e0"));
         negativo_inferior.setArcWidth(5);  // Curvatura horizontal
@@ -96,11 +84,11 @@ public class Fabrica_Proto {
         proto.getChildren().add(base);
 
         //Genera numeros
-        numeros(33, 352/*376*/,proto);
-        numeros(33, 95,proto);
+        numeros(352/*376*/,proto);
+        numeros(95,proto);
 
         //Generar letras
-        letras(9,348,proto);
+        letras(proto);
 
         //Generar buses
         crear_buses(proto.x, proto.y, 2,proto);
@@ -120,8 +108,9 @@ public class Fabrica_Proto {
     }
 
     //Funcion que crea los numeros
-    private void numeros(int X, int Y, Protoboard proto) {
+    private void numeros(int Y, Protoboard proto) {
         int i = 0;
+        int X = 33;
         //A travez de rangos definidos se generan los numeros;
         while (i < 30) {
             Label label = new Label(String.valueOf(i + 1));
@@ -136,16 +125,16 @@ public class Fabrica_Proto {
     }
 
     //Funcion que crea letra
-    private void letras(int X, int Y, Protoboard proto) {
+    private void letras(Protoboard proto) {
         int num=65;
-        int alto=Y;
+        int alto=348;
         int i=0;
         while (i < 10) {
             Character letra=(char) num;
             String nuevaLetra=String.valueOf(letra);
             Text text = new Text(nuevaLetra);
             text.setOnMouseClicked(Click::eliminarElemento);
-            text.setLayoutX(X);
+            text.setLayoutX(9);
             text.setLayoutY(alto);
             text.setRotate(-90);
             if(alto==260){
@@ -167,8 +156,6 @@ public class Fabrica_Proto {
         int col = 0;
         int fil = 0;
         double x = X;
-        double y = Y;
-
         int mas_x=0;
         int mas_y=0;
         //bucle que viaja atravez de la matriz alimentacion generando buses con su respectiva posicion
@@ -177,7 +164,7 @@ public class Fabrica_Proto {
                 //circulo
                 bus circulo = new bus();
                 circulo.setCenterX(x+mas_x);
-                circulo.setCenterY(y+mas_y);
+                circulo.setCenterY(Y +mas_y);
                 circulo.setRadius(6);
                 circulo.setFill(Color.BLACK);
                 circulo.toFront();
@@ -293,11 +280,6 @@ public class Fabrica_Proto {
                     cable.setLayoutX(cable.getLayoutX() + deltaX);
                     cable.setLayoutY(cable.getLayoutY() + deltaY);
                 }
-            }
-            int i=0;
-            while(i<proto.getConections().size()){
-                proto.getConections().get(i).setMovimiento(false);
-                i++;
             }
             // Actualizar la posición inicial
             proto.initialX = event.getSceneX();

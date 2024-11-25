@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.Objects;
 
 public class Cable {
-    private ImageView imageView;
+    private final ImageView imageView;
 
     // Constructor
     public Cable(Pane pane, conection cable) {

@@ -12,25 +12,20 @@ import javafx.scene.text.Text;
 //Clase chip
 public class Fabrica_Chip {
     //Esta clase solo genera un chip creando las partes visuales y internas de este
-    public Fabrica_Chip() {}
 
     //Metodo inicial para crear el chip
     public Chip crear(String tipo){
-
         Chip chip = new Chip(tipo);
-        chip=decoracion(chip,tipo);
+        decoracion(chip, tipo);
         chip.setOnMousePressed(this::iniciar_mov);
         chip.setOnMouseDragged(this::arrastrar);
         chip.setOnMouseReleased(this::terminar);
-
         chip.setOnMouseClicked(Click::eliminarElemento);
-
         return chip;
-
     }
-    //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
-    private Chip decoracion(Chip chip,String tipo){
 
+    //decoracion crea la base y las patas de cada chip, tanto su tamaño como sus coordenadas
+    private void decoracion(Chip chip, String tipo){
         Rectangle base = new Rectangle(700,300,119,38/*40*/);
         Text letra;
         if(tipo.equals("OR")){
@@ -69,7 +64,6 @@ public class Fabrica_Chip {
             i++;
         }
 
-        return chip;
     }
 
     // este es un evento que se llama al presionar el objeto, guardando la posicion inicial

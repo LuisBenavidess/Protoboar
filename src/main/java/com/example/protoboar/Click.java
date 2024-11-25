@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //Clase que maneja lo que sea presionar un elemento
@@ -131,9 +130,6 @@ public class Click {
         manejarCirculos.presionarCirculo(event);
     }
 
-    public static void presiona(MouseEvent event) {
-    }
-
     public static void revovinar() {  //Vuelve a neutro cada bus
         manejarCirculos.revovinar();
     }
@@ -248,8 +244,7 @@ public class Click {
         if (eliminarProximaImagen) {   //Condcion para saber si se desea eliminar un objeto
             Object basura = event.getSource(); //Obtiene el objeto presionado y lo borra
             pane.getChildren().remove(basura);
-            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y
-            // verificar si el objeto obtenido es el mismo que alguno de los array
+            //Para poder borrar un cable o un switch este tambie debe de borrar el ArrayList de cada uno y verificar si el objeto obtenido es el mismo que alguno de los array
             int i = 0; //bucle cables
             while (i < cables.size()) {
                 if (basura.equals(cables.get(i))) {
@@ -370,12 +365,11 @@ public class Click {
                 while(i< protos.size()){
                     if(protos.get(i).getChildren().contains(basura)){
                         if(alertaeliminar()){
-
                             while (!protos.get(i).getConections().isEmpty()) {
                                 protos.get(i).getConections().getFirst().getInicio().componenteCreado = false;
                                 protos.get(i).getConections().getFirst().getFin().componenteCreado = false;
                                 elim(protos.get(i).getConections().getFirst());
-                                pane.getChildren().remove(protos.get(i).getConections().get(0));
+                                pane.getChildren().remove(protos.get(i).getConections().getFirst());
                                 protos.get(i).getConections().removeFirst();
                             }
                             pane.getChildren().remove(protos.get(i));
@@ -402,17 +396,10 @@ public class Click {
         alert.setTitle("Confirmación");
         alert.setHeaderText("¿Desea Eliminar el protoboard?");
         alert.setContentText("Seleccione una opción:");
-
         ButtonType botonSi = new ButtonType("Sí");
         ButtonType botonNo = new ButtonType("No");
-
         alert.getButtonTypes().setAll(botonSi, botonNo);
-
         Optional<ButtonType> resultado = alert.showAndWait();
-        if (resultado.isPresent() && resultado.get() == botonSi) {
-            return true;
-        } else {
-            return false;
-        }
+        return resultado.isPresent() && resultado.get() == botonSi;
     }
 }
