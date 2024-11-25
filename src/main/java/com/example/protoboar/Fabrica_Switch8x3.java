@@ -205,7 +205,6 @@ public class Fabrica_Switch8x3 {
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos
                         if (bandera) {
-                            System.out.println(i);
                             //System.out.println("entra "+i);
                             //System.out.println(bus.puedeCrearComponente());
                             bus.setFill(Color.RED);

@@ -224,63 +224,51 @@ public class ManejarCarga {
         }
     }
 
-    // Metodo para verificar los switches
+    // Metodo para verificar las resistencias
     public void verificarResistencias(ArrayList<Resistencia> resistencias) {
         int i = 0;
         while (i < resistencias.size()) {
+            conection cable = resistencias.get(i).getCable();
+            String ini = cable.getInicio().getCarga();
+            String fin = cable.getFin().getCarga();
+            // Si la resistencia ya está cargada o quemada, no continuar verificando
 
             if(!resistencias.get(i).quemado){
-                conection cable = resistencias.get(i).getCable();
-                String ini = cable.getInicio().getCarga();
-                String fin = cable.getFin().getCarga();
-                if (fin.equals("+")){
+
+                if (ini.equals("-") && fin.equals(" ")){
+                    cable.getInicio().setCarga(fin);
+                    corriente();
+                    resistencias.get(i).cargado = true;
+                }
+                if (ini.equals("+") && fin.equals(" ")) {
+                    cable.getFin().setCarga(ini);
+                    corriente();
+                    resistencias.get(i).cargado = true;
+                }
+                if((fin.equals("-") && ini.equals("+")) || (fin.equals("+") && ini.equals("-"))){
+                    quemarColumna(cable.getFin());
+                }
+                if (resistencias.get(i).cargado) {
+                    i++;
+                    continue;
+                }
+                if (fin.equals("+") || fin.equals("-")) {
                     resistencias.get(i).quemado = true;
 
                     String imagen = resistencias.get(i).getImagen();
                     Image image;
-                    if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                        System.out.println("entra1");
+                    if (imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")) {
                         image = new Image("resistenciaQuemada1.png");
-                    }else{
-                        System.out.println("entra2");
+                    } else {
                         image = new Image("resistenciaQuemada2.png");
                     }
 
                     resistencias.get(i).getImageView().setImage(image);
                     System.out.println("Se quemó una resistencia");
                 }
-                if (ini.equals("-")){
-                    resistencias.get(i).quemado = true;
 
-                    String imagen = resistencias.get(i).getImagen();
-                    Image image;
-                    if(imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")){
-                        System.out.println("entra3");
-                        image = new Image("resistenciaQuemada1.png");
-                    }else{
-                        System.out.println("entra4");
-                        image = new Image("resistenciaQuemada2.png");
-                    }
-
-                    resistencias.get(i).getImageView().setImage(image);
-                    System.out.println("Se quemó una resistencia");
-                }
-                if (ini.equals("+") && resistencias.get(i).quemado) {
-                    if (fin.equals(" ")) {
-                        cable.getFin().setCarga(ini);
-                        corriente();
-                    }
-                } else {
-                    if (fin.equals("-") && resistencias.get(i).quemado) {
-
-                        if (ini.equals(" ")) {
-                            cable.getInicio().setCarga(fin);
-                            corriente();
-                        }
-
-                    }
-                }
             }
+
 
             i++;
         }

@@ -10,6 +10,7 @@ public class Resistencia extends Node{
     public boolean quemado = false;
     private final ImageView imageView;
     private final conection cables;
+    public boolean cargado = false;
 
     public Resistencia(Group group, double x, double y, conection cables) {
         this.cables = cables;
@@ -70,4 +71,5 @@ public class Resistencia extends Node{
     public String getImagen() {
         return imagen;
     }
+
 }
