@@ -84,22 +84,7 @@ public class Motor {
         negativo.setCenterY(newY + 70);
 
         // Actualizar posiciones de los cables conectados
-        for (conection cable : cablesConectados) {
-            if (cable.getInicio() == positivo) {
-                cable.setStartX(positivo.getCenterX());
-                cable.setStartY(positivo.getCenterY());
-            } else if (cable.getInicio() == negativo) {
-                cable.setStartX(negativo.getCenterX());
-                cable.setStartY(negativo.getCenterY());
-            }
-            if (cable.getFin() == positivo) {
-                cable.setEndX(positivo.getCenterX());
-                cable.setEndY(positivo.getCenterY());
-            } else if (cable.getFin() == negativo) {
-                cable.setEndX(negativo.getCenterX());
-                cable.setEndY(negativo.getCenterY());
-            }
-        }
+        Bateria.ActualizarCables(cablesConectados, positivo, negativo);
     }
 
     public void addCable(conection cable) {

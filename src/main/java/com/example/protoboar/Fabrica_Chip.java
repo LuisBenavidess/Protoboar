@@ -78,13 +78,9 @@ public class Fabrica_Chip {
         Chip chip = (Chip) event.getSource();
         double deltaX = event.getSceneX() - chip.initX;
         double deltaY = event.getSceneY() - chip.initY;
-
         // Mover el grupo completo
         chip.setLayoutX(chip.getLayoutX() + deltaX);
         chip.setLayoutY(chip.getLayoutY() + deltaY);
-
-
-
         // Actualizar las coordenadas iniciales para el próximo movimiento
         chip.initX = event.getSceneX();
         chip.initY = event.getSceneY();
@@ -98,9 +94,7 @@ public class Fabrica_Chip {
             chip.getPats(con).setPata(0);
             con++;
         }
-
         detectar(event);
-
         int x=0;
         boolean bandera=true;
         while(x<chip.getPatas().size() && bandera){
@@ -115,13 +109,10 @@ public class Fabrica_Chip {
                 Pata pata=chip.getPats(x);
                 double bus_x = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getX();
                 double bus_y = pata.getBus_conectado().localToScene(pata.getBus_conectado().getCenterX(), pata.getBus_conectado().getCenterY()).getY();
-
                 double pata_W = pata.getWidth();
                 double pata_H = pata.getHeight();
-
                 double newX = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getX();
                 double newY = pata.sceneToLocal(bus_x - pata_W / 2, bus_y - pata_H / 2).getY();
-
                 pata.setX(newX);
                 pata.setY(newY);
                 x++;
@@ -138,9 +129,7 @@ public class Fabrica_Chip {
             chip.setOnMouseReleased(null);
             chip.terminado=true;
         }
-
-
-        }
+    }
 
         // este metodo verifica si cada pata se encuentra en un bus
     private void detectar(MouseEvent event) {
@@ -159,7 +148,6 @@ public class Fabrica_Chip {
                         // si los buses son los que estan el los surcos se realizara la verificacion de las patas, ya que el chip solo se puede colocar en los surcos
                         if(6==bus.fila || 7==bus.fila || 1==bus.fila || 2==bus.fila || 11==bus.fila || 12==bus.fila){
                             //pasa 50 verifica si se encuentra ensima del bus y entraga un booleano si es verdad o no
-
                             if(bus.puedeCrearComponente()){
 
                                 bandera= pasa_50(bus,chip.getPats(i));
@@ -190,7 +178,6 @@ public class Fabrica_Chip {
     private boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);

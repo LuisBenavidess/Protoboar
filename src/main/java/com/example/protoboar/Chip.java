@@ -12,7 +12,7 @@ public class Chip extends Group {
     public double initY;
     private Rectangle base;
     private ArrayList<Protoboard> protos;
-    private ArrayList<Pata> patas;
+    private final ArrayList<Pata> patas;
     public int pos_proto;
     public boolean terminado;
     public boolean agregado=false;

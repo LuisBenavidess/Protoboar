@@ -45,10 +45,6 @@ public class Click {
         return manejarCirculos.getCables();
     }
 
-    public static ArrayList<Led> getCables_led() {
-        return manejarCirculos.get_leds();
-    }
-
     public void setLedClicked(boolean ledClicked) {
         manejarCirculos.setLedClicked(ledClicked);
     }
@@ -305,7 +301,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             switch3x3=manejarCirculos.getswitches3x3();
             while(i < switch3x3.size()){  //bucle Switch3x3
@@ -322,7 +317,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             switch8x3=manejarCirculos.getswitches8x3();
             while(i < switch8x3.size()){  //bucle Switch8x3
@@ -339,7 +333,6 @@ public class Click {
                 }
                 i++;
             }
-
             i=0;
             while(i< displays.size()){
                 if(basura.equals(displays.get(i))){
@@ -355,8 +348,6 @@ public class Click {
                 }
                 i++;
             }
-
-
             if(!(basura instanceof Rectangle) && !(basura instanceof Chip) && !(basura instanceof Switch3x3)){
                 i=0;
                 while(i< protos.size()){
@@ -379,6 +370,7 @@ public class Click {
             }
         }
     }
+
     private static void elim(conection cable){
         int i=0;
         while(i< cables.size()){
@@ -388,6 +380,7 @@ public class Click {
             i++;
         }
     }
+
     private static boolean alertaeliminar(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");

@@ -45,7 +45,6 @@ public class Fabrica_Switch8x3 {
             pata.setArcHeight(5);
             sw.addPat(pata);
             sw.getChildren().add(pata);
-
             x=x+18;
             if(i==7){
                 x=700;
@@ -205,8 +204,6 @@ public class Fabrica_Switch8x3 {
                         }
                         //si el pasa_50 es verdadero quiere decir que la pata esta ensima de un bus de los surcos
                         if (bandera) {
-                            //System.out.println("entra "+i);
-                            //System.out.println(bus.puedeCrearComponente());
                             bus.setFill(Color.RED);
                             sw.getPats(i).setPata(1); // Marcamos que la pata está conectada
                             sw.getPats(i).setBus_conectado(bus); // Asignamos el bus a la pata
@@ -220,20 +217,17 @@ public class Fabrica_Switch8x3 {
                     if (chipEncimaDelBus) {
                         bus.crearComponente(); // Cambiamos a true
                     } else {
-                        //System.out.println("entra ");
                         bus.componenteCreado = false; // Cambiamos a false si no hay patas encima
                     }
                 }
             }
             x++;
         }
-        System.out.println("termino");
     }
 
     public boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);
