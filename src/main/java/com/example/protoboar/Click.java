@@ -195,11 +195,8 @@ public class Click {
             }
             i++;
         }
-        i=0;
-        while(i<getCables_led().size()){ //Verifica los leds
-            prender_led();
-            i++;
-        }
+
+        prender_led();
         if(switch3x3!=null){
             manejarCirculos.verificar_sw3x3();
         }
