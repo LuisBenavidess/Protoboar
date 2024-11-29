@@ -148,14 +148,11 @@ public class Fabrica_display {
         boolean bandera=true;
         while(x<display.getPatas().size() && bandera){
             if(display.getPats(x).getPata()!=1){
-                System.out.println("entra");
                 bandera=false;
             }
             x++;
         }
-        //System.out.println("entra");
         if(bandera){
-            System.out.println("pasoooo");
             x=0;
             while(x<display.getPatas().size()){
                 Pata pata=display.getPats(x);
@@ -190,11 +187,9 @@ public class Fabrica_display {
 
     // este metodo verifica si cada pata se encuentra en un bus
     private void detectar(MouseEvent event) {
-        System.out.println("terminar");
         Display display = (Display) event.getSource();
         int x = 0;
         while (x < display.getProtos().size()) {
-            System.out.println("while protos");
             Protoboard proto = display.getProtos().get(x);
             //viajara por cada nodo del protoboard correspondiente
             for (Node node : proto.getChildren()) {
@@ -238,7 +233,6 @@ public class Fabrica_display {
     private boolean pasa_50(bus bus, Pata pata){
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal()).intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);

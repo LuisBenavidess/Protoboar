@@ -172,7 +172,6 @@ public class Fabrica_Switch3x3 {
         // Obtener los bounds del círculo y del rectángulo
         if (pata.localToScene(pata.getBoundsInLocal())
                 .intersects(bus.localToScene(bus.getBoundsInLocal()))) {
-            //System.out.println("pasa");
             // Calcular el área cubierta
             double circleArea = Math.PI * Math.pow(bus.getRadius(), 2);
             double Area = Area(bus, pata);

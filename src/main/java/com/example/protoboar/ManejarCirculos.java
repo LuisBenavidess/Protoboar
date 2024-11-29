@@ -185,7 +185,6 @@ public class ManejarCirculos {
                 led.setConectado();
                 led.setCable_azul(cableAzul);
                 led.setCable_rojo(cable);
-                proto.setLeds(led);
                 leds.add(led);
             } else if (resistClicked) {
                 cable.setFin(c2);  //resistencia
@@ -436,7 +435,7 @@ public class ManejarCirculos {
     public void crearSwitch3x3(){
         Fabrica_Switch3x3 fabrica = new Fabrica_Switch3x3();
         Switch3x3 switch3x3 = fabrica.crear();
-        switch3x3.setOnMouseClicked(event -> switch3x3.cambiarCarga());
+        switch3x3.setOnMouseClicked(_ -> switch3x3.cambiarCarga());
         switch3x3.setProtos(getprotos());
         pane.getChildren().add(switch3x3);
         switches3x3.add(switch3x3);

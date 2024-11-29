@@ -30,7 +30,6 @@ public class ManejarCarga {
                     if (celda.getFill() != Color.YELLOW) {
                         celda.setCarga(" ");  // Reiniciar la carga
                         celda.setFill(Color.BLACK);  // Reiniciar el color
-                        celda.setVoltaje(null);
                     }
                     j++;
                 }
@@ -70,63 +69,40 @@ public class ManejarCarga {
             return;  // Si el bus ya está quemado, no hacer nada
         }
         if (i <= 1) { // Filas 0 y 1 - Forma Horizontal
-            int col = 0;
-            while (col < 30) {
-                if (carga.equals("+")) {
-                    proto.alimentacion[i][col].setFill(Color.RED);
-                    proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(9.0);
-                } else if (carga.equals("-")) {
-                    proto.alimentacion[i][col].setFill(Color.BLUE);
-                    proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(0.0);
-                }
-                col++;
-            }
+            ColumnaYFilas(i, carga, proto);
         } else if (i <= 6) {
             int fil = 2;
             while (fil <= 6) {
-                if (carga.equals("+")) {
-                    proto.alimentacion[fil][j].setFill(Color.RED);
-                    proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(9.0);
-                } else if (carga.equals("-")) {
-                    proto.alimentacion[fil][j].setFill(Color.BLUE);
-                    proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(0.0);
-                }
+                Carga(j, carga, proto, fil);
                 fil++;
             }
         } else if (i <= 11) {
             // Filas 7-11 - Forma vertical
             int fil = 11;
             while (fil >= 7) {
-                if (carga.equals("+")) {
-                    proto.alimentacion[fil][j].setFill(Color.RED);
-                    proto.alimentacion[fil][j].setCarga("+");
-                    proto.alimentacion[fil][j].setVoltaje(9.0);
-                } else if (carga.equals("-")) {
-                    proto.alimentacion[fil][j].setFill(Color.BLUE);
-                    proto.alimentacion[fil][j].setCarga("-");
-                    proto.alimentacion[fil][j].setVoltaje(0.0);
-                }
+                Carga(j, carga, proto, fil);
                 fil--;
             }
         } else {
-            int col = 0;
-            //Forma horizontal
-            while (col < 30) {
-                if (carga.equals("+")) {
-                    proto.alimentacion[i][col].setFill(Color.RED);
-                    proto.alimentacion[i][col].setCarga("+");
-                    proto.alimentacion[i][col].setVoltaje(9.0);
-                } else if (carga.equals("-")) {
-                    proto.alimentacion[i][col].setFill(Color.BLUE);
-                    proto.alimentacion[i][col].setCarga("-");
-                    proto.alimentacion[i][col].setVoltaje(0.0);
-                }
-                col++;
-            }
+            ColumnaYFilas(i, carga, proto);
+        }
+    }
+
+    private void Carga(int j, String carga, Protoboard proto, int fil) {
+        if (carga.equals("+")) {
+            proto.alimentacion[fil][j].setFill(Color.RED);
+            proto.alimentacion[fil][j].setCarga("+");
+        } else if (carga.equals("-")) {
+            proto.alimentacion[fil][j].setFill(Color.BLUE);
+            proto.alimentacion[fil][j].setCarga("-");
+        }
+    }
+
+    private void ColumnaYFilas(int i, String carga, Protoboard proto) {
+        int col = 0;
+        while (col < 30) {
+            Carga(col, carga, proto, i);
+            col++;
         }
     }
 
@@ -201,7 +177,6 @@ public class ManejarCarga {
         if (circulo != null && circulo.getFill() != Color.YELLOW) {
             circulo.setFill(Color.YELLOW); // Cambia el color a amarillo para indicar que está quemado
             circulo.setCarga("X"); // Indica que el bus está quemado e inutilizable
-            circulo.setVoltaje(null);
         }
     }
 
@@ -209,11 +184,11 @@ public class ManejarCarga {
     public void prenderLed(ArrayList<Led> Leds, String ledColor) {
         int i = 0;
         while (i < Leds.size()) {
+            if (!Leds.get(i).getTerminado()){
+                Leds.get(i).setColor(ledColor);
+                Leds.get(i).setTerminado(true);
+            }
             if(!Leds.get(i).getCable_rojo().getInicio().getCarga().equals(" ") || !Leds.get(i).getCable_azul().getFin().getCarga().equals(" ")){
-                if (!Leds.get(i).getTerminado()){
-                    Leds.get(i).setColor(ledColor);
-                    Leds.get(i).setTerminado(true);
-                }
                 if (Leds.get(i).getCable_rojo().getInicio().getCarga().equals("+") && Leds.get(i).getCable_azul().getFin().getCarga().equals("-")) {
                     Leds.get(i).prender();
                 } else if (Leds.get(i).getCable_azul().getFin().getCarga().equals("+") || Leds.get(i).getCable_rojo().getInicio().getCarga().equals("-")) {
@@ -222,7 +197,6 @@ public class ManejarCarga {
                     Leds.get(i).apagar();
                 }
             }
-
             i++;
         }
     }
@@ -298,14 +272,11 @@ public class ManejarCarga {
                     } else {
                         image = new Image("resistenciaQuemada2.png");
                     }
-
                     resistencias.get(i).getImageView().setImage(image);
-                    System.out.println("Se quemó una resistencia");
                 }*/
 
+
             }
-
-
             i++;
         }
     }
@@ -347,7 +318,6 @@ public class ManejarCarga {
         int i=0;
         while (i < displays.size()) {
             if(displays.get(i).terminado){
-                //System.out.println("entra");
                 protos.get(displays.get(i).pos_proto).getChildren().add(displays.get(i));
                 displays.get(i).terminado=false;
                 displays.get(i).agregado=true;
@@ -524,7 +494,6 @@ public class ManejarCarga {
                                 bus Bus = pata.getBus_conectado();
                                 Bus.setCarga("X");  // Indica que está quemado
                                 Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
-                                Bus.setVoltaje(null);  // Remueve cualquier voltaje
                             }
                             switchActual.quitarPolaridad();
                             switchActual.quemarSwitch();
@@ -602,7 +571,6 @@ public class ManejarCarga {
                             bus Bus = pata.getBus_conectado();
                             Bus.setCarga("X");  // Indica que está quemado
                             Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
-                            Bus.setVoltaje(null);  // Remueve cualquier voltaje
                         }
                         switchActual.quitarPolaridad();
                         switchActual.quemarSwitch();

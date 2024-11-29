@@ -33,14 +33,12 @@ public class Bateria {
         this.positivo.setRadius(8.0);
         this.positivo.setFill(Color.RED);
         this.positivo.setCarga("+");
-        this.positivo.voltaje = 9.0; // Voltaje activo de 9V
         this.negativo = new bus();
         this.negativo.setCenterX(745.0);
         this.negativo.setCenterY(180.0);
         this.negativo.setRadius(8.0);
         this.negativo.setFill(Color.BLUE);
         this.negativo.setCarga("-");
-        this.negativo.voltaje = 0.0; // Voltaje activo de 0V
         pane.getChildren().add(this.positivo);
         pane.getChildren().add(this.negativo);
         this.positivo.setUserData(new busData("+"));
@@ -64,6 +62,10 @@ public class Bateria {
         negativo.setCenterX(deltaX + 75);
         negativo.setCenterY(deltaY + 12);
         // Actualizar los cables conectados a los buses
+        ActualizarCables(cablesConectados, positivo, negativo);
+    }
+
+    static void ActualizarCables(List<conection> cablesConectados, bus positivo, bus negativo) {
         for (conection cable : cablesConectados) {
             // Verificar si el cable está conectado al bus positivo o negativo
             if (cable.getInicio() == positivo) {
