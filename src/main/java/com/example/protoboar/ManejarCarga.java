@@ -25,12 +25,12 @@ public class ManejarCarga {
             while (i < 14) {
                 int j = 0;
                 while (j < 30) {
-                    if (i >= 0) {
-                        if (protos.get(x).alimentacion[i][j].getFill() != Color.YELLOW) {
-                            protos.get(x).alimentacion[i][j].setCarga(" ");  // Reiniciar la carga
-                            protos.get(x).alimentacion[i][j].setFill(Color.BLACK);  // Reiniciar el color
-                            protos.get(x).alimentacion[i][j].setVoltaje(null);
-                        }
+                    bus celda = protos.get(x).alimentacion[i][j];
+                    // Solo modificar si el color no es amarillo
+                    if (celda.getFill() != Color.YELLOW) {
+                        celda.setCarga(" ");  // Reiniciar la carga
+                        celda.setFill(Color.BLACK);  // Reiniciar el color
+                        celda.setVoltaje(null);
                     }
                     j++;
                 }
@@ -238,7 +238,40 @@ public class ManejarCarga {
 
             if(!resistencias.get(i).quemado){
 
-                if (ini.equals("-") && fin.equals(" ")){
+                if(!ini.equals(" ") || !fin.equals(" ")){
+                    if (ini.equals("-") && fin.equals(" ")){
+                        cable.getInicio().setCarga(fin);
+                        corriente();
+                        resistencias.get(i).cargado = true;
+                    }
+                    if (ini.equals("+") && fin.equals(" ")) {
+                        cable.getFin().setCarga(ini);
+                        corriente();
+                        resistencias.get(i).cargado = true;
+                    }
+                    if((fin.equals("-") && ini.equals("+")) || (fin.equals("+") && ini.equals("-"))){
+                        quemarColumna(cable.getFin());
+                    }
+                    if (resistencias.get(i).cargado) {
+                        i++;
+                        continue;
+                    }
+                    if (fin.equals("+") || fin.equals("-")) {
+                        resistencias.get(i).quemado = true;
+
+                        String imagen = resistencias.get(i).getImagen();
+                        Image image;
+                        if (imagen.equals("resistencia1.png") || imagen.equals("resistencia4.png")) {
+                            image = new Image("resistenciaQuemada1.png");
+                        } else {
+                            image = new Image("resistenciaQuemada2.png");
+                        }
+
+                        resistencias.get(i).getImageView().setImage(image);
+                        System.out.println("Se quemó una resistencia");
+                    }
+                }
+                /*if (ini.equals("-") && fin.equals(" ")){
                     cable.getInicio().setCarga(fin);
                     corriente();
                     resistencias.get(i).cargado = true;
@@ -268,7 +301,7 @@ public class ManejarCarga {
 
                     resistencias.get(i).getImageView().setImage(image);
                     System.out.println("Se quemó una resistencia");
-                }
+                }*/
 
             }
 
@@ -467,7 +500,86 @@ public class ManejarCarga {
         }
         i = 0;
         while (i < sw.size()) {  // recorre todos los switches
-            Switch3x3 switchActual = sw.get(i);
+            if(sw.get(i).agregado){
+                Switch3x3 switchActual = sw.get(i);
+                if (switchActual.getPats(0).getBus_conectado()!=null  && switchActual.getPats(1).getBus_conectado()!=null && switchActual.getPats(2).getBus_conectado()!=null && switchActual.getPats(3).getBus_conectado()!=null) {
+                    String cargaPata0 = switchActual.getPats(0).getBus_conectado().getCarga();
+                    String cargaPata1 = switchActual.getPats(1).getBus_conectado().getCarga();
+                    String cargaPata2 = switchActual.getPats(2).getBus_conectado().getCarga();
+                    String cargaPata3 = switchActual.getPats(3).getBus_conectado().getCarga();
+                    // Verificar si hay cargas opuestas en las patas 0 y 3
+                    if ((cargaPata0.equals("+") && cargaPata1.equals("+") && cargaPata2.equals("-")) && cargaPata3.equals("-") || (cargaPata0.equals("-") && cargaPata1.equals("-") && cargaPata2.equals("+")) && cargaPata3.equals("+")) {
+                        // Marcar el switch como inutilizable y quemado
+                        switchActual.setQuemado(true);
+                    }
+                    if (Objects.equals(switchActual.getPats(0).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(1).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(2).getBus_conectado().getCarga(), " ") && Objects.equals(switchActual.getPats(3).getBus_conectado().getCarga(), " ")) {
+                        switchActual.quitarPolaridad();
+                    }
+                }
+                int j = 0;
+                if (switchActual.getEncendido()) {
+                    while (j < switchActual.getPatas().size()) {
+                        if (switchActual.getQuemado()) {
+                            for (Pata pata : switchActual.getPatas()) {
+                                bus Bus = pata.getBus_conectado();
+                                Bus.setCarga("X");  // Indica que está quemado
+                                Bus.setFill(Color.YELLOW);  // Cambia el color a amarillo
+                                Bus.setVoltaje(null);  // Remueve cualquier voltaje
+                            }
+                            switchActual.quitarPolaridad();
+                            switchActual.quemarSwitch();
+                        }
+                        if (switchActual.agregado && !Objects.equals(switchActual.getTipoCarga(), "X") ) {
+                            bus Bus = switchActual.getPats(j).getBus_conectado();
+                            String cargaActual = Bus.getCarga();
+                            if (Bus.getFill() == Color.YELLOW) {
+                                j++; // se salta el bus quemado
+                                continue;
+                            }
+                            if (switchActual.getTipoCarga() == null && !cargaActual.equals(" ") && !cargaActual.equals("X")) {
+                                switchActual.setTipoCarga(cargaActual);  // asignar polaridad
+                            }
+                            if (cargaActual.equals(switchActual.getTipoCarga()) || cargaActual.equals(" ")) {
+                                for (int k = 0; k < 4; k++) {
+                                    switchActual.getPats(k).getBus_conectado().setCarga(cargaActual);
+                                }
+                                corriente();
+                            } else {
+                                quemarColumna(Bus);  // si la carga no coincide se quema la columna
+                            }
+                        }
+                        j++;
+                    }
+                } else { // switch está apagado
+                    while (j < switchActual.getPatas().size() && !Objects.equals(switchActual.getTipoCarga(), "X")) {
+                        if (switchActual.agregado) {
+                            bus Bus = switchActual.getPats(j).getBus_conectado();
+                            String cargaActual = Bus.getCarga();
+                            if (Bus.getFill() == Color.YELLOW) {
+                                j++; // se salta el bus quemado
+                                continue;
+                            }
+                            if (cargaActual.equals(switchActual.getTipoCarga()) || !Bus.getCarga().equals(" ") && !Bus.getCarga().equals("X")) {
+                                if(Bus.fila == sw.get(i).getPats(0).getBus_conectado().fila){
+                                    sw.get(i).getPats(0).getBus_conectado().setCarga(Bus.getCarga());
+                                }
+                                if(Bus.fila == sw.get(i).getPats(1).getBus_conectado().fila){
+                                    sw.get(i).getPats(1).getBus_conectado().setCarga(Bus.getCarga());
+                                }
+                                if(Bus.fila == sw.get(i).getPats(2).getBus_conectado().fila){
+                                    sw.get(i).getPats(2).getBus_conectado().setCarga(Bus.getCarga());
+                                }
+                                if(Bus.fila == sw.get(i).getPats(3).getBus_conectado().fila){
+                                    sw.get(i).getPats(3).getBus_conectado().setCarga(Bus.getCarga());
+                                }
+                                corriente();
+                            }
+                        }
+                        j++;
+                    }
+                }
+            }
+            /*Switch3x3 switchActual = sw.get(i);
             if (switchActual.getPats(0).getBus_conectado()!=null  && switchActual.getPats(1).getBus_conectado()!=null && switchActual.getPats(2).getBus_conectado()!=null && switchActual.getPats(3).getBus_conectado()!=null) {
                 String cargaPata0 = switchActual.getPats(0).getBus_conectado().getCarga();
                 String cargaPata1 = switchActual.getPats(1).getBus_conectado().getCarga();
@@ -543,7 +655,7 @@ public class ManejarCarga {
                     }
                     j++;
                 }
-            }
+            }*/
             i++;
         }
     }

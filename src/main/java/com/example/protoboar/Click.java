@@ -207,12 +207,10 @@ public class Click {
             manejarCirculos.verificar_chip();
         }
         i=0;
-        while(i<getDisplays().size()){
-
+        //while(i<getDisplays().size()){
             verificar_displays();
-
-            i++;
-        }
+          //  i++;
+        //}
         verificar_cables();
     }
 

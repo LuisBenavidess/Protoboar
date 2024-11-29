@@ -482,18 +482,21 @@ public class ManejarCirculos {
     public void revovinar_displays(){
         int i=0;
         while(i<displays.size()){
-            int j=0;
-            Display disp=displays.get(i);
-            while(j<disp.getLeds().size()){
-                if(!(disp.getLeds(j).getFill().equals(Color.YELLOW))){
-                    disp.getLeds(j).setFill(Color.GRAY);
-                }
+            if(displays.get(i).agregado){
+                int j=0;
+                Display disp=displays.get(i);
+                while(j<disp.getLeds().size()){
+                    if(!(disp.getLeds(j).getFill().equals(Color.YELLOW))){
+                        disp.getLeds(j).setFill(Color.GRAY);
+                    }
 
-                j++;
+                    j++;
+                }
+                if(!(disp.getPunto().getFill().equals(Color.YELLOW))){
+                    disp.getPunto().setFill(Color.GRAY);
+                }
             }
-            if(!(disp.getPunto().getFill().equals(Color.YELLOW))){
-                disp.getPunto().setFill(Color.GRAY);
-            }
+
 
             i++;
         }
