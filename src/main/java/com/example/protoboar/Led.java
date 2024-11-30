@@ -97,7 +97,10 @@ public class Led extends Node{
         if (quemado) {
             quemar();
         }
+    }
 
+    public boolean getQuemado() {
+        return quemado;
     }
 
     public void quemar() {

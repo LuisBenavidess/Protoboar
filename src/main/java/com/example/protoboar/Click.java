@@ -32,7 +32,6 @@ public class Click {
         cables = new ArrayList<>();
         resistencias = new ArrayList<>();
         leds = new ArrayList<>();
-        manejarCirculos = new ManejarCirculos(pane, protos, ledClicked, cableClicked, bateria, motor, ledColor);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), _ -> iniciar())); // ejecuta iniciar() cada segundo
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -203,10 +202,10 @@ public class Click {
             manejarCirculos.verificar_chip();
         }
         i=0;
-        //while(i<getDisplays().size()){
+        while(i<getDisplays().size()){
             verificar_displays();
-          //  i++;
-        //}
+            i++;
+        }
         verificar_cables();
     }
 
